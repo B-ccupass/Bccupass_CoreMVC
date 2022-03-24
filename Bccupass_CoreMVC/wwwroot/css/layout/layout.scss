@@ -2,11 +2,10 @@
 $theme-color-light: #5995DD;
 $font-color: #333333;
 $font-color-light: #B2B2B2;
-
+.bg-light {
+    background-color: $theme-color-light !important;
+}
 .navbar {
-    .bg-light{
-        background-color: $theme-color-light !important;
-    }
     .navbar-brand {
         color: #ffffff;
     }
