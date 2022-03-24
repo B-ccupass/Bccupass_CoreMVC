@@ -1,4 +1,8 @@
 using Bccupass_CoreMVC.Models.DBEntity;
+using Bccupass_CoreMVC.Repositorirs;
+using Bccupass_CoreMVC.Repositorirs.Interface;
+using Bccupass_CoreMVC.Services;
+using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +29,13 @@ namespace Bccupass_CoreMVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IDBRepository, DBRepository>();
+            services.AddTransient<IActivityRepository, ActivityRepository>();
+            services.AddTransient<IOrganizerRepository, OrganizerRepository>();
+
+            services.AddTransient<IActivityService, ActivityService>();
+            services.AddTransient<IOrganizerService, OrganizerService>();
+
             services.AddDbContext<BccupassDBContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("BccupassDB"));
