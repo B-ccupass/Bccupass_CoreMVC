@@ -23,6 +23,13 @@ namespace Bccupass_CoreMVC.Services
             return ActivityCardDtoResult(target);
         }
 
+        public IEnumerable<ActivityCardDto> GetOrganizerActivity(int organzierId)
+        {
+            var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == organzierId);
+
+            return ActivityCardDtoResult(target);
+        }
+
         private IEnumerable<ActivityCardDto> ActivityCardDtoResult(IQueryable<Activity> target)
         {
             var theme = _context.GetAll<ActivityTheme>();//主題
