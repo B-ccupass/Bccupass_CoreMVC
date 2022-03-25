@@ -36,7 +36,6 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IOrganizerService, OrganizerService>();
 
-            services.AddTransient<IActivityCardService, ActivityCardService>();
 
             services.AddDbContext<BccupassDBContext>(options =>
             {

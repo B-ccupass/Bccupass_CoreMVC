@@ -1,5 +1,4 @@
-﻿using Bccupass_CoreMVC.Common.Function;
-using Bccupass_CoreMVC.Models;
+﻿using Bccupass_CoreMVC.Models;
 using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -14,16 +13,16 @@ namespace Bccupass_CoreMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IActivityCardService _activityCardService;
+        private readonly IActivityService _activityCardService;
 
-        public HomeController(IActivityCardService activityCardService)
+        public HomeController(IActivityService activityCardService)
         {
             _activityCardService = activityCardService;
         }
 
         public IActionResult Home()
         {
-            var activityCardViewModel = _activityCardService.GetActivity().Select(x => new ActivityCardViewModel.ActivityData()
+            var activityCardViewModel = _activityCardService.GetNewestActivity().Select(x => new ActivityCardViewModel.ActivityData()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -32,7 +31,7 @@ namespace Bccupass_CoreMVC.Controllers
                 EndTime = x.EndTime,
                 City = x.City,
                 ActivityTheme = x.ActivityTheme,
-                IsFree = CardFunction.IsFree(x.IsFree),
+                IsFree = x.IsFree,
                 Favorite = x.Favorite
             }) ;
             var result = new ActivityCardViewModel()

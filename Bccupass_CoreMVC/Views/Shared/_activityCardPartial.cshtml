@@ -15,7 +15,7 @@
                     <p class="card-text"><small class="text-muted">@item.StartTime ~ @item.EndTime</small></p>
                     <div class="tags">
                         <span class="card-icon icon-location">@item.City</span>
-                            <span class="card-icon icon-price">@item.IsFree </span>
+                            <span class="card-icon icon-price">@(item.IsFree==true?"免費":"付費") </span>
                             <span class="card-icon icon-category">@item.ActivityTheme</span>
                     </div>
                     <div class="data">
