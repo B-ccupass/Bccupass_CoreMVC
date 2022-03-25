@@ -1,9 +1,9 @@
 ﻿using Bccupass_CoreMVC.Models.DBEntity;
-using Bccupass_CoreMVC.Repositorirs.Interface;
+using Bccupass_CoreMVC.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace Bccupass_CoreMVC.Repositorirs
+namespace Bccupass_CoreMVC.Repositories
 {
     public class DBRepository : IDBRepository
     {

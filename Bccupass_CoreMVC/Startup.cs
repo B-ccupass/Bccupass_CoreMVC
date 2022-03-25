@@ -1,6 +1,6 @@
 using Bccupass_CoreMVC.Models.DBEntity;
-using Bccupass_CoreMVC.Repositorirs;
-using Bccupass_CoreMVC.Repositorirs.Interface;
+using Bccupass_CoreMVC.Repositories;
+using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Builder;
