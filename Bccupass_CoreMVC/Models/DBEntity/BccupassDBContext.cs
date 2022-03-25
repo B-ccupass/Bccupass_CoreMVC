@@ -81,13 +81,17 @@ namespace Bccupass_CoreMVC.Models.DBEntity
 
                 entity.Property(e => e.AddressDescription).HasComment("Enum 線下活動: 活動地址(地址描述:甚麼大樓、甚麼展館)");
 
-                entity.Property(e => e.City).HasComment("Enum 線下活動: 活動地址(縣市)");
+                entity.Property(e => e.City)
+                .HasMaxLength(50)
+                .HasComment("Enum 線下活動: 活動地址(縣市)");
 
                 entity.Property(e => e.CreateTime)
                     .HasColumnType("datetime")
                     .HasComment("活動建立時間");
 
-                entity.Property(e => e.District).HasComment("Enum 線下活動: 活動地址(行政區)");
+                entity.Property(e => e.District)
+                .HasMaxLength(50)
+                .HasComment("Enum 線下活動: 活動地址(行政區)");
 
                 entity.Property(e => e.EndTime)
                     .HasColumnType("datetime")

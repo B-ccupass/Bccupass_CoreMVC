@@ -1,4 +1,5 @@
-﻿using Bccupass_CoreMVC.Models;
+﻿using Bccupass_CoreMVC.Common.Function;
+using Bccupass_CoreMVC.Models;
 using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -30,15 +31,16 @@ namespace Bccupass_CoreMVC.Controllers
                 StartTime = x.StartTime,
                 EndTime = x.EndTime,
                 City = x.City,
-                ActivityPrimaryThemeId = x.ActivityPrimaryThemeId
-
-            });
+                ActivityTheme = x.ActivityTheme,
+                IsFree = CardFunction.IsFree(x.IsFree)
+            }) ;
             var result = new ActivityCardViewModel()
             {
                 ActivityList = activityCardViewModel
             };
             return View(result);
         }
+        
 
         public IActionResult Privacy()
         {

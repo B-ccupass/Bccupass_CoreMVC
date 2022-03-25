@@ -17,8 +17,10 @@ namespace Bccupass_CoreMVC.Services
         public IEnumerable<ActivityCardDto> GetLatestActivity()
         {
             var target = _context.GetAll<Activity>().OrderByDescending(x => x.CreateTime).Take(6);
+            var theme = _context.GetAll<ActivityTheme>();
+            var ticket = _context.GetAll<TicketDatail>();
 
-            return target.Select(x => new ActivityCardDto()
+            var result = target.Select(x => new ActivityCardDto()
             {
                 Id = x.ActivityId,
                 Name = x.Name,
@@ -26,9 +28,14 @@ namespace Bccupass_CoreMVC.Services
                 StartTime = x.StartTime,
                 EndTime = x.EndTime,
                 City = x.City,
-                ActivityPrimaryThemeId = x.ActivityPrimaryThemeId
+                ActivityTheme = theme.First(q => q.ActivityThemeId == x.ActivityPrimaryThemeId).ActivityThemeName,
+                IsFree = ticket.Where(t => t.ActivityId == x.ActivityId).Sum(t => t.Price) == 0
             });
 
+            return result;
+
         }
+        
+
     }
 }

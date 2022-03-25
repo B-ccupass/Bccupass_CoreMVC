@@ -13,8 +13,9 @@ namespace Bccupass_CoreMVC.Models.ViewModel.ActivityCard
             public string Image { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public int? City { get; set; }
-            public int ActivityPrimaryThemeId { get; set; }
+            public string City { get; set; }
+            public string ActivityTheme { get; set; }
+            public string IsFree { get; set; }
         }
     }
 }
