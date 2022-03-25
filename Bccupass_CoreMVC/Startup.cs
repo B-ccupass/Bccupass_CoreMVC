@@ -36,6 +36,8 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IOrganizerService, OrganizerService>();
 
+            services.AddTransient<IActivityCardService, ActivityCardService>();
+
             services.AddDbContext<BccupassDBContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("BccupassDB"));
@@ -67,7 +69,7 @@ namespace Bccupass_CoreMVC
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Home}/{id?}");
             });
         }
     }
