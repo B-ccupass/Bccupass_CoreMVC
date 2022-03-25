@@ -12,5 +12,6 @@ namespace Bccupass_CoreMVC.Models.DTO.Activity
         public string City { get; set; }
         public string ActivityTheme { get; set; }
         public bool IsFree { get; set; }
+        public int? Favorite { get; set; }
     }
 }

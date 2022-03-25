@@ -16,6 +16,7 @@ namespace Bccupass_CoreMVC.Models.ViewModel.ActivityCard
             public string City { get; set; }
             public string ActivityTheme { get; set; }
             public string IsFree { get; set; }
+            public int? Favorite { get; set; }
         }
     }
 }

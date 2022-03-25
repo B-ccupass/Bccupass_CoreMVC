@@ -23,7 +23,7 @@ namespace Bccupass_CoreMVC.Controllers
 
         public IActionResult Home()
         {
-            var activityCardViewModel = _activityCardService.GetLatestActivity().Select(x => new ActivityCardViewModel.ActivityData()
+            var activityCardViewModel = _activityCardService.GetActivity().Select(x => new ActivityCardViewModel.ActivityData()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -32,7 +32,8 @@ namespace Bccupass_CoreMVC.Controllers
                 EndTime = x.EndTime,
                 City = x.City,
                 ActivityTheme = x.ActivityTheme,
-                IsFree = CardFunction.IsFree(x.IsFree)
+                IsFree = CardFunction.IsFree(x.IsFree),
+                Favorite = x.Favorite
             }) ;
             var result = new ActivityCardViewModel()
             {
