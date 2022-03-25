@@ -23,7 +23,7 @@ namespace Bccupass_CoreMVC.Services
             return ActivityCardDtoResult(target);
         }
 
-        private IQueryable<ActivityCardDto> ActivityCardDtoResult(IQueryable<Activity> target)
+        private IEnumerable<ActivityCardDto> ActivityCardDtoResult(IQueryable<Activity> target)
         {
             var theme = _context.GetAll<ActivityTheme>();//主題
             var ticket = _context.GetAll<TicketDatail>();//票卷
