@@ -14,10 +14,17 @@ namespace Bccupass_CoreMVC.Services
         {
             _context = context;
         }
+
         public IEnumerable<ActivityCardDto> GetNewestActivity()
         {
             var target = _context.GetAll<Activity>().OrderByDescending(x => x.CreateTime).Take(6);//抓最新的前6個(活動的篩選)
 
+            
+            return ActivityCardDtoResult(target);
+        }
+
+        private IQueryable<ActivityCardDto> ActivityCardDtoResult(IQueryable<Activity> target)
+        {
             var theme = _context.GetAll<ActivityTheme>();//主題
             var ticket = _context.GetAll<TicketDatail>();//票卷
             var favorite = _context.GetAll<UserFavorite>();//喜歡
@@ -36,7 +43,6 @@ namespace Bccupass_CoreMVC.Services
             });
 
             return result;
-
         }
     }
 }
