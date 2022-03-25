@@ -1,6 +1,6 @@
 ﻿using Bccupass_CoreMVC.Models.DBEntity;
 using Bccupass_CoreMVC.Models.DTO.Organizer;
-using Bccupass_CoreMVC.Repositorirs.Interface;
+using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services.Interface;
 using System.Linq;
 
@@ -17,8 +17,7 @@ namespace Bccupass_CoreMVC.Services
             _context = context;
         }
 
-
-        OrganizerAboutDto IOrganizerService.GetOrganizer(int id)
+        public OrganizerAboutDto GetOrganizer(int id)
         {
             var org = _context.GetAll<Organizer>().First(x => x.OrganizerId == id);
             return new OrganizerAboutDto()

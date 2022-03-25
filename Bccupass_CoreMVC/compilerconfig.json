@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/css/layout/layout.css",
     "inputFile": "wwwroot/css/layout/layout.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Organizer/OrganizerIndex.css",
+    "inputFile": "wwwroot/css/Organizer/OrganizerIndex.scss"
   }
 ]

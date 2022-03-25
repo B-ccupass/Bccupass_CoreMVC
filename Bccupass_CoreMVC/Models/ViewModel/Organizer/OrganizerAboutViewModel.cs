@@ -7,7 +7,7 @@ namespace Bccupass_CoreMVC.Models.ViewModel.Organizer
 {
     public class OrganizerAboutViewModel
     {
-        public OrganizerData Organizer { get; set; }
+        public OrganizerData organizer { get; set; }
         public class OrganizerData
         {
             public int OrganizerId { get; set; }

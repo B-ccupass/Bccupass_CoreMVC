@@ -38,7 +38,7 @@ namespace Bccupass_CoreMVC.Controllers
 
             var result = new OrganizerAboutViewModel()
             {
-                Organizer = org
+                organizer = org
             };
             return View(result);
         }

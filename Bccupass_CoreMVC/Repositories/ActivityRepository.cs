@@ -1,7 +1,7 @@
 ﻿using Bccupass_CoreMVC.Models.DBEntity;
-using Bccupass_CoreMVC.Repositorirs.Interface;
+using Bccupass_CoreMVC.Repositories.Interface;
 
-namespace Bccupass_CoreMVC.Repositorirs
+namespace Bccupass_CoreMVC.Repositories
 {
     public class ActivityRepository : DBRepository, IActivityRepository
     {
