@@ -26,9 +26,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\DTO\" />
-    <Folder Include="Models\ViewModel\" />
-  </ItemGroup>
-
 </Project>

@@ -1,5 +1,5 @@
-﻿@using _0323_Annie_Bccupass_ActivityDetail.Models.ViewModel.Home
-@model HomeViewModel
+﻿@using Bccupass_CoreMVC.Models.ViewModel.ActivityCard
+@model ActivityCardViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -9,13 +9,13 @@
     <div class="activities-list recommend-activities py-4">
         <p class="title fs-3 fw-bold">精選活動</p>
         <div class="row">
-            @await Html.PartialAsync("_homeCardPartial")
+            @await Html.PartialAsync("_activityCardPartial")
         </div>
     </div>
     <div class="activities-list newest-activities py-4">
         <p class="title fs-3 fw-bold">最新活動</p>
         <div class="row">
-            @await Html.PartialAsync("_homeCardPartial")
+            @await Html.PartialAsync("_activityCardPartial")
         </div>
     </div>
 </div>

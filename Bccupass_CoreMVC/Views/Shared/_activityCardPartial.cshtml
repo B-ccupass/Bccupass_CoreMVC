@@ -1,5 +1,5 @@
-﻿@using _0323_Annie_Bccupass_ActivityDetail.Models.ViewModel.Home
-@model HomeViewModel
+﻿@using Bccupass_CoreMVC.Models.ViewModel.ActivityCard
+@model ActivityCardViewModel
 
 @foreach(var item in Model.ActivityList)
 {
@@ -28,3 +28,7 @@
     </div>
 </div>
 }
+@*此卡的css在home.css裡*@
+@section Topcss {
+    <link rel="stylesheet" href="~/css/home/home.css" />
+}  
