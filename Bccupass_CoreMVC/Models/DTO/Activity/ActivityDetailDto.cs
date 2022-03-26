@@ -37,9 +37,9 @@ namespace Bccupass_CoreMVC.Models.DTO.Activity
 
         public class CategoriesData
         {
-            public int MainTheme { get; set; }
-            public int SecondTheme { get; set; }
-            public int Type { get; set; }
+            public string MainTheme { get; set; }
+            public string SecondTheme { get; set; }
+            public string Type { get; set; }
         }
 
         public class TagData

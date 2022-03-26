@@ -56,15 +56,15 @@ namespace Bccupass_CoreMVC.Services
         private ActivityDetailDto.CategoriesData GetCategoriesByActivityId(int activityId)
         {
             var activity = _context.GetAll<Activity>().First(x => x.ActivityId == activityId); ;
-            var mainTheme = activity.ActivityPrimaryThemeId;
-            var secondTheme = activity.ActivitySecondThemeId;
-            var type = activity.ActivityTypeId;
+            var mainTheme = _context.GetAll<ActivityTheme>().First(x => x.ActivityThemeId == activity.ActivityPrimaryThemeId);
+            var secondTheme = _context.GetAll<ActivityTheme>().First(x => x.ActivityThemeId == activity.ActivitySecondThemeId);
+            var type = _context.GetAll<ActivityType>().First(x => x.ActivityTypeId == activity.ActivityTypeId);
 
             return new ActivityDetailDto.CategoriesData()
             {
-                MainTheme = mainTheme,
-                SecondTheme = (secondTheme == null) ? -1 : (int)secondTheme,
-                Type = type
+                MainTheme = mainTheme.ActivityThemeName,
+                SecondTheme = secondTheme.ActivityThemeName,
+                Type = type.TypeName
             };
         }
 
