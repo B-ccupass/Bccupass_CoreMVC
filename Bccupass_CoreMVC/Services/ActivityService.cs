@@ -22,6 +22,16 @@ namespace Bccupass_CoreMVC.Services
             return ActivityCardDtoResult(target);
         }
 
+        public IEnumerable<ActivityCardDto> GetChosenActivity()
+        {
+            var userFollowing = _context.GetAll<UserFollowOrganizer>().GroupBy(x => x.OrganizerId).OrderByDescending(x => x.Select(s => s.UserId).Count()).Take(4);//追隨數前4名的主辦
+            var ordId = userFollowing.Select(group => new { OrganizerId = group.Key }).ToList();
+
+            var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == ordId[0].OrganizerId || x.OrganizerId == ordId[1].OrganizerId || x.OrganizerId == ordId[2].OrganizerId || x.OrganizerId == ordId[3].OrganizerId);
+
+            return ActivityCardDtoResult(target);
+        }
+
         public IEnumerable<ActivityCardDto> GetOrganizerActivity(int organzierId)
         {
             var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == organzierId && x.ActivityState == 1);
