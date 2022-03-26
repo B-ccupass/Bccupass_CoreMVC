@@ -5,22 +5,25 @@
     var RefWebDescription = Model.Activity.RefWebDescription == null ? "111" : Model.Activity.RefWebDescription;
 }
 
-<div class="banner">
-    <img src=@Model.Activity.Image/>
+@section Topcss {
+    <link rel="stylesheet" href="~/css/Activity/Detail.css" />
+}
+
+<div class="banner w-100 container" style="background-image:url(@Model.Activity.Image);">
 </div>
-<div class="activity-main">
-    <h1>@Model.Activity.Name</h1>
-    <ul class="category-list">
-        <li class="category-item"><a>@Model.Categories.MainTheme</a></li>
-        <li class="category-item"><a>@Model.Categories.SecondTheme</a></li>
-        <li class="category-item"><a>@Model.Categories.Type</a></li>
+<div class="activity-main container">
+    <h1 class="fs-2 my-3 fw-bold">@Model.Activity.Name</h1>
+    <ul class="category-list d-flex list-unstyled text-white">
+        <li class="category-item px-2 me-1"><a>@Model.Categories.MainTheme</a></li>
+        <li class="category-item px-2 me-1"><a>@Model.Categories.SecondTheme</a></li>
+        <li class="category-item px-2 me-1"><a>@Model.Categories.Type</a></li>
     </ul>
     <div class="activity-info">
-        <ul class="info-list">
-            <li class="info-item">@Model.Activity.StartTime ~ @Model.Activity.EndTime</li>
-            <li class="info-item">@Model.Activity.City @Model.Activity.District @Model.Activity.Address<br />@Model.Activity.AddressDescription</li>
-            <li class="info-item"><a href=@Model.Activity.ActivityRefWebUrl>@RefWebDescription</a></li>
-            <li class="info-item tag-list">
+        <ul class="info list-unstyled">
+            <li class="info-item info-icon icon-time">@Model.Activity.StartTime ~ @Model.Activity.EndTime</li>
+            <li class="info-item info-icon icon-location">@Model.Activity.City@Model.Activity.District@Model.Activity.Address<span class="address-description mx-2">@Model.Activity.AddressDescription</span></li>
+            <li class="info-item info-icon icon-web"><a href=@Model.Activity.ActivityRefWebUrl>@RefWebDescription</a></li>
+            <li class="info-item info-icon icon-tag  tag-list">
                 @foreach(var tag in Model.Tags)
                 {
                     <a class="tag">@tag.TagName</a>
@@ -29,60 +32,60 @@
         </ul>
         <p class="note">@Model.Activity.ActivityNotes</p>
     </div>
-    <ul class="announce-list">
+</div>
+<div class="announce-wrap py-4 container-md">
+    <p class="page-title container">活動公告</p>
+    <ul class="announce-list list-unstyled container">
         @foreach(var item in @Model.AnnounceList)
         {
             <li class="announce-item">
-                <span class="announce-time">@item.CreateTime</span><br />
+                <span class="announce-time">@item.CreateTime.ToString("yyyy/MM/dd")</span><br />
                 <p class="announce-msg">@item.AnnouncementContent</p>
             </li>
         }
     </ul>
 </div>
-<div class="organizer">
+<div class="organizer container">
     <p class="page-title">主辦單位</p>
-    <div class="row">
-        <div class="col">
-            <div class="img-wrap">
-                <img src=@Model.Organizer.Image class="organizer-img"/>
+    <div class="row align-items-center">
+        <div class="col-4 col-md-3 col-lg-2">
+            <div class="img-wrap ms-md-auto" style="background-image:url(@Model.Organizer.Image);">
             </div>
         </div>
-        <div class="col">
+        <div class="col-8 col-md-9 col-lg-10">
             <div class="organizer-title">
                 <h2>@Model.Organizer.Name</h2>
                 <div  class="cta-btns">
-                    <button>關注</button>
-                    <a href="mailto:@Model.Organizer.Email">聯絡主辦</a>
+                    <button class="p-1">關注</button>
+                    <a class="p-1" href="mailto:@Model.Organizer.Email">聯絡主辦</a>
                 </div>
             </div>
-            <p class="description">@Model.Organizer.Description</p>
+            <p class="description d-none d-md-block">@Model.Organizer.Description</p>
         </div>
     </div>
+    <p class="description mt-3 d-md-none">@Model.Organizer.Description</p>
 </div>
-<div class="activity-content">
+<div class="activity-content container">
     <div class="intro">
         <p class="page-title">活動內容</p>
-        <p>@Model.Activity.ActivityIntro</p>
+        <p class="content">@Model.Activity.ActivityIntro</p>
     </div>
     <div class="guests">
         <p class="page-title">活動嘉賓</p>
-        <ul class="guest-list">
+        <ul class="guest-list list-unstyled d-flex flex-wrap justify-content-around justify-content-md-start">
             @foreach(var guest in @Model.GuestList){
-                <li class="guest" data-bs-toggle="modal" data-bs-target="#guestModal">
-                    <div class="img-wrap">
-                        <img src=@guest.Photo class="guest-img"/>
+                <li class="guest me-md-5" data-bs-toggle="modal" data-bs-target="#guestModal">
+                    <div class="img-wrap mb-3" style="background-image:url(@guest.Photo);">
                     </div>
-                    <h3 class="guest-name">@guest.Name</h3>
+                    <h3 class="guest-name text-center">@guest.Name</h3>
                     <div class="modal fade" id="guestModal" tabindex="-1" aria-labelledby="guestModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
-                            <div class="modal-content">
+                            <div class="modal-content p-3">
                                 <div class="modal-body">
-                                    <div class="img-wrap">
-                                        <img src=@guest.Photo class="guest-img"/>
-                                    </div>
-                                    <h3 class="guest-name">@guest.Name</h3>
-                                    <p>@guest.Title</p>
-                                    <p>@guest.Describe</p>
+                                    <div class="img-wrap mb-2 m-auto" style="background-image:url(@guest.Photo);"></div>
+                                    <h3 class="guest-name text-center">@guest.Name</h3>
+                                    <p class="text-center">@guest.Title</p>
+                                    <p class="text-center">@guest.Describe</p>
                                 </div>
                             </div>
                         </div>
@@ -92,41 +95,43 @@
         </ul>
     </div>
 </div>
-<div class="qa">
+<div class="qa container">
     <p class="page-title">常見問答</p>
     <div class="accordion" id="qa-accordion">
         @foreach (var item in @Model.QaList)
         {
             <div class="accordion-item">
                 <p class="accordion-header" id="heading-@item.Id">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
-                        @item.Question
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.Id" aria-expanded="false" aria-controls="collapse-@item.Id">
+                        問題: @item.Question
                     </button>
                 </p>
-                <div id="collapse-@item.Id" class="accordion-collapse collapse show" aria-labelledby="heading-@item.Id" data-bs-parent="#accordionExample">
+                <div id="collapse-@item.Id" class="accordion-collapse collapse" aria-labelledby="heading-@item.Id" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        @item.Answer
+                        解答: @item.Answer
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
-<div class="comment">
+<div class="comment container pb-5">
     <p class="page-title">活動評論</p>
     <div class="comment-list">
         @foreach(var item in @Model.CommentList){
             <div class="comment-item">
-                <div class="user">
-                    <div class="img-wrap">
-                        <img src=@item.UserImage class="user-img"/>
+                <div class="user d-flex align-items-center mb-3">
+                    <div class="img-wrap me-3" style="background-image:url(@item.UserImage);">
                     </div>
                     <div>
-                        <p>@item.UserName</p>
-                        <p>@item.BuildTime</p>
+                        <p class="m-0 user-name">@item.UserName</p>
+                        <p class="m-0 comment-time">@item.BuildTime.ToString("yyyy/MM/dd")</p>
+                        <div class="ratings">
+                          <div class="empty_star">★★★★★</div>
+                          <div class="full_star" style="width: @(item.StarRank * 20)%">★★★★★</div>
+                        </div>
                     </div>
                 </div>
-                <div>@item.StarRank</div>
                 <p>@item.Comment</p>
             </div>
         }
