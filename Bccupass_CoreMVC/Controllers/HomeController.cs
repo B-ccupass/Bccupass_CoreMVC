@@ -34,10 +34,26 @@ namespace Bccupass_CoreMVC.Controllers
                 IsFree = x.IsFree,
                 Favorite = x.Favorite
             }) ;
+            var activityCardViewModelSec = _activityCardService.GetChosenActivity().Select(x => new ActivityCardViewModel.ActivityData()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Image = x.Image,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                City = x.City,
+                ActivityTheme = x.ActivityTheme,
+                IsFree = x.IsFree,
+                Favorite = x.Favorite
+            });
+
+
             var result = new ActivityCardViewModel()
             {
-                ActivityList = activityCardViewModel
+                ActivityList = activityCardViewModel,
+                ActivityListSec = activityCardViewModelSec
             };
+
             return View(result);
         }
         
