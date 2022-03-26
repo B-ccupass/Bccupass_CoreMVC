@@ -129,11 +129,6 @@ namespace Bccupass_CoreMVC.Services
         }
 
         #endregion
-        private readonly IActivityRepository _context;
-        public ActivityService(IActivityRepository context)
-        {
-            _context = context;
-        }
 
         public IEnumerable<ActivityCardDto> GetNewestActivity()
         {
