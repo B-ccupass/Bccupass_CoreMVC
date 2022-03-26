@@ -1,0 +1,31 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.Organizer
+
+@model OrganizerAboutViewModel
+
+<img class="banner-img" src="@Model.organizer.Banner" alt="主辦封面圖" />
+<div class="container bg-white">
+    <div class="organizer-mobile-card d-xl-none py-4">
+        <div class="info row">
+            <div class="col-4">
+                <img class="organizer-img mb-4 m-auto" src="@Model.organizer.Image" alt="主辦頭貼" />
+            </div>
+            <div class="col-8 d-flex flex-column justify-content-center">
+                <h2 class="fs-5">@Model.organizer.Name</h2>
+                <div class="cta-btns d-flex">
+                    <button class="track-organizer-btn me-2 px-2">追蹤</button>
+                    <a class="contact-organizer-btn px-2" href=@Model.organizer.Email>聯絡主辦</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="activity-tab my-3">
+        <ul class="nav nav-tabs container">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">關於</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">活動</button>
+            </li>
+        </ul>
+    </div>
+</div>
