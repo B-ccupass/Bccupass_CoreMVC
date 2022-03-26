@@ -6,6 +6,8 @@ namespace Bccupass_CoreMVC.Services.Interface
 {
     public interface IActivityService
     {
+        public IEnumerable<ActivityCardDto> GetNewestActivity();
+        public IEnumerable<ActivityCardDto> GetOrganizerActivity(int organzierId);
         public ActivityDetailDto GetActivityDetail(int id);
     }
 }

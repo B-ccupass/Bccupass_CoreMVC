@@ -1,4 +1,6 @@
-﻿using Bccupass_CoreMVC.Models.ViewModel.Organizer;
+﻿using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
+using Bccupass_CoreMVC.Models.ViewModel.Organizer;
+using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,10 +13,14 @@ namespace Bccupass_CoreMVC.Controllers
     public class OrganizerController : Controller
     {
         private readonly IOrganizerService _organizerService;
+        private readonly IActivityService _activityService;
 
-        public OrganizerController(IOrganizerService organizerService)
+
+        public OrganizerController(IOrganizerService organizerService,IActivityService activityService)
         {
             _organizerService = organizerService;
+            _activityService = activityService;
+
         }
         public IActionResult Index()
         {
@@ -40,6 +46,7 @@ namespace Bccupass_CoreMVC.Controllers
             {
                 organizer = org
             };
+
             return View(result);
         }
     }
