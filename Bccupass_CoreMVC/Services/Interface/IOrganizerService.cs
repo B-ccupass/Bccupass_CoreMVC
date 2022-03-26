@@ -5,6 +5,7 @@ namespace Bccupass_CoreMVC.Services.Interface
     public interface IOrganizerService
     {
         public OrganizerAboutDto GetOrganizer(int id);
+        public GetOrganizerByActivityIdDto GetOrganizerByActivityId(int id);
 
     }
 }

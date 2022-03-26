@@ -35,5 +35,21 @@ namespace Bccupass_CoreMVC.Services
                 YoutubeWebsite = org.YoutubeWebsite
             };
         }
+
+        public GetOrganizerByActivityIdDto GetOrganizerByActivityId(int id)
+        {
+            var joinResult = (from x in _context.GetAll<Activity>()
+                              join y in _context.GetAll<Organizer>() on x.OrganizerId equals y.OrganizerId
+                              where x.ActivityId == id
+                              select y).FirstOrDefault();
+            return new GetOrganizerByActivityIdDto()
+            {
+                OrganizerId = joinResult.OrganizerId,
+                Name = joinResult.Name,
+                Email = joinResult.Email,
+                Description = joinResult.Description,
+                Image = joinResult.Image,
+            };
+        }
     }
 }
