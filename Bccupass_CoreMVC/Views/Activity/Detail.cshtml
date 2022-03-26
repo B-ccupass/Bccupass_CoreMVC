@@ -11,19 +11,20 @@
 <div class="activity-main">
     <h1>@Model.Activity.Name</h1>
     <ul class="category-list">
-        <li class="category-item"><a>主題</a></li>
-        <li class="category-item"><a>主題</a></li>
-        <li class="category-item"><a>類型</a></li>
+        <li class="category-item"><a>@Model.Categories.MainTheme</a></li>
+        <li class="category-item"><a>@Model.Categories.SecondTheme</a></li>
+        <li class="category-item"><a>@Model.Categories.Type</a></li>
     </ul>
     <div class="activity-info">
         <ul class="info-list">
             <li class="info-item">@Model.Activity.StartTime ~ @Model.Activity.EndTime</li>
-            <li class="info-item">台灣台北市中山區樂群二路199號3樓<br />萬豪酒店3F宴客樓</li>
+            <li class="info-item">@Model.Activity.City @Model.Activity.District @Model.Activity.Address<br />@Model.Activity.AddressDescription</li>
             <li class="info-item"><a href=@Model.Activity.ActivityRefWebUrl>@RefWebDescription</a></li>
             <li class="info-item tag-list">
-                <a class="tag">標籤</a>
-                <a class="tag">標籤</a>
-                <a class="tag">標籤</a>
+                @foreach(var tag in Model.Tags)
+                {
+                    <a class="tag">@tag.TagName</a>
+                }
             </li>
         </ul>
         <p class="note">@Model.Activity.ActivityNotes</p>
