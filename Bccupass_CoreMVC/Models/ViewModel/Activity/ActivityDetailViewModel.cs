@@ -6,12 +6,14 @@ namespace Bccupass_CoreMVC.Models.ViewModel
     public class ActivityDetailViewModel
     {
         public ActivityData Activity { get; set; }
+        public OrganizerData Organizer { get; set; }
         public CategoriesData Categories { get; set; }
         public IEnumerable<TagData> Tags { get; set; }
         public IEnumerable<GuestData> GuestList { get; set; }
         public IEnumerable<CommentData> CommentList { get; set; }
         public IEnumerable<QaData> QaList { get; set; }
         public IEnumerable<AnnounceData> AnnounceList { get; set; }
+
 
         public class ActivityData
         {
@@ -34,6 +36,14 @@ namespace Bccupass_CoreMVC.Models.ViewModel
             public string District { get; set; }
             public string Address { get; set; }
             public string AddressDescription { get; set; }
+        }
+        public class OrganizerData
+        {
+            public int OrganizerId { get; set; }
+            public string Name { get; set; }
+            public string Image { get; set; }
+            public string Description { get; set; }
+            public string Email { get; set; }
         }
         public class CategoriesData
         {
@@ -75,5 +85,6 @@ namespace Bccupass_CoreMVC.Models.ViewModel
             public string AnnouncementContent { get; set; }
             public DateTime CreateTime { get; set; }
         }
+
     }
 }

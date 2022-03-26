@@ -8,9 +8,11 @@ namespace Bccupass_CoreMVC.Controllers
     public class ActivityController : Controller
     {
         private readonly IActivityService _activityService;
-        public ActivityController(IActivityService activityService)
+        private readonly IOrganizerService _organizerService;
+        public ActivityController(IActivityService activityService, IOrganizerService organizerService)
         {
             _activityService = activityService;
+            _organizerService = organizerService;
         }
         public IActionResult Index()
         {
@@ -19,6 +21,7 @@ namespace Bccupass_CoreMVC.Controllers
         public IActionResult Detail(int id)
         {
             var activityDetailDto = _activityService.GetActivityDetail(id);
+            var organizer = _organizerService.GetOrganizerByActivityId(id);
             var activityDetailVM = new ActivityDetailViewModel()
             {
                 Activity = new ActivityDetailViewModel.ActivityData()
@@ -38,6 +41,14 @@ namespace Bccupass_CoreMVC.Controllers
                     District = activityDetailDto.Activity.District,
                     Address = activityDetailDto.Activity.Address,
                     AddressDescription = activityDetailDto.Activity.AddressDescription
+                },
+                Organizer = new ActivityDetailViewModel.OrganizerData()
+                {
+                    OrganizerId = organizer.OrganizerId,
+                    Name = organizer.Name,
+                    Image = organizer.Image,
+                    Description = organizer.Description,
+                    Email = organizer.Email
                 },
                 Categories = new ActivityDetailViewModel.CategoriesData()
                 {
