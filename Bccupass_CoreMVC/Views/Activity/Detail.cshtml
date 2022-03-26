@@ -1,0 +1,133 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel
+@model ActivityDetailViewModel
+
+@{
+    var RefWebDescription = Model.Activity.RefWebDescription == null ? "111" : Model.Activity.RefWebDescription;
+}
+
+<div class="banner">
+    <img src=@Model.Activity.Image/>
+</div>
+<div class="activity-main">
+    <h1>@Model.Activity.Name</h1>
+    <ul class="category-list">
+        <li class="category-item"><a>主題</a></li>
+        <li class="category-item"><a>主題</a></li>
+        <li class="category-item"><a>類型</a></li>
+    </ul>
+    <div class="activity-info">
+        <ul class="info-list">
+            <li class="info-item">@Model.Activity.StartTime ~ @Model.Activity.EndTime</li>
+            <li class="info-item">台灣台北市中山區樂群二路199號3樓<br />萬豪酒店3F宴客樓</li>
+            <li class="info-item"><a href=@Model.Activity.ActivityRefWebUrl>@RefWebDescription</a></li>
+            <li class="info-item tag-list">
+                <a class="tag">標籤</a>
+                <a class="tag">標籤</a>
+                <a class="tag">標籤</a>
+            </li>
+        </ul>
+        <p class="note">@Model.Activity.ActivityNotes</p>
+    </div>
+    @*<ul class="announce-list">
+        @foreach(var item in @Model.AnnouncementList)
+        {
+            <li class="announce-item">
+                <span class="announce-time">@item.ReleaseTime</span><br />
+                <p class="announce-msg">@item.Content</p>
+            </li>
+        }
+    </ul>*@
+</div>
+@*<div class="organizer">
+    <p class="page-title">主辦單位</p>
+    <div class="row">
+        <div class="col">
+            <div class="img-wrap">
+                <img src=@Model.Organizer.Image class="organizer-img"/>
+            </div>
+        </div>
+        <div class="col">
+            <div class="organizer-title">
+                <h2>@Model.Organizer.Name</h2>
+                <div  class="cta-btns">
+                    <button>關注</button>
+                    <a href="mailto:@Model.Organizer.Email">聯絡主辦</a>
+                </div>
+            </div>
+            <p class="description">@Model.Organizer.Description</p>
+        </div>
+    </div>
+</div>*@
+<div class="activity-content">
+    <div class="intro">
+        <p class="page-title">活動內容</p>
+        <p>@Model.Activity.ActivityIntro</p>
+    </div>
+    <div class="guests">
+        <p class="page-title">活動嘉賓</p>
+        <ul class="guest-list">
+            @foreach(var guest in @Model.GuestList){
+                <li class="guest" data-bs-toggle="modal" data-bs-target="#guestModal">
+                    <div class="img-wrap">
+                        <img src=@guest.Photo class="guest-img"/>
+                    </div>
+                    <h3 class="guest-name">@guest.Name</h3>
+                    <div class="modal fade" id="guestModal" tabindex="-1" aria-labelledby="guestModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="img-wrap">
+                                        <img src=@guest.Photo class="guest-img"/>
+                                    </div>
+                                    <h3 class="guest-name">@guest.Name</h3>
+                                    <p>@guest.Title</p>
+                                    <p>@guest.Describe</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<div class="qa">
+    <p class="page-title">常見問答</p>
+    <div class="accordion" id="qa-accordion">
+        @foreach (var item in @Model.QaList)
+        {
+            <div class="accordion-item">
+                <p class="accordion-header" id="heading-@item.Id">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
+                        @item.Question
+                    </button>
+                </p>
+                <div id="collapse-@item.Id" class="accordion-collapse collapse show" aria-labelledby="heading-@item.Id" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        @item.Answer
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="comment">
+    <p class="page-title">活動評論</p>
+    <div class="comment-list">
+        @foreach(var item in @Model.CommentList){
+            <div class="comment-item">
+                <div class="user">
+                    @*<div class="img-wrap">
+                        <img src=@item.UserImg class="user-img"/>
+                    </div>*@
+                    <div>
+                        @*<p>@item.UserName</p>*@
+                        <p>@item.BuildTime</p>
+                    </div>
+                </div>
+                <div>@item.StarRank</div>
+                <p>@item.Comment</p>
+            </div>
+        }
+    </div>
+</div>

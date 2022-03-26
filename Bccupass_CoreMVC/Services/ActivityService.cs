@@ -46,8 +46,8 @@ namespace Bccupass_CoreMVC.Services
                 ActivityDescription = resource.ActivityDescription,
                 ActivityNotes = resource.ActivityNotes,
                 StreamingWeb = resource.StreamingWeb,
-                //City = resource.City,
-                //District = resource.District,
+                City = resource.City,
+                District = resource.District,
                 Address = resource.Address,
                 AddressDescription = resource.AddressDescription
             };
