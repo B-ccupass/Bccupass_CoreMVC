@@ -28,15 +28,15 @@
         </ul>
         <p class="note">@Model.Activity.ActivityNotes</p>
     </div>
-    @*<ul class="announce-list">
-        @foreach(var item in @Model.AnnouncementList)
+    <ul class="announce-list">
+        @foreach(var item in @Model.AnnounceList)
         {
             <li class="announce-item">
-                <span class="announce-time">@item.ReleaseTime</span><br />
-                <p class="announce-msg">@item.Content</p>
+                <span class="announce-time">@item.CreateTime</span><br />
+                <p class="announce-msg">@item.AnnouncementContent</p>
             </li>
         }
-    </ul>*@
+    </ul>
 </div>
 @*<div class="organizer">
     <p class="page-title">主辦單位</p>

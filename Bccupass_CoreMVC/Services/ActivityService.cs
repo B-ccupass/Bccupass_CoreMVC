@@ -25,7 +25,8 @@ namespace Bccupass_CoreMVC.Services
                 Tags = GetTagsByActivityId(activityId),
                 GuestList = GetGuestsByActivityId(activityId).OrderBy(x => x.Sort),
                 QaList = GetQasByActivityId(activityId).OrderBy(x => x.Sort),
-                CommentList = GetCommentsByActivityId(activityId)
+                CommentList = GetCommentsByActivityId(activityId),
+                AnnounceList = GetAnnouncesByActivityId(activityId).OrderBy(x => x.Sort),
             };
         }
 
@@ -113,6 +114,17 @@ namespace Bccupass_CoreMVC.Services
                 Question = x.Question,
                 Answer = x.Answer,
                 Sort = x.Sort
+            });
+        }
+
+        private IEnumerable<ActivityDetailDto.AnnounceData> GetAnnouncesByActivityId(int activityId)
+        {
+            return _context.GetAll<ActivityAnnouncement>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.AnnounceData()
+            {
+                AnnouncementId = x.AnnouncementId,
+                Sort = x.Sort,
+                AnnouncementContent = x.AnnouncementContent,
+                CreateTime = x.CreateTime,
             });
         }
 

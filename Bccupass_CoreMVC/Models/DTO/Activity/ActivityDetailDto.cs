@@ -11,6 +11,7 @@ namespace Bccupass_CoreMVC.Models.DTO.Activity
         public IEnumerable<GuestData> GuestList { get; set; }
         public IEnumerable<CommentData> CommentList { get; set;}
         public IEnumerable<QaData> QaList { get; set; }
+        public IEnumerable<AnnounceData> AnnounceList { get; set; }
 
         public class ActivityData
         {
@@ -72,6 +73,13 @@ namespace Bccupass_CoreMVC.Models.DTO.Activity
             public string Question { get; set; }
             public string Answer { get; set; }
             public int Sort { get; set; }
+        }
+        public class AnnounceData
+        {
+            public int AnnouncementId { get; set; }
+            public int Sort { get; set; }
+            public string AnnouncementContent { get; set; }
+            public DateTime CreateTime { get; set; }
         }
     }
 }

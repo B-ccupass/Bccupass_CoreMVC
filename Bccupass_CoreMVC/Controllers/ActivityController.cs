@@ -72,6 +72,12 @@ namespace Bccupass_CoreMVC.Controllers
                     Id = x.Id,
                     Question = x.Question,
                     Answer = x.Answer,
+                }),
+                AnnounceList = activityDetailDto.AnnounceList.Select(x => new ActivityDetailViewModel.AnnounceData()
+                {
+                    AnnouncementId = x.AnnouncementId,
+                    AnnouncementContent = x.AnnouncementContent,
+                    CreateTime = x.CreateTime,
                 })
             };
             return View(activityDetailVM);
