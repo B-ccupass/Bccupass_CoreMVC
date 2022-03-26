@@ -17,15 +17,14 @@ namespace Bccupass_CoreMVC.Services
 
         public IEnumerable<ActivityCardDto> GetNewestActivity()
         {
-            var target = _context.GetAll<Activity>().OrderByDescending(x => x.CreateTime).Take(6);//抓最新的前6個(活動的篩選)
+            var target = _context.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime).Take(6);//抓最新的前6個(活動的篩選)
 
-            
             return ActivityCardDtoResult(target);
         }
 
         public IEnumerable<ActivityCardDto> GetOrganizerActivity(int organzierId)
         {
-            var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == organzierId);
+            var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == organzierId && x.ActivityState == 1);
 
             return ActivityCardDtoResult(target);
         }
