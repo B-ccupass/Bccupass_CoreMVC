@@ -34,8 +34,8 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public string ActivityDescription { get; set; }
         public string ActivityNotes { get; set; }
         public int ActivityState { get; set; }
-        public int? City { get; set; }
-        public int? District { get; set; }
+        public string City { get; set; }
+        public string District { get; set; }
         public string Address { get; set; }
         public string AddressDescription { get; set; }
         public string StreamingWeb { get; set; }

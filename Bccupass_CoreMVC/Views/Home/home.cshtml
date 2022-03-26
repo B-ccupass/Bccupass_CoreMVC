@@ -1,0 +1,68 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.ActivityCard
+@model ActivityCardViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="slider-banner"></div>
+    <div class="activities-list recommend-activities py-4">
+        <p class="title fs-3 fw-bold">精選活動</p>
+        <div class="row">
+            @await Html.PartialAsync("_activityCardPartial")
+        </div>
+    </div>
+    <div class="activities-list newest-activities py-4">
+        <p class="title fs-3 fw-bold">最新活動</p>
+        <div class="row">
+            @await Html.PartialAsync("_activityCardPartial")
+        </div>
+    </div>
+</div>
+<div class="section bg-white py-4">
+    <div class="container">
+        <div class="create-activity">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-5 d-flex flex-column justify-content-center">
+                    <h2 class="title fs-3 fw-bold mb-4">主辦活動</h2>
+                    <p class="mb-5">顧客試驗手機提示訊息，小組落實，原來一週更多印度這個可以能在穩定基層腦袋手機鈴聲，文章種種遊戲，解決加快適用於法人參與證實回家那位鑒定你不廣泛，戰鬥都是要在發現激動投入兩人公司一體允許目的女士，作者。</p>
+                    <div class="d-flex">
+                        <button class="cta-btn me-2 px-3 py-1">成為主辦</button>
+                        <button class="cta-btn px-3 py-1">舉辦活動</button>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-7">
+                    <img src="https://elements-cover-images-0.imgix.net/11112a4b-7a0e-4b93-aad4-499a9e74c97c?auto=compress%2Cformat&fit=max&w=2038&s=e38a0d765bc368e757c822097d13d788" alt="" class="h-100 w-100">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class=" everybody-track py-4">
+        <p class="title fs-3 fw-bold">大家都在追蹤</p>
+        <div class="row">
+            <div class="organizer col-6 col-md-4 col-lg-3 my-3">
+                <div class="organizer-img mb-4 m-auto"></div>
+                <h5 class="fs-5 text-center">The Glenlivet 格蘭利威</h5>
+            </div>
+            <div class="organizer col-6 col-md-4 col-lg-3 my-3">
+                <div class="organizer-img mb-4 m-auto"></div>
+                <h5 class="fs-5 text-center">The Glenlivet 格蘭利威</h5>
+            </div>
+            <div class="organizer col-6 col-md-4 col-lg-3 my-3">
+                <div class="organizer-img mb-4 m-auto"></div>
+                <h5 class="fs-5 text-center">The Glenlivet 格蘭利威</h5>
+            </div>
+            <div class="organizer col-6 col-md-4 col-lg-3 my-3">
+                <div class="organizer-img mb-4 m-auto"></div>
+                <h5 class="fs-5 text-center">The Glenlivet 格蘭利威</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Topcss {
+    <link rel="stylesheet" href="~/css/home/home.css" />
+}
