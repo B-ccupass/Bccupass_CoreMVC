@@ -60,6 +60,8 @@ namespace Bccupass_CoreMVC.Models.DTO.Activity
         public class CommentData
         {
             public int UserId { get; set; }
+            public string UserName { get; set; }
+            public string UserImage { get; set; }
             public DateTime BuildTime { get; set; }
             public string Comment { get; set; }
             public int StarRank { get; set; }

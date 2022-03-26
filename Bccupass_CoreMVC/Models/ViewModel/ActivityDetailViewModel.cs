@@ -34,20 +34,17 @@ namespace Bccupass_CoreMVC.Models.ViewModel
             public string Address { get; set; }
             public string AddressDescription { get; set; }
         }
-
         public class CategoriesData
         {
             public string MainTheme { get; set; }
             public string SecondTheme { get; set; }
             public string Type { get; set; }
         }
-
         public class TagData
         {
             public int TagId { get; set; }
             public string TagName { get; set; }
         }
-
         public class GuestData
         {
             public int Id { get; set; }
@@ -58,6 +55,7 @@ namespace Bccupass_CoreMVC.Models.ViewModel
         }
         public class CommentData
         {
+            public int UserId { get; set; }
             public string UserName { get; set; }
             public string UserImage { get; set; }
             public DateTime BuildTime { get; set; }

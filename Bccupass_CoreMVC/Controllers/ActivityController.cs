@@ -60,8 +60,9 @@ namespace Bccupass_CoreMVC.Controllers
                 }),
                 CommentList = activityDetailDto.CommentList.Select(x => new ActivityDetailViewModel.CommentData()
                 {
-                    //UserName
-                    //UserImage
+                    UserId = x.UserId,
+                    UserName = x.UserName,
+                    UserImage = x.UserImage,
                     BuildTime = x.BuildTime,
                     Comment = x.Comment,
                     StarRank = x.StarRank,

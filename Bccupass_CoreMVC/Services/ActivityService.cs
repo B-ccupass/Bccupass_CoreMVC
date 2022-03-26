@@ -84,6 +84,8 @@ namespace Bccupass_CoreMVC.Services
             return _context.GetAll<Comment>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.CommentData()
             {
                 UserId = x.UserId,
+                UserImage = (_context.GetAll<User>().First(y => y.UserId == x.UserId)).Photo,
+                UserName = (_context.GetAll<User>().First(y => y.UserId == x.UserId)).DisplayName,
                 BuildTime = x.BuildTime,
                 Comment = x.Comment1,
                 StarRank = x.StarRank

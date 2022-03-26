@@ -117,11 +117,11 @@
         @foreach(var item in @Model.CommentList){
             <div class="comment-item">
                 <div class="user">
-                    @*<div class="img-wrap">
-                        <img src=@item.UserImg class="user-img"/>
-                    </div>*@
+                    <div class="img-wrap">
+                        <img src=@item.UserImage class="user-img"/>
+                    </div>
                     <div>
-                        @*<p>@item.UserName</p>*@
+                        <p>@item.UserName</p>
                         <p>@item.BuildTime</p>
                     </div>
                 </div>
