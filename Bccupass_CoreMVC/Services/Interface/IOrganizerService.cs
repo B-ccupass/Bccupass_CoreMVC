@@ -6,6 +6,7 @@ namespace Bccupass_CoreMVC.Services.Interface
     {
         public OrganizerAboutDto GetOrganizer(int id);
         public GetOrganizerByActivityIdDto GetOrganizerByActivityId(int id);
+        public void CreateOrganizer(CreateOrganizerDto request);
 
     }
 }

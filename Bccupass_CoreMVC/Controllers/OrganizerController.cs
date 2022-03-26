@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bccupass_CoreMVC.Models.DTO.Organizer;
 
 namespace Bccupass_CoreMVC.Controllers
 {
@@ -16,7 +17,7 @@ namespace Bccupass_CoreMVC.Controllers
         private readonly IActivityService _activityService;
 
 
-        public OrganizerController(IOrganizerService organizerService,IActivityService activityService)
+        public OrganizerController(IOrganizerService organizerService, IActivityService activityService)
         {
             _organizerService = organizerService;
             _activityService = activityService;
@@ -48,6 +49,18 @@ namespace Bccupass_CoreMVC.Controllers
             };
 
             return View(result);
+        }
+
+        [HttpGet]
+        public IActionResult CreateOrganizer()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateOrganizer(CreateOrganizerDto request)
+        {
+            _organizerService.CreateOrganizer(request);
+            return RedirectToAction(nameof(CreateOrganizer));
         }
     }
 }
