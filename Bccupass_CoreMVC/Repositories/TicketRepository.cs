@@ -8,5 +8,15 @@ namespace Bccupass_CoreMVC.Repositories
         {
 
         }
+
+        public void CreateOrderDetail(int ticketOrderId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void CreateTicketOrder(int userId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

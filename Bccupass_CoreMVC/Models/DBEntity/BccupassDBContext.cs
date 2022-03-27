@@ -430,7 +430,7 @@ namespace Bccupass_CoreMVC.Models.DBEntity
 
                 entity.Property(e => e.OrderState).HasComment("訂單狀態 0: 未付款, 1: 已付款/已報名, 2: 已取消,3: 以退票");
 
-                entity.Property(e => e.OrderTime).HasComment("訂單建立時間");
+                entity.Property(e => e.OrderTime).HasColumnType("datetime").HasComment("訂單建立時間");
 
                 entity.HasOne(d => d.Activity)
                     .WithMany(p => p.OrderDetails)

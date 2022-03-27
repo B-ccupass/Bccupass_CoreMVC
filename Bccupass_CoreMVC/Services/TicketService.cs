@@ -33,6 +33,35 @@ namespace Bccupass_CoreMVC.Services
             return result;
         }
 
-        public
+        public void CreateOrderDetail(OrderDetailDto request)
+        {
+            var target = new OrderDetail()
+            {
+                ActivityId = request.ActivityId,
+                UserId = request.UserId,
+                OrderTime = request.OrderTime,
+                OrderState = request.OrderState
+            };
+
+            _context.Create(target);
+            _context.Save();
+        }
+
+        public void CreateTicketOrder(TicketOrderDto request)
+        {
+            var target = new TicketDetailOrderDetail()
+            {
+                OrderDetailId = request.OrderDetailId,
+                TicketDetailId = request.TicketDtailId,
+                CheckStatus = request.CheckStatus,
+                UniPrice = request.Price,
+                BuyerName = request.BuyerName,
+                BuyerEmail = request.BuyerEmail,
+                BuyerPhone = request.BuyerPhone
+            };
+
+            _context.Create(target);
+            _context.Save();
+        }
     }
 }
