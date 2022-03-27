@@ -32,9 +32,11 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IDBRepository, DBRepository>();
             services.AddTransient<IActivityRepository, ActivityRepository>();
             services.AddTransient<IOrganizerRepository, OrganizerRepository>();
+            services.AddTransient<ITicketRepository, TicketRepository>();
 
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IOrganizerService, OrganizerService>();
+            services.AddTransient<ITicketService, TicketService>();
 
 
             services.AddDbContext<BccupassDBContext>(options =>
