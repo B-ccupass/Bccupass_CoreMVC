@@ -1,7 +1,7 @@
 ﻿using Bccupass_CoreMVC.Models.DBEntity;
 using System.Linq;
 
-namespace Bccupass_CoreMVC.Repositorirs.Interface
+namespace Bccupass_CoreMVC.Repositories.Interface
 {
     public interface IDBRepository
     {

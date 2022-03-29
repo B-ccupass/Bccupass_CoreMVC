@@ -28,18 +28,18 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public DateTime CreateTime { get; set; }
+        public string City { get; set; }
+        public string District { get; set; }
+        public string Address { get; set; }
+        public string AddressDetail { get; set; }
+        public string StreamingWeb { get; set; }
         public string ActivityRefWebUrl { get; set; }
         public string RefWebDescription { get; set; }
         public string ActivityIntro { get; set; }
         public string ActivityDescription { get; set; }
         public string ActivityNotes { get; set; }
         public int ActivityState { get; set; }
-        public int? City { get; set; }
-        public int? District { get; set; }
-        public string Address { get; set; }
-        public string AddressDescription { get; set; }
-        public string StreamingWeb { get; set; }
-        public string FormName { get; set; }
+        public bool FormName { get; set; }
         public bool FormEmail { get; set; }
         public bool FormPhone { get; set; }
         public bool FormBirthday { get; set; }
