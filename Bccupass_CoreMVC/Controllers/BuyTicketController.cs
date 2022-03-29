@@ -16,8 +16,12 @@ namespace Bccupass_CoreMVC.Controllers
             _ticket = ticket;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-        public IActionResult Index(int activityId)
+        public IActionResult TicketList(int activityId)
         {
             var activity = _activity.GetActivityById(activityId);
             var ticket = _ticket.GetTicketInfoAtPurchase(activityId);
