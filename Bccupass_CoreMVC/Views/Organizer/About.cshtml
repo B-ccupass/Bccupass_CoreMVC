@@ -6,21 +6,21 @@
 <div class="container">
     <div class="row py-4">
         <div class="col-12 d-none d-xl-block col-xl-3">
-            <div class="organizer-side-card bg-white py-5">
-                <img class="organizer-img mb-4 m-auto" src="@Model.organizer.Image" alt="主辦頭貼" />
+            <div class="organizer-side-card bg-white py-5 d-flex flex-column align-items-center">
+                <img class="organizer-img mb-4" src="@Model.organizer.Image" alt="主辦頭貼" />
                 <h2 class="fs-5 text-center">@Model.organizer.Name</h2>
                 <div class="fans-block d-flex flex-column align-items-center">
                     <span class="fans-count fs-2">151</span>
                     <span class="mb-4">粉絲數</span>
                 </div>
-                <div class="cta-btns d-flex flex-column p-4">
+                <div class="cta-btns d-flex flex-column p-4 w-100">
                     <button class="track-organizer-btn mb-3 py-1">追蹤</button>
                     <a class="contact-organizer-btn text-center py-1" href=@Model.organizer.Email>聯絡主辦</a>
                 </div>
             </div>
         </div>
         <div class="col-12 col-xl-9">
-            <img class="banner-img" src="@Model.organizer.Banner" alt="主辦封面圖" />
+            <div class="banner-img" style="background-image:url(@Model.organizer.Banner);"></div>
             <div class="container bg-white">
                 <div class="organizer-mobile-card d-xl-none py-4">
                     <div class="info row">

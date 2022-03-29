@@ -10,5 +10,13 @@
   {
     "outputFile": "wwwroot/css/Activity/Detail.css",
     "inputFile": "wwwroot/css/Activity/Detail.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/home/home.css",
+    "inputFile": "wwwroot/css/Global.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/home/home.css",
+    "inputFile": "wwwroot/css/home/home.scss"
   }
 ]

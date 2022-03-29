@@ -54,7 +54,7 @@
         </div>
         <div class="col-8 col-md-9 col-lg-10">
             <div class="organizer-title">
-                <h2>@Model.Organizer.Name</h2>
+                <a asp-controller="Organizer" asp-action="About" asp-route-id="@Model.Organizer.OrganizerId">@Model.Organizer.Name</a>
                 <div  class="cta-btns">
                     <button class="p-1">關注</button>
                     <a class="p-1" href="mailto:@Model.Organizer.Email">聯絡主辦</a>

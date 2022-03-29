@@ -93,5 +93,10 @@ namespace Bccupass_CoreMVC.Controllers
             };
             return View(activityDetailVM);
         }
+
+        public IActionResult Activities()
+        {
+            return View();
+        }
     }
 }
