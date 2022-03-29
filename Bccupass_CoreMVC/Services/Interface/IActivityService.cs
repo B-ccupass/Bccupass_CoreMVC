@@ -8,5 +8,6 @@ namespace Bccupass_CoreMVC.Services.Interface
         public IEnumerable<ActivityCardDto> GetNewestActivity();
         public IEnumerable<ActivityCardDto> GetChosenActivity();
         public IEnumerable<ActivityCardDto> GetOrganizerActivity(int organzierId);
+        public ActivityBuyTicketDto GetActivityById(int activityId);
     }
 }

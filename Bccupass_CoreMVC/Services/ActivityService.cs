@@ -41,6 +41,24 @@ namespace Bccupass_CoreMVC.Services
             return ActivityCardDtoResult(target);
         }
 
+        public ActivityBuyTicketDto GetActivityById(int activityId)
+        {
+            var target = _context.GetAll<Activity>().First(x => x.ActivityId == activityId);
+            var result = new ActivityBuyTicketDto()
+            {
+                Id = target.ActivityId,
+                Name = target.Name,
+                Image = target.Image,
+                StartTime = target.StartTime,
+                EndTime = target.EndTime,
+                City = target.City,
+                District = target.District,
+                Address = target.Address
+            };
+
+            return result;
+        }
+
         private IEnumerable<ActivityCardDto> ActivityCardDtoResult(IQueryable<Activity> target)
         {
             var theme = _context.GetAll<ActivityTheme>();//主題
