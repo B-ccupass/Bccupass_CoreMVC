@@ -10,6 +10,6 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public int SystemAnnouncementId { get; set; }
         public DateTime ReleaseTime { get; set; }
         public string SystemAnnouncementTitle { get; set; }
-        public string SystemAnnouncementContent { get; set; }
+        public string SystemAnnouncementText { get; set; }
     }
 }
