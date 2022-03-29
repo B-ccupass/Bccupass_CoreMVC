@@ -50,7 +50,7 @@ namespace Bccupass_CoreMVC.Services
                 City = resource.City,
                 District = resource.District,
                 Address = resource.Address,
-                AddressDescription = resource.AddressDescription
+                AddressDescription = resource.ActivityDescription
             };
         }
 
@@ -121,10 +121,10 @@ namespace Bccupass_CoreMVC.Services
         {
             return _context.GetAll<ActivityAnnouncement>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.AnnounceData()
             {
-                AnnouncementId = x.AnnouncementId,
-                Sort = x.Sort,
-                AnnouncementContent = x.AnnouncementContent,
-                CreateTime = x.CreateTime,
+                AnnouncementId = x.ActivityAnnouncementId,
+                Sort = x.AnnouncementOrder,
+                AnnouncementContent = x.ActivityAnnouncementText,
+                CreateTime = x.ReleaseTime,
             });
         }
 
