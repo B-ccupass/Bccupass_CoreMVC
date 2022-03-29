@@ -1,4 +1,5 @@
 ﻿using Bccupass_CoreMVC.Models;
+using Bccupass_CoreMVC.Models.ViewModel.Activity;
 using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace Bccupass_CoreMVC.Controllers
 
         public IActionResult Index()
         {
-            var activityCardViewModel = _activityCardService.GetNewestActivity().Select(x => new ActivityCardViewModel.ActivityData()
+            var activityCardViewModel = _activityCardService.GetNewestActivity().Select(x => new ActivityCardViewModel.ActivityCardData()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -34,7 +35,7 @@ namespace Bccupass_CoreMVC.Controllers
                 IsFree = x.IsFree,
                 Favorite = x.Favorite
             }) ;
-            var activityCardViewModelSec = _activityCardService.GetChosenActivity().Select(x => new ActivityCardViewModel.ActivityData()
+            var activityCardViewModelSec = _activityCardService.GetChosenActivity().Select(x => new ActivityCardViewModel.ActivityCardData()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -48,14 +49,11 @@ namespace Bccupass_CoreMVC.Controllers
             });
 
 
-            var result = new ActivityCardViewModel()
+            var result = new ActivityHomeViewModel()
             {
                 ActivityList = activityCardViewModel,
                 ActivityListSec = activityCardViewModelSec
             };
-
-            //ViewData["Chosen"] = activityCardViewModelSec;
-            //ViewData["Newest"] = activityCardViewModel;
 
             return View(result);
         }

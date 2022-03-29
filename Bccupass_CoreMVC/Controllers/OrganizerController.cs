@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bccupass_CoreMVC.Models.DTO.Organizer;
 using Bccupass_CoreMVC.Models.ViewModel;
+using Bccupass_CoreMVC.Models.ViewModel.Activity;
 
 namespace Bccupass_CoreMVC.Controllers
 {
@@ -44,7 +45,7 @@ namespace Bccupass_CoreMVC.Controllers
                 Description = organizerDto.Description,
                 FacebookWebsite = organizerDto.FacebookWebsite
             };
-            var activityCardViewModel = _activityService.GetOrganizerActivity(id).Select(x => new ActivityCardViewModel.ActivityData()
+            var activityCardViewModel = _activityService.GetOrganizerActivity(id).Select(x => new ActivityCardViewModel.ActivityCardData()
             {
                 Id = x.Id,
                 Name = x.Name,

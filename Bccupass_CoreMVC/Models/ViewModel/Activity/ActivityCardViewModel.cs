@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Bccupass_CoreMVC.Models.ViewModel.ActivityCard
+namespace Bccupass_CoreMVC.Models.ViewModel.Activity
 {
     public class ActivityCardViewModel
     {
-        public IEnumerable<ActivityData> ActivityList { get; set; }
-        public IEnumerable<ActivityData> ActivityListSec { get; set; }
-        public class ActivityData
+        public class ActivityCardData
         {
             public int Id { get; set; }
             public string Name { get; set; }

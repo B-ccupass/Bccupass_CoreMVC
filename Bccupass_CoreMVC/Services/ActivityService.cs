@@ -15,6 +15,12 @@ namespace Bccupass_CoreMVC.Services
             _context = context;
         }
 
+        public IEnumerable<ActivityCardDto> GetAllActivity()
+        {
+            var target = _context.GetAll<Activity>();
+            return ActivityCardDtoResult(target);
+        }
+
         // 活動內頁
         public ActivityDetailDto GetActivityDetail(int activityId)
         {

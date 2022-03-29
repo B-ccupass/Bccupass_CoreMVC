@@ -1,4 +1,5 @@
-﻿using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
+﻿using Bccupass_CoreMVC.Models.ViewModel.Activity;
+using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Bccupass_CoreMVC.Models.ViewModel.Organizer
     public class OrganizerAboutViewModel
     {
         public OrganizerData organizer { get; set; }
-        public IEnumerable<ActivityCardViewModel.ActivityData> ActivityList { get; set; }
+        public IEnumerable<ActivityCardViewModel.ActivityCardData> ActivityList { get; set; }
         public class OrganizerData
         {
             public int OrganizerId { get; set; }

@@ -1,4 +1,6 @@
 ﻿using Bccupass_CoreMVC.Models.ViewModel;
+using Bccupass_CoreMVC.Models.ViewModel.Activity;
+using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -16,7 +18,24 @@ namespace Bccupass_CoreMVC.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var activityList = _activityService.GetAllActivity().Select(x => new ActivityCardViewModel.ActivityCardData()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Image = x.Image,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                City = x.City,
+                ActivityTheme = x.ActivityTheme,
+                IsFree = x.IsFree,
+                Favorite = x.Favorite
+            });
+
+            var res = new ActivityIndexViewModel()
+            {
+                ActivityList = activityList
+            };
+            return View(res);
         }
         public IActionResult Detail(int id)
         {
@@ -92,11 +111,6 @@ namespace Bccupass_CoreMVC.Controllers
                 })
             };
             return View(activityDetailVM);
-        }
-
-        public IActionResult Activities()
-        {
-            return View();
         }
     }
 }
