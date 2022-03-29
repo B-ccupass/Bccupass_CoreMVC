@@ -20,7 +20,7 @@ namespace Bccupass_CoreMVC.Controllers
             _activityCardService = activityCardService;
         }
 
-        public IActionResult Home()
+        public IActionResult Index()
         {
             var activityCardViewModel = _activityCardService.GetNewestActivity().Select(x => new ActivityCardViewModel.ActivityData()
             {
