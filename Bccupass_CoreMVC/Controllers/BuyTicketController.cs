@@ -21,10 +21,10 @@ namespace Bccupass_CoreMVC.Controllers
             return View();
         }
 
-        public IActionResult TicketList(int activityId)
+        public IActionResult TicketList(int id)
         {
-            var activity = _activity.GetActivityById(activityId);
-            var ticket = _ticket.GetTicketInfoAtPurchase(activityId);
+            var activity = _activity.GetActivityById(id);
+            var ticket = _ticket.GetTicketInfoAtPurchase(id);
 
             var activityView = new TicketPurchaseViewModel.ActivityData()
             {
@@ -43,6 +43,8 @@ namespace Bccupass_CoreMVC.Controllers
                 TicketId = x.TicketId,
                 TicketName = x.TicketName,
                 Price = x.Price,
+                Quantity = x.Quantity,
+                Description = x.Description,
                 SellStartTime = x.SellStartTime,
                 SellEndTime = x.SellEndTime,
                 CheckStartTime = x.CheckStartTime,

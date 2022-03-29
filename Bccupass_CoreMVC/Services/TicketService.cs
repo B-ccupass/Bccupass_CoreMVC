@@ -23,6 +23,8 @@ namespace Bccupass_CoreMVC.Services
                 TicketId = x.TicketDatailId,
                 TicketName = x.TicketName,
                 Price = x.Price,
+                Quantity = x.Quantity,
+                Description = x.Description,
                 SellStartTime = x.SellStartTime,
                 SellEndTime = x.SellEndTime,
                 CheckStartTime = x.CheckStartTime,

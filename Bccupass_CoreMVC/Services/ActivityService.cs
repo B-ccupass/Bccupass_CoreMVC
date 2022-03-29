@@ -43,7 +43,7 @@ namespace Bccupass_CoreMVC.Services
 
         public ActivityBuyTicketDto GetActivityById(int activityId)
         {
-            var target = _context.GetAll<Activity>().First(x => x.ActivityId == activityId);
+            var target = _context.GetAll<Activity>().FirstOrDefault(x => x.ActivityId == activityId);
             var result = new ActivityBuyTicketDto()
             {
                 Id = target.ActivityId,
