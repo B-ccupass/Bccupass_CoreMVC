@@ -16,14 +16,13 @@ namespace Bccupass_CoreMVC.Controllers
     {
         private readonly IOrganizerService _organizerService;
         private readonly IActivityService _activityService;
-        private readonly IActivityService _activityCardService;
+        //private readonly IActivityService _activityCardService;
 
 
-        public OrganizerController(IOrganizerService organizerService, IActivityService activityService, IActivityService activityCardService)
+        public OrganizerController(IOrganizerService organizerService, IActivityService activityService)
         {
             _organizerService = organizerService;
             _activityService = activityService;
-            _activityCardService = activityCardService;
 
         }
         public IActionResult Index()
@@ -45,7 +44,7 @@ namespace Bccupass_CoreMVC.Controllers
                 Description = organizerDto.Description,
                 FacebookWebsite = organizerDto.FacebookWebsite
             };
-            var activityCardViewModel = _activityCardService.GetOrganizerActivity(id).Select(x => new OrganizerAboutViewModel.ActivityData()
+            var activityCardViewModel = _activityService.GetOrganizerActivity(id).Select(x => new ActivityCardViewModel.ActivityData()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -56,7 +55,7 @@ namespace Bccupass_CoreMVC.Controllers
                 ActivityTheme = x.ActivityTheme,
                 IsFree = x.IsFree,
                 Favorite = x.Favorite,
-                State = x.State
+                //State = x.State
             });
 
             var result = new OrganizerAboutViewModel()

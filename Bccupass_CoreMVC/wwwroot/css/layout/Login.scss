@@ -1,0 +1,128 @@
+﻿$modal-background: #3f6277; 
+$font-color: #726d6d; 
+$close-color: #cecece; 
+$white: #fff; 
+$border: #dbdbdb; 
+$link: #2ea3f2; 
+$gap-line: #eee; 
+
+
+
+.modal-header {
+    border-bottom: 0px;
+}
+
+.modal-backdrop {
+    background-color: $modal-background
+}
+
+.login-modal {
+    height: auto;
+}
+
+.sign-up-modal {
+    height: auto;
+}
+
+.forget-modal {
+    height: auto;
+}
+
+.modal-title {
+    color: $font-color;
+}
+
+.description {
+    color: $font-color;
+    padding: 0 15px;
+    font-size: small;
+}
+
+span {
+    color: $font-color;
+}
+
+.btn-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    height: 24px;
+    width: 24px;
+    background-color: $close-color;
+    border: none;
+    border-radius: 50%;
+}
+
+.modal-body {
+    margin-bottom: 10px;
+}
+
+.inner {
+    position: relative;
+}
+
+.input {
+    position: relative;
+    height: 32px;
+    max-width: 100%;
+    width: 100%;
+    background-color: $white;
+    border: 1px solid $border;
+    border-radius: 3px;
+    font-size: 14px;
+    padding: 5px 8px 5px 30px;
+    box-shadow: inset 0 1px 2px;
+}
+
+.icon {
+    position: absolute;
+    top: 0;
+    height: 32px;
+    width: 32px;
+    color: $border;
+    z-index: 4;
+}
+
+.fas {
+    line-height: 1;
+}
+
+.forget-password {
+    color: $link;
+    text-decoration: none;
+}
+
+.agree {
+    font-size: small;
+}
+
+.finish-btn {
+    width: 100%;
+    padding: 6px 11px;
+    background-color: $link;
+    color: $white;
+    font-size: 14px;
+    border-radius: 3px;
+    border-color: transparent;
+}
+
+
+.modal-footer {
+    border-top: 1px solid $gap-line;
+}
+
+
+a {
+    color: $link;
+}
+
+@media (min-width: 576px) {
+    .forget-modal-dialog,
+    .login-modal-dialog {
+        max-width: 300px;
+    }
+
+    .sign-up-modal-dialog {
+        max-width: 400px;
+    }
+}
