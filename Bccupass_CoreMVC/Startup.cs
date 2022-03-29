@@ -39,7 +39,7 @@ namespace Bccupass_CoreMVC
 
             services.AddDbContext<BccupassDBContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("Bccupass"));
+                options.UseSqlServer(Configuration.GetConnectionString("BccupassDB"));
             });
             services.AddControllersWithViews();
         }

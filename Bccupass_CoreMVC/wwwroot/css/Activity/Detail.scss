@@ -29,7 +29,6 @@
         height: 300px;
     }
 }
-
 .activity-main {
     .category-item {
         background-color: $theme-color-light;
@@ -83,7 +82,6 @@
         }
     }
 }
-
 .announce-wrap {
     background-color: #FFEEF3;
 
@@ -110,9 +108,9 @@
     }
 
     @media screen and (min-width: 768px) {
+        
     }
 }
-
 .organizer {
     .cta-btns {
         button, a {
@@ -169,8 +167,7 @@
     .accordion-button {
         background-color: #5995ddb8;
         color: #333;
-
-        &:focus {
+        &:focus{
             box-shadow: none;
         }
     }

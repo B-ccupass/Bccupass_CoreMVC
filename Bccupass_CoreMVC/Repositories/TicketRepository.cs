@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Bccupass_CoreMVC.Repositories
 {
-    public class TicketDetailOrderDetails :DBRepository, ITicketDetailOrderDetails
+    public class TicketRepository :DBRepository, ITicketRepository 
     {
-        public TicketDetailOrderDetails(BccupassDBContext context) : base(context)
+        public TicketRepository(BccupassDBContext context) : base(context)
         {
         }
         public int getTicketCount(int ticketDetailId)

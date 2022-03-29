@@ -28,7 +28,7 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public string BuyerFax { get; set; }
         public int? BuyerEducationLevel { get; set; }
         public int? BuyerDiningNeeds { get; set; }
-        public string BuyerConpanyName { get; set; }
+        public string BuyerCompanyName { get; set; }
         public string BuyerJobTitle { get; set; }
 
         public virtual OrderDetail OrderDetail { get; set; }
