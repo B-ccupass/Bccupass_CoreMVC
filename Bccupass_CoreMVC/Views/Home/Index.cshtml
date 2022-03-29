@@ -11,7 +11,9 @@
         <p class="title fs-3 fw-bold">精選活動</p>
         <div class="row">
             @foreach(var item in Model.ActivityListSec){
-                @await Html.PartialAsync("_activityCardPartial", item)
+                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                    @await Html.PartialAsync("_activityCardPartial", item)
+                </div>
             }
         </div>
     </div>
@@ -19,7 +21,9 @@
         <p class="title fs-3 fw-bold">最新活動</p>
         <div class="row">
             @foreach(var item in Model.ActivityList){
-                @await Html.PartialAsync("_activityCardPartial", item)
+                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                    @await Html.PartialAsync("_activityCardPartial", item)
+                </div>
             }
         </div>
     </div>

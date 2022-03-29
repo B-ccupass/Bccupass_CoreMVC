@@ -211,3 +211,20 @@
         }
     }
 }
+
+.buy-cta {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: $theme-color-light;
+    right: 50px;
+    bottom: 100px;
+
+    .buy-link {
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        text-align: center;
+        line-height: 18px;
+    }
+}

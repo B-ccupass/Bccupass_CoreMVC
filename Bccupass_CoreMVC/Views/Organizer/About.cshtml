@@ -59,9 +59,11 @@
                             <div class="inprogress-wrap py-2">
                                 <p class="fs-5 fw-bold mb-3">進行中</p>
                                 <div class="row">
-                                     @foreach(var item in Model.ActivityList){
-                                        @await Html.PartialAsync("_activityCardPartial", item)
-                                      }
+                                    @foreach(var item in Model.ActivityList){
+                                        <div class="activity-card col-6">
+                                            @await Html.PartialAsync("_activityCardPartial", item)
+                                        </div>
+                                    }
                                 </div>
                             </div>
                             <div class="notstart-wrap py-2">
