@@ -133,8 +133,8 @@ namespace Bccupass_CoreMVC.Services
         public IEnumerable<ActivityCardDto> GetNewestActivity()
         {
             //var target = _context.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime).Take(6);//抓最新的前6個(活動的篩選)
-            var target = _context.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime);//抓最新的前6個(活動的篩選)
-
+            
+            var target = _context.GetAll<Activity>();//假資料不夠多測試用
             return ActivityCardDtoResult(target);
         }
 
@@ -144,12 +144,8 @@ namespace Bccupass_CoreMVC.Services
             //var ordId = userFollowing.Select(group => new { OrganizerId = group.Key }).ToList();
 
             //var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == ordId[0].OrganizerId || x.OrganizerId == ordId[1].OrganizerId || x.OrganizerId == ordId[2].OrganizerId || x.OrganizerId == ordId[3].OrganizerId).OrderByDescending(x => x.CreateTime).Take(6);
-
-            //return ActivityCardDtoResult(target);
-
-            // 測試
-            var target = _context.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime);//抓最新的前6個(活動的篩選)
-
+            
+            var target = _context.GetAll<Activity>();//假資料不夠多測試用
             return ActivityCardDtoResult(target);
         }
 
