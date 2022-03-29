@@ -51,5 +51,21 @@ namespace Bccupass_CoreMVC.Services
                 Image = joinResult.Image,
             };
         }
+
+        public void CreateOrganizer(CreateOrganizerDto request)
+        {
+            var organizer = new Organizer
+            {
+                UserId = request.UserId,
+                Image = request.Image,
+                Name = request.Name,
+                Email = request.Email,
+                Telphone = request.Telphone,
+                Description = request.Description,
+            };
+
+            _context.Create(organizer);
+            _context.Save();
+        }
     }
 }

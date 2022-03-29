@@ -8,6 +8,10 @@
     "inputFile": "wwwroot/css/Organizer/OrganizerIndex.scss"
   },
   {
+    "outputFile": "wwwroot/css/Organizer/CreateOrganizer.css",
+    "inputFile": "wwwroot/css/Organizer/CreateOrganizer.scss"
+  },
+  {
     "outputFile": "wwwroot/css/Activity/Detail.css",
     "inputFile": "wwwroot/css/Activity/Detail.scss"
   },
