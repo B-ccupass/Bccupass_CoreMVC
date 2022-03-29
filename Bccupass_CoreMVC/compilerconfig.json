@@ -6,5 +6,9 @@
   {
     "outputFile": "wwwroot/css/Organizer/OrganizerIndex.css",
     "inputFile": "wwwroot/css/Organizer/OrganizerIndex.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Organizer/CreateOrganizer.css",
+    "inputFile": "wwwroot/css/Organizer/CreateOrganizer.scss"
   }
 ]

@@ -1,12 +1,14 @@
 ﻿@using Bccupass_CoreMVC.Models.ViewModel.Organizer
 @model CreateOrganizerViewModel
 
-
+@section Topcss{
+    <link rel="stylesheet" href="~/css/Organizer/CreateOrganizer.css" />
+}
 
 
 <div class="container my-5 align-content-center">
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-lg-6">
             <h1 class="text-center">申請成為主辦</h1>
             <form id="applyOrganizer" asp-action="CreateOrganizer">
                 <div class="mb-3 text-center">
@@ -46,8 +48,12 @@
                 <p class="text-end d-block">
                     <span id="fontLange">0</span> / <span>255</span>
                 </p>
-                <button id="sumBtn" type="submit" class="btn btn-primary w-100">送出</button>
+                <button id="sumBtn" type="submit" class="btn btn-primary w-100 mb-5">送出</button>
             </form>
         </div>
     </div>
 </div>
+
+@section endJS{
+    <script src="~/js/CreateOrganizerJS.js"></script>
+}
