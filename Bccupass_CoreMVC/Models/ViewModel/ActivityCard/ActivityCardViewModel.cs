@@ -6,6 +6,7 @@ namespace Bccupass_CoreMVC.Models.ViewModel.ActivityCard
     public class ActivityCardViewModel
     {
         public IEnumerable<ActivityData> ActivityList { get; set; }
+        public IEnumerable<ActivityData> ActivityListSec { get; set; }
         public class ActivityData
         {
             public int Id { get; set; }
