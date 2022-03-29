@@ -20,6 +20,7 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public DateTime BuildTime { get; set; }
         public DateTime SendTime { get; set; }
         public string EmailContent { get; set; }
+        public int PurchaseDetailId { get; set; }
 
         public virtual ICollection<ActivityNotificationUser> ActivityNotificationUsers { get; set; }
     }
