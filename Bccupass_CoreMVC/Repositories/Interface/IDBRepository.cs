@@ -5,6 +5,8 @@ namespace Bccupass_CoreMVC.Repositories.Interface
 {
     public interface IDBRepository
     {           
+        public interface IDBRepository
+        {
         public BccupassDBContext Context { get; }
 
         public void Create<T>(T entity) where T : class;
