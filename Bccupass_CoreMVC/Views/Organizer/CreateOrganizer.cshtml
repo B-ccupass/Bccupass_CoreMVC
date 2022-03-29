@@ -2,6 +2,7 @@
 @model CreateOrganizerViewModel
 
 @section Topcss{
+    <link rel="stylesheet" href="~/css/Global.scss/>
     <link rel="stylesheet" href="~/css/Organizer/CreateOrganizer.css" />
 }
 
@@ -43,10 +44,10 @@
                 </div>
                 <label asp-for="Description" class="form-label star">主辦單位簡介</label>
                 <textarea asp-for="Description" id="introduction" class="form-control" aria-label="With textarea" rows="6" placeholder="請填寫主辦單位簡介"
-                          maxlength="255" required></textarea>
+                          maxlength="500" required></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
                 <p class="text-end d-block">
-                    <span id="fontLange">0</span> / <span>255</span>
+                    <span id="fontLange">0</span> / <span>500</span>
                 </p>
                 <button id="sumBtn" type="submit" class="btn btn-primary w-100 mb-5">送出</button>
             </form>

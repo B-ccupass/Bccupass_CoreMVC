@@ -1,14 +1,15 @@
 ﻿let fontLange = document.querySelector("#fontLange"),
     introduction = document.querySelector("#introduction")
+const maxLength = 501;
 introduction.addEventListener("input", function () {
-    if (introduction.textLength < 256) {
+    if (introduction.textLength < maxLength) {
         fontLange.innerText = introduction.textLength;
     }
 })
 window.onload = function () {
     fontLange.innerText = introduction.textLength;
     let img = document.querySelector('.showImg')
-    img.setAttribute('src', './img/person-circle.svg')
+    img.setAttribute('src', 'https://i.imgur.com/DOP54Ju.png')
 }
 let orgImg = document.getElementById('orgImg')
 orgImg.addEventListener("change", function (e) {
@@ -20,19 +21,7 @@ orgImg.addEventListener("change", function (e) {
     }
     filereader.readAsDataURL(file);
 })
-let from = document.querySelector('form')
 
-document.getElementById("sumBtn").addEventListener("click", function () {
-    var ormData = [{
-        img: from.orgImg.value,
-        name: from.orgName.value,
-        email: from.orgEmail.value,
-        phone: from.orgPhone.value,
-        phoneex: from.orgPhoneEx.value,
-        introduction: from.introduction.value
-    },]
-    localStorage.setItem("ormData", JSON.stringify(ormData))
-    console.log(ormData)
 
-})
+
 

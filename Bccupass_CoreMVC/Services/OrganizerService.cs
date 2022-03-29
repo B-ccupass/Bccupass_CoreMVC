@@ -56,10 +56,7 @@ namespace Bccupass_CoreMVC.Services
         {
             var organizer = new Organizer
             {
-                //OrganizerId = request.OrganizerId,
-                OrganizerId = 1,
-                //UserId = request.UserId,
-                UserId = 0,
+                UserId = request.UserId,
                 Image = request.Image,
                 Name = request.Name,
                 Email = request.Email,
