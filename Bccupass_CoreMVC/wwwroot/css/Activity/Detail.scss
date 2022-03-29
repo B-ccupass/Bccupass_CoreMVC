@@ -165,9 +165,10 @@
 
 .qa {
     .accordion-button {
-        background-color: #5995ddb8;
+        background-color: $theme-color-light;
         color: #333;
-        &:focus{
+
+        &:focus {
             box-shadow: none;
         }
     }
