@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bccupass_CoreMVC.Models.DTO.Organizer;
+using Bccupass_CoreMVC.Models.ViewModel;
 
 namespace Bccupass_CoreMVC.Controllers
 {
@@ -15,12 +16,14 @@ namespace Bccupass_CoreMVC.Controllers
     {
         private readonly IOrganizerService _organizerService;
         private readonly IActivityService _activityService;
+        private readonly IActivityService _activityCardService;
 
 
-        public OrganizerController(IOrganizerService organizerService, IActivityService activityService)
+        public OrganizerController(IOrganizerService organizerService, IActivityService activityService, IActivityService activityCardService)
         {
             _organizerService = organizerService;
             _activityService = activityService;
+            _activityCardService = activityCardService;
 
         }
         public IActionResult Index()
@@ -42,9 +45,23 @@ namespace Bccupass_CoreMVC.Controllers
                 Description = organizerDto.Description,
                 FacebookWebsite = organizerDto.FacebookWebsite
             };
+            var activityCardViewModel = _activityCardService.GetOrganizerActivity(id).Select(x => new OrganizerAboutViewModel.ActivityData()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Image = x.Image,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                City = x.City,
+                ActivityTheme = x.ActivityTheme,
+                IsFree = x.IsFree,
+                Favorite = x.Favorite,
+                State = x.State
+            });
 
             var result = new OrganizerAboutViewModel()
             {
+                ActivityList = activityCardViewModel,
                 organizer = org
             };
 
