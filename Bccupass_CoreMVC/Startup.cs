@@ -1,6 +1,6 @@
 using Bccupass_CoreMVC.Models.DBEntity;
-using Bccupass_CoreMVC.Repositorirs;
-using Bccupass_CoreMVC.Repositorirs.Interface;
+using Bccupass_CoreMVC.Repositories;
+using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Builder;
@@ -32,13 +32,16 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IDBRepository, DBRepository>();
             services.AddTransient<IActivityRepository, ActivityRepository>();
             services.AddTransient<IOrganizerRepository, OrganizerRepository>();
+            services.AddTransient<ITicketRepository, TicketRepository>();
 
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IOrganizerService, OrganizerService>();
+            services.AddTransient<ITicketService, TicketService>();
+
 
             services.AddDbContext<BccupassDBContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("BccupassDB"));
+                options.UseSqlServer(Configuration.GetConnectionString("Bccupass"));
             });
             services.AddControllersWithViews();
         }

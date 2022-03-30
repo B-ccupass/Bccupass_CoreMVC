@@ -1,4 +1,7 @@
 ﻿using Bccupass_CoreMVC.Models;
+using Bccupass_CoreMVC.Models.ViewModel.Activity;
+using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
+using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,17 +14,50 @@ namespace Bccupass_CoreMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IActivityService _activityCardService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IActivityService activityCardService)
         {
-            _logger = logger;
+            _activityCardService = activityCardService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var activityCardViewModel = _activityCardService.GetNewestActivity().Select(x => new ActivityCardViewModel.ActivityCardData()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Image = x.Image,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                City = x.City,
+                ActivityTheme = x.ActivityTheme,
+                IsFree = x.IsFree,
+                Favorite = x.Favorite
+            }) ;
+            var activityCardViewModelSec = _activityCardService.GetChosenActivity().Select(x => new ActivityCardViewModel.ActivityCardData()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Image = x.Image,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                City = x.City,
+                ActivityTheme = x.ActivityTheme,
+                IsFree = x.IsFree,
+                Favorite = x.Favorite
+            });
+
+
+            var result = new ActivityHomeViewModel()
+            {
+                ActivityList = activityCardViewModel,
+                ActivityListSec = activityCardViewModelSec
+            };
+
+            return View(result);
         }
+        
 
         public IActionResult Privacy()
         {
