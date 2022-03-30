@@ -1,5 +1,8 @@
 ﻿@using Bccupass_CoreMVC.Models.ViewModel.Ticket
 @model TicketPurchaseViewModel.TicketData
+@{
+    var ticketId = $"panelsStayOpen-collapse{Model.TicketId}";
+}
 
 <div class="accordion-item border border-1 my-2 p-2">
     <div class="accordion-header" id="panelsStayOpen-headingOne">
@@ -16,12 +19,12 @@
 
         </div>
         <button class="accordion-button fw-bold ps-1" type="button" data-bs-toggle="collapse"
-            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-            aria-controls="panelsStayOpen-collapseOne">
+            data-bs-target="#@ticketId" aria-expanded="true"
+            aria-controls="@ticketId">
             更多資訊
         </button>
     </div>
-    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+    <div id="@ticketId" class="accordion-collapse collapse show"
         aria-labelledby="panelsStayOpen-headingOne">
         <div class="accordion-body text-primary">
             <div class="fs-6 mb-2">
