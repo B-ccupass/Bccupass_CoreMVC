@@ -1,0 +1,25 @@
+﻿$theme-color: #2C5E9E;
+$theme-color-light: #5995DD;
+$font-color: #333333;
+$font-color-light: #B2B2B2;
+
+%bg-cover {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+// <div class="img-wrap me-2" style="background-image:url(@ImageUrl);"></div >
+@mixin circle-img($width, $height) {
+    width: $width;
+    height: $height;
+    border-radius: 50%;
+    overflow: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container{
+    max-width: 1080px;
+}

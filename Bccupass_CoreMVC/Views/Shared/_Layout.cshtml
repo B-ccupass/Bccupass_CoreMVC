@@ -9,17 +9,20 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/layout/layout.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/Organizer/OrganizerIndex.css" />
+    <link rel="stylesheet" href="~/css/layout/Login.css" />
 
     @await RenderSectionAsync("Topcss", required: false)
     @await RenderSectionAsync("TopJS", required: false)
-    <title>Document</title>
+    <title>Bccupass</title>
 </head>
 
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Bccupass</a>
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Bccupass</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -28,16 +31,22 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">首頁</a>
+                            <a class="nav-link active" asp-controller="Home" asp-action="Index">首頁</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="../Activity/index/index.html">所有活動</a>
+                            <a class="nav-link" asp-controller="Activity" asp-action="Index">所有活動</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">活動地圖</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../CreateActivity/Policy/Policy.html">辦活動</a>
+                            <button type="button" class="nav-link bg-transparent border border-transparent border-0" data-bs-toggle="modal" data-bs-target="#loginModal">登入</button>
+                        </li>                        
+                        <li class="nav-item">
+                            <button type="button" class="nav-link bg-transparent border border-transparent border-0" data-bs-toggle="modal" data-bs-target="#signUpModal">註冊</button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">辦活動</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -60,7 +69,158 @@
             </div>
         </nav>
     </header>
-    <main>
+
+    <!-- 登入 -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered login-modal-dialog">
+            <div class="modal-content login-modal">
+                <button type="button" class="btn-close d-flex justify-content-center" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header d-flex justify-content-center mt-5">
+                    <h5 class="modal-title fs-5 fw-bold" id="exampleModalLabel">登入</h5>
+                </div>
+                <p class="description text-center">開啟有趣生活的任意門，就從登入開始！</p>
+                <div class="modal-body mb-0">
+                    <div class="inner">
+                        <input name="account" class="input account d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="電子郵件" value="">
+                        <span class="icon d-flex justify-content-center  align-items-center">
+                            <i class="fas fa-envelope d-inline-block">
+                            </i>
+                        </span>
+                    </div>
+                    <div class="inner">
+                        <input name="password" class="input password d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="密碼" value="">
+                        <span class="icon d-flex justify-content-center  align-items-center">
+                            <i class="fas fa-key d-inline-block">
+                            </i>
+                        </span>
+                    </div>
+
+                    <div class="forget-div text-end mb-3">
+                        <a class="forget-password text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#forgetModal">忘記密碼?</a>
+                    </div>
+                    <div class="btn-div">
+                        <button type="button" class="finish-btn login-btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            登入
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between mt-1 mb-3 pt-1">
+                    <span>還不是Bccupass會員?</span>
+                    <div class="a-div">
+                        <a class="sign-up text-decoration-none" data-bs-toggle="modal" data-bs-target="#signUpModal">註冊</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 註冊 -->
+
+    <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered sign-up-modal-dialog">
+            <div class="modal-content sign-up-modal p-2">
+                <button type="button" class="btn-close d-flex justify-content-center" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header d-flex justify-content-center mt-5 mb-0">
+                    <h5 class="modal-title fs-5 fw-bold" id="exampleModalLabel">成為BCCUPASS會員</h5>
+                </div>
+                <p class="description text-center mt-0">會員可享各項專屬權益:票券隨身帶著走、即時管理真方便、追蹤主辦方最新動態、掌握第一手活動資訊</p>
+                <div class="modal-body mt-0 mb-0">
+                    <div class="inner">
+                        <input name="account" class="input account d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="電子郵件" value="">
+                        <span class="icon icon d-flex justify-content-center  align-items-center">
+                            <i class="fas fa-envelope d-inline-block">
+                            </i>
+                        </span>
+                    </div>
+                    <div class="inner">
+                        <input name="Name" class="input Name d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="姓名" value="">
+                        <span class="icon icon d-flex justify-content-center  align-items-center">
+                            <i class="fas fa-user d-inline-block">
+                            </i>
+                        </span>
+                    </div>
+                    <div class="inner">
+                        <input name="phone" class="input phone d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="手機" value="">
+                        <span class="icon icon d-flex justify-content-center  align-items-center">
+                            <i class="fas fa-phone d-inline-block">
+                            </i>
+                        </span>
+                    </div>
+                    <div class="inner">
+                        <input name="password" class="input password d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="密碼" value="">
+                        <span class="icon icon d-flex justify-content-center  align-items-center">
+                            <i class="fas fa-key d-inline-block">
+                            </i>
+                        </span>
+                    </div>
+                    <div class="agree mb-3">
+                        <span>
+                            成為會員即代表我已同意BCCUPASS
+                            <a class="service text-decoration-none" href="#" target="_blank">服務條款</a>
+                            及
+                            <a class="private text-decoration-none" href="#" target="_blank">隱私權政策</a>
+                        </span>
+                    </div>
+                    <div class="btn-div">
+                        <button type="button" class="finish-btn submit-btn btn-primary">
+                            成為會員
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between mt-1 mb-3 pt-1">
+                    <span>已經是Bccupass會員?</span>
+                    <div class="a-div">
+                        <a class="login text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">登入</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 忘記 -->
+
+
+    <div class="modal fade" id="forgetModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered forget-modal-dialog">
+            <div class="modal-content forget-modal p-2">
+                <button type="button" class="btn-close d-flex justify-content-center" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header d-flex justify-content-center mt-5 mb-0">
+                    <h5 class="modal-title fs-5 fw-bold" id="exampleModalLabel">忘記密碼?</h5>
+                </div>
+                <p class="description text-center mt-0">請輸入您的會員帳號電子郵件</p>
+                <div class="modal-body mt-0 mb-0">
+                    <div class="inner">
+                        <input name="account" class="input account d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="電子郵件" value="">
+                        <span class="icon icon d-flex justify-content-center  align-items-center">
+                            <i class="fas fa-envelope d-inline-block">
+                            </i>
+                        </span>
+                    </div>
+                    <div class="btn-div">
+                        <button type="button" class="finish-btn
+                sent-btn btn-primary">
+                            寄送新密碼設定連結
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between mt-1 mb-3 pt-1 ">
+                    <div class="col-12 d-flex justify-content-between ">
+                        <span>想起密碼了?</span>
+                        <div class="a-div">
+                            <a class="login text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">登入</a>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-between">
+                        <span>還不是Bccupass會員?</span>
+                        <div class="a-div">
+                            <a class="sign-up text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#signUpModal">註冊</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main class="pb-5">
         @RenderBody()
     </main>
     <footer class="py-3 text-center footer">

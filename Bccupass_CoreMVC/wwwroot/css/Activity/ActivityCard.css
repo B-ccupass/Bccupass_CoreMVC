@@ -1,0 +1,97 @@
+﻿.container {
+  max-width: 1080px;
+}
+
+.activity-card {
+  max-width: 540px;
+}
+.activity-card .img-link-wrap .activity-img {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+}
+.activity-card .card {
+  border-radius: 0px;
+  margin-bottom: 10px;
+}
+.activity-card .card a.card-title {
+  font-size: 16px;
+  text-decoration: none;
+  color: #333333;
+}
+.activity-card .card-text {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+.activity-card .card .tags, .activity-card .card .data {
+  height: 16px;
+  vertical-align: top;
+}
+.activity-card .card-icon {
+  color: #B2B2B2;
+  font-size: 12px;
+  line-height: 14px;
+  margin-right: 10px;
+}
+.activity-card .card-icon:before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 12px;
+  color: #B2B2B2;
+  margin-right: 5px;
+}
+.activity-card .card-icon.icon-location:before {
+  content: "\f3c5";
+}
+.activity-card .card-icon.icon-price:before {
+  content: "\f3ff";
+}
+.activity-card .card-icon.icon-category:before {
+  content: "\f07b";
+}
+.activity-card .card-icon.icon-like:before {
+  content: "\f004";
+}
+.activity-card .card-icon.icon-watch:before {
+  content: "\f06e";
+}
+@media screen and (min-width: 768px) {
+  .activity-card .card {
+    margin-bottom: 15px;
+    height: 280px;
+    box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+  }
+  .activity-card .card .img-link-wrap .activity-img {
+    border-radius: 10px 10px 0 0;
+  }
+  .activity-card .card .col:nth-of-type(1) {
+    height: 150px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .activity-card .card {
+    font-size: 14px;
+    height: 320px;
+  }
+  .activity-card .card .col:nth-of-type(1) {
+    height: 160px;
+  }
+  .activity-card .card-title {
+    font-size: 18px;
+    line-height: 24px;
+  }
+  .activity-card .card .tags, .activity-card .card .data {
+    height: 20px;
+    vertical-align: top;
+  }
+  .activity-card .card-icon:before {
+    font-size: 14px;
+  }
+  .activity-card .card-text {
+    margin-bottom: 8px;
+  }
+}

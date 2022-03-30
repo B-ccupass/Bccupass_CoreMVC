@@ -1,6 +1,7 @@
-﻿namespace Bccupass_CoreMVC.Repositorirs.Interface
+﻿namespace Bccupass_CoreMVC.Repositories.Interface
 {
     public interface IOrganizerRepository : IDBRepository
     {
+
     }
 }
