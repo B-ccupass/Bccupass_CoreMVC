@@ -1,0 +1,211 @@
+﻿@import "../Global.scss";
+
+.container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.page-title {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    color: $font-color;
+
+    @media screen and (min-width: 768px) {
+        font-size: 24px;
+        line-height: 28px;
+    }
+}
+
+.img-wrap {
+    @include circle-img(100px, 100px);
+}
+
+.banner {
+    height: 200px;
+    @extend %bg-cover;
+
+    @media screen and (min-width: 768px) {
+        height: 300px;
+    }
+}
+.activity-main {
+    .category-item {
+        background-color: $theme-color-light;
+    }
+
+    .note {
+        border: 1px solid #D5D5D5;
+        border-radius: 15px;
+        padding: 24px 18px;
+    }
+
+    .info {
+        .info-item {
+            color: $font-color-light;
+
+            a {
+                text-decoration: none;
+                color: $font-color-light;
+            }
+        }
+
+        &-icon {
+            color: $font-color-light;
+            font-size: 12px;
+            line-height: 20px;
+            margin-right: 10px;
+        }
+
+        &-icon:before {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            font-size: 14px;
+            color: $font-color-light;
+            margin-right: 5px;
+        }
+
+        &-icon.icon-time:before {
+            content: "\f017";
+        }
+
+        &-icon.icon-location:before {
+            content: "\f3c5";
+        }
+
+        &-icon.icon-web:before {
+            content: "\f0ac";
+        }
+
+        &-icon.icon-tag:before {
+            content: "\f02b";
+        }
+    }
+}
+.announce-wrap {
+    background-color: #FFEEF3;
+
+    .container {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .announce-list {
+
+        .announce-time {
+            font-weight: 300;
+            font-size: 12px;
+            line-height: 24px;
+            color: $font-color-light;
+        }
+
+        .announce-msg {
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            color: $font-color;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        
+    }
+}
+.organizer {
+    .cta-btns {
+        button, a {
+            background-color: transparent;
+            border: 1px solid $theme-color-light;
+            color: $theme-color-light;
+            text-decoration: none;
+            line-height: 18px;
+        }
+    }
+
+    .description {
+        line-height: 22px;
+    }
+
+    @media screen and (min-width: 768px) {
+        .img-wrap {
+            @include circle-img(130px, 130px);
+        }
+    }
+}
+
+.activity-content {
+    .content {
+        line-height: 22px;
+    }
+
+    .guests {
+        padding-top: 20px;
+
+        @media screen and (min-width: 768px) {
+            .img-wrap {
+                @include circle-img(130px, 130px);
+            }
+        }
+    }
+
+    .modal-dialog {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+
+        @media screen and (min-width: 768px) {
+            .img-wrap {
+                @include circle-img(150px, 150px);
+            }
+        }
+    }
+}
+
+.qa {
+    .accordion-button {
+        background-color: #5995ddb8;
+        color: #333;
+        &:focus{
+            box-shadow: none;
+        }
+    }
+}
+
+.comment {
+    .img-wrap {
+        @include circle-img(80px, 80px)
+    }
+
+    .user-name {
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 24px;
+        color: $font-color;
+    }
+
+    .comment-time {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: $font-color-light;
+    }
+
+    .ratings {
+        position: relative;
+        vertical-align: middle;
+        display: inline-block;
+        color: #ddd; /*背景星星顏色*/
+        overflow: hidden;
+        font-size: 22px; /*調整字體大小可放大縮小星星*/
+        .full_star {
+            position: absolute;
+            left: 0;
+            top: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            color: #FAC12D; /*前景星星顏色*/
+        }
+    }
+}

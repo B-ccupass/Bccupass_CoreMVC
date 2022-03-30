@@ -54,6 +54,9 @@ namespace Bccupass_CoreMVC.Controllers
                 ActivityListSec = activityCardViewModelSec
             };
 
+            //ViewData["Chosen"] = activityCardViewModelSec;
+            //ViewData["Newest"] = activityCardViewModel;
+
             return View(result);
         }
         

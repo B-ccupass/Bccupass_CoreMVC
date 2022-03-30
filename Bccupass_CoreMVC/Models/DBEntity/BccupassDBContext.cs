@@ -43,19 +43,27 @@ namespace Bccupass_CoreMVC.Models.DBEntity
 //            if (!optionsBuilder.IsConfigured)
 //            {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("data source=(LocalDb)\\MSSQLLocalDB;initial catalog=BccupassDB;integrated security=True;MultipleActiveResultSets=True;");
+//                optionsBuilder.UseSqlServer("Server=tcp:bs-2021-winter-bccupass.database.windows.net,1433;Initial Catalog=BccupassDB;Persist Security Info=False;User ID=bs;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 //            }
 //        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "Chinese_Taiwan_Stroke_BIN");
 
             modelBuilder.Entity<Activity>(entity =>
             {
                 entity.ToTable("Activity");
 
                 entity.HasComment("活動上架後能改的\r\n活動代表圖\r\n嘉賓\r\n活動參考網址、活動參考網址描述\r\n活動描述\r\n\r\n活動上架後能改的 -> 但要發公告\r\n活動名稱\r\n開始、結束時間\r\n活動簡介\r\n活動注意事項\r\n\r\n活動開始後不能改的 -> 全部欄位、只能發公告");
+
+                entity.HasIndex(e => e.ActivityPrimaryThemeId, "IX_Activity_ActivityPrimaryThemeId");
+
+                entity.HasIndex(e => e.ActivitySecondThemeId, "IX_Activity_ActivitySecondThemeId");
+
+                entity.HasIndex(e => e.ActivityTypeId, "IX_Activity_ActivityTypeId");
+
+                entity.HasIndex(e => e.OrganizerId, "IX_Activity_OrganizerId");
 
                 entity.Property(e => e.ActivityId).HasComment("活動Id");
 
@@ -174,6 +182,8 @@ namespace Bccupass_CoreMVC.Models.DBEntity
             {
                 entity.ToTable("ActivityAnnouncement");
 
+                entity.HasIndex(e => e.ActivityId, "IX_ActivityAnnouncement_ActivityId");
+
                 entity.Property(e => e.ActivityAnnouncementId).HasComment("活動公告PK");
 
                 entity.Property(e => e.ActivityAnnouncementText)
@@ -202,6 +212,8 @@ namespace Bccupass_CoreMVC.Models.DBEntity
                     .HasName("PK_活動簡介圖片");
 
                 entity.ToTable("ActivityIntroImg");
+
+                entity.HasIndex(e => e.ActivityId, "IX_ActivityIntroImg_ActivityId");
 
                 entity.Property(e => e.ActivityIntroImageId).HasComment("活動簡介圖片PK");
 
@@ -256,6 +268,10 @@ namespace Bccupass_CoreMVC.Models.DBEntity
             {
                 entity.ToTable("ActivityNotificationUser");
 
+                entity.HasIndex(e => e.ActivityNotificationId, "IX_ActivityNotificationUser_ActivityNotificationId");
+
+                entity.HasIndex(e => e.UserId, "IX_ActivityNotificationUser_UserId");
+
                 entity.HasOne(d => d.ActivityNotification)
                     .WithMany(p => p.ActivityNotificationUsers)
                     .HasForeignKey(d => d.ActivityNotificationId)
@@ -276,6 +292,10 @@ namespace Bccupass_CoreMVC.Models.DBEntity
                 entity.ToTable("ActivityTag");
 
                 entity.HasComment("");
+
+                entity.HasIndex(e => e.ActivityId, "IX_ActivityTag_ActivityId");
+
+                entity.HasIndex(e => e.TagId, "IX_ActivityTag_TagId");
 
                 entity.Property(e => e.ActivityId).HasComment("活動ID");
 
@@ -329,6 +349,10 @@ namespace Bccupass_CoreMVC.Models.DBEntity
 
                 entity.ToTable("Comment");
 
+                entity.HasIndex(e => e.ActivityId, "IX_Comment_ActivityId");
+
+                entity.HasIndex(e => e.UserId, "IX_Comment_UserId");
+
                 entity.Property(e => e.ActivityId).HasComment("活動Id");
 
                 entity.Property(e => e.BuildTime)
@@ -363,6 +387,8 @@ namespace Bccupass_CoreMVC.Models.DBEntity
             modelBuilder.Entity<Guest>(entity =>
             {
                 entity.ToTable("Guest");
+
+                entity.HasIndex(e => e.ActivityId, "IX_Guest_ActivityId");
 
                 entity.Property(e => e.GuestId).HasComment("嘉賓ID");
 
@@ -403,6 +429,10 @@ namespace Bccupass_CoreMVC.Models.DBEntity
                 entity.ToTable("OrderDetail");
 
                 entity.HasComment("");
+
+                entity.HasIndex(e => e.ActivityId, "IX_OrderDetail_ActivityId");
+
+                entity.HasIndex(e => e.UserId, "IX_OrderDetail_UserId");
 
                 entity.Property(e => e.OrderState).HasComment("訂單狀態 0: 未付款, 1: 已付款/已報名, 2: 已取消,3: 以退票");
 
@@ -469,6 +499,8 @@ namespace Bccupass_CoreMVC.Models.DBEntity
             {
                 entity.ToTable("QA");
 
+                entity.HasIndex(e => e.ActivityId, "IX_QA_ActivityId");
+
                 entity.Property(e => e.QaId).HasComment("常見問題ID");
 
                 entity.Property(e => e.ActivityId).HasComment("活動ID");
@@ -529,6 +561,8 @@ namespace Bccupass_CoreMVC.Models.DBEntity
             {
                 entity.ToTable("TicketDatail");
 
+                entity.HasIndex(e => e.ActivityId, "IX_TicketDatail_ActivityId");
+
                 entity.Property(e => e.TicketDatailId).HasComment("(PK)票卷設定Id");
 
                 entity.Property(e => e.BuyLimitLeast).HasComment("最少購賣數量限制");
@@ -581,6 +615,10 @@ namespace Bccupass_CoreMVC.Models.DBEntity
             modelBuilder.Entity<TicketDetailOrderDetail>(entity =>
             {
                 entity.ToTable("TicketDetailOrderDetail");
+
+                entity.HasIndex(e => e.OrderDetailId, "IX_TicketDetailOrderDetail_OrderDetailId");
+
+                entity.HasIndex(e => e.TicketDetailId, "IX_TicketDetailOrderDetail_TicketDetailId");
 
                 entity.Property(e => e.BuyerAddress).HasMaxLength(50);
 
@@ -667,7 +705,7 @@ namespace Bccupass_CoreMVC.Models.DBEntity
 
                 entity.Property(e => e.Gender).HasComment("性別(true=男 False=女)");
 
-                entity.Property(e => e.Job).HasComment("醫療產業");
+                entity.Property(e => e.Job).HasComment("1.交通 / 物流 / 倉儲						2.營造 / 建築						3.製造業\r\n4.新聞廣告媒體業\r\n5.醫療產業							6.影視娛樂產業						7.教育 / 培訓 / 研究機構\r\n8.宗教團體							9.公共事業\r\n10.批發 / 零售 / 貿易\r\n11.服務業\r\n12.財會 / 金融\r\n13.家庭管理\r\n14.軍警消 / 保全\r\n15.法務人員\r\n16.顧問產業\r\n17.資訊 / 軟體 / 系統\r\n18.職業運動從業人員\r\n19.農林漁牧業\r\n20.礦業採石業\r\n21.自由接案者\r\n22.學生");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -697,6 +735,10 @@ namespace Bccupass_CoreMVC.Models.DBEntity
             {
                 entity.HasKey(e => e.FavoritesId);
 
+                entity.HasIndex(e => e.ActivityId, "IX_UserFavorites_ActivityId");
+
+                entity.HasIndex(e => e.UserId, "IX_UserFavorites_UserId");
+
                 entity.Property(e => e.FavoritesId).HasComment("使用者收藏Id");
 
                 entity.Property(e => e.ActivityId).HasComment("活動Id");
@@ -723,6 +765,10 @@ namespace Bccupass_CoreMVC.Models.DBEntity
             modelBuilder.Entity<UserFollowOrganizer>(entity =>
             {
                 entity.ToTable("UserFollowOrganizer");
+
+                entity.HasIndex(e => e.OrganizerId, "IX_UserFollowOrganizer_OrganizerId");
+
+                entity.HasIndex(e => e.UserId, "IX_UserFollowOrganizer_UserId");
 
                 entity.Property(e => e.UserFollowOrganizerId).HasComment("使用者追蹤主辦ID");
 
