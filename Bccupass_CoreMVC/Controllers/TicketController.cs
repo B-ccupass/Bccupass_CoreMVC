@@ -19,7 +19,7 @@ namespace Bccupass_CoreMVC.Controllers
 
         public IActionResult CreateTicket(int id)
         {
-            id = 1;
+            id = 3;
             var createTicketDto = _ticketService.GetTicket(id);
             var createTicketVM = new CreateTicketViewModel()
             {
@@ -31,9 +31,8 @@ namespace Bccupass_CoreMVC.Controllers
                 {
                     TdOdId = x.TdOdId,
                     BuyerName = x.BuyerName,
-                    BuyerEmail = x.BuyerEmail,
+                    BuyerCompanyName = x.BuyerCompanyName,
                     BuyerPhone = x.BuyerPhone,
-                    BuyerCompanyName = x.BuyerCompanyName
                 }),
                 TicketDetail = createTicketDto.TicketDetail.Select(x => new CreateTicketViewModel.TicketDatail()
                 {

@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/css/Activity/Detail.css",
     "inputFile": "wwwroot/css/Activity/Detail.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Ticket/CreateTicket.css",
+    "inputFile": "wwwroot/css/Ticket/CreateTicket.scss"
   }
 ]
