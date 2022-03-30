@@ -57,7 +57,7 @@ namespace Bccupass_CoreMVC.Services
         }
         private IEnumerable<CreateTicketDto.TicketDetailOrderDetail> GetTdOdByOrderDetailId(int orderDetailId)
         {
-            return _context.GetAll<TicketDetailOrderDetail>().Where(x => x.TicketDetailOrderDetailId == orderDetailId).Select(x => new CreateTicketDto.TicketDetailOrderDetail()
+            return _context.GetAll<TicketDetailOrderDetail>().Where(x => x.OrderDetailId == orderDetailId).Select(x => new CreateTicketDto.TicketDetailOrderDetail()
             {
                 TdOdId = x.TicketDetailOrderDetailId,
                 BuyerName = x.BuyerName,
