@@ -10,11 +10,5 @@ namespace Bccupass_CoreMVC.Repositories
         public TicketRepository(BccupassDBContext context) : base(context)
         {
         }
-        public int getTicketCount(int ticketDetailId)
-        {
-            var target = Context.TicketDetailOrderDetails.Where(x => x.TicketDetailId == ticketDetailId).Count();
-
-            return target;
-        }
     }
 }

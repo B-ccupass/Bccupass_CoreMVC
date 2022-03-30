@@ -15,7 +15,7 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public int OrderDetailId { get; set; }
         public int ActivityId { get; set; }
         public int UserId { get; set; }
-        public int OrderTime { get; set; }
+        public DateTime OrderTime { get; set; }
         public int OrderState { get; set; }
 
         public virtual Activity Activity { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Bccupass_CoreMVC.Models.ViewModel
 {
@@ -10,6 +11,7 @@ namespace Bccupass_CoreMVC.Models.ViewModel
         public ActivityData Activity { get; set; }
         public OrganizerData Organizer { get; set; }
 
+        public int TicketNum { get; set; }
 
         public class TicketDetailOrderDetail
         {
@@ -33,6 +35,9 @@ namespace Bccupass_CoreMVC.Models.ViewModel
         {
             public int ActId { get; set; }
             public string ActName { get; set; }
+
+            public DateTime StartTime { get; set; }
+            public DateTime EndTime { get; set; }
         }
 
         public class OrganizerData

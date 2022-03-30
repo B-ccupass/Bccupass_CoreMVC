@@ -43,7 +43,9 @@ namespace Bccupass_CoreMVC.Controllers
                 Activity = new CreateTicketViewModel.ActivityData
                 {
                     ActId = createTicketDto.Activity.ActId,
-                    ActName = createTicketDto.Activity.ActName
+                    ActName = createTicketDto.Activity.ActName,
+                    StartTime = createTicketDto.Activity.StartTime,
+                    EndTime = createTicketDto.Activity.EndTime
                 },
                 Organizer = new CreateTicketViewModel.OrganizerData
                 {
@@ -51,8 +53,8 @@ namespace Bccupass_CoreMVC.Controllers
                     OrgName = createTicketDto.Organizer.OrgName,
                     OrgEmail = createTicketDto.Organizer.OrgEmail,
                     OrgPhone = createTicketDto.Organizer.OrgPhone, 
-                }
-
+                },
+                TicketNum = _ticketService.TicketCount(id)
             };
 
             return View(createTicketVM);

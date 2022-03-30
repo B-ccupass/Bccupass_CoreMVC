@@ -7,6 +7,6 @@ namespace Bccupass_CoreMVC.Services.Interface
     {
         public CreateTicketDto GetTicket(int orderDetailId);
 
-        public int TicketCount(int OrderDetailId);
+        public int TicketCount(int orderDetailId);
     }
 }

@@ -63,7 +63,7 @@ namespace Bccupass_CoreMVC.Services
                 BuyerName = x.BuyerName,
                 BuyerEmail = x.BuyerEmail,
                 BuyerPhone = x.BuyerPhone,
-                BuyerCompanyName = x.BuyerCompanyName
+                BuyerCompanyName = x.BuyerConpanyName
             });
 
 
@@ -77,6 +77,8 @@ namespace Bccupass_CoreMVC.Services
             {
                 ActId = act.ActivityId,
                 ActName = act.Name,
+                StartTime = act.StartTime,
+                EndTime = act.EndTime,
             };
         }
 

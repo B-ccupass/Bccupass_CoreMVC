@@ -12,6 +12,8 @@ namespace Bccupass_CoreMVC.Models.DTO
         public ActivityData Activity { get; set; }
         public OrganizerData Organizer { get; set; }
 
+        
+
 
 
         public class TicketDetailOrderDetail
@@ -36,6 +38,9 @@ namespace Bccupass_CoreMVC.Models.DTO
         {
             public int ActId { get; set; }
             public string ActName { get; set; }
+
+            public DateTime StartTime { get; set; }
+            public DateTime EndTime { get; set; }
         }
 
         public class OrganizerData
