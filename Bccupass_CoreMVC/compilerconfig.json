@@ -26,5 +26,13 @@
   {
     "outputFile": "wwwroot/css/Activity/index.css",
     "inputFile": "wwwroot/css/Activity/index.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/layout/Login.css",
+    "inputFile": "wwwroot/css/layout/Login.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Activity/ActivityCard.css",
+    "inputFile": "wwwroot/css/Activity/ActivityCard.scss"
   }
 ]

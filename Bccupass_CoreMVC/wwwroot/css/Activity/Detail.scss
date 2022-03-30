@@ -35,6 +35,14 @@
         background-color: $theme-color-light;
     }
 
+    .tag-list {
+        .tag {
+            padding: 3px 5px;
+            border: 1px solid $font-color-light;
+            border-radius: 10px;
+        }
+    }
+
     .note {
         border: 1px solid #D5D5D5;
         border-radius: 15px;

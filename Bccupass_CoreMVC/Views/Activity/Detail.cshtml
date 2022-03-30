@@ -20,13 +20,13 @@
     </ul>
     <div class="activity-info">
         <ul class="info list-unstyled">
-            <li class="info-item info-icon icon-time">@Model.Activity.StartTime ~ @Model.Activity.EndTime</li>
-            <li class="info-item info-icon icon-location">@Model.Activity.City@Model.Activity.District@Model.Activity.Address<span class="address-description mx-2">@Model.Activity.AddressDescription</span></li>
-            <li class="info-item info-icon icon-web"><a href=@Model.Activity.ActivityRefWebUrl>@RefWebDescription</a></li>
-            <li class="info-item info-icon icon-tag  tag-list">
+            <li class="info-item info-icon icon-time py-1">@Model.Activity.StartTime ~ @Model.Activity.EndTime</li>
+            <li class="info-item info-icon icon-location py-1">@Model.Activity.City@Model.Activity.District@Model.Activity.Address<span class="address-description mx-2">@Model.Activity.AddressDescription</span></li>
+            <li class="info-item info-icon icon-web py-1"><a href=@Model.Activity.ActivityRefWebUrl>@RefWebDescription</a></li>
+            <li class="info-item info-icon icon-tag tag-list py-1">
                 @foreach(var tag in Model.Tags)
                 {
-                    <a class="tag">@tag.TagName</a>
+                    <a class="tag" href="#">@tag.TagName</a>
                 }
             </li>
         </ul>
@@ -54,13 +54,13 @@
         </div>
         <div class="col-8 col-md-9 col-lg-10">
             <div class="organizer-title">
-                <a asp-controller="Organizer" asp-action="About" asp-route-id="@Model.Organizer.OrganizerId">@Model.Organizer.Name</a>
-                <div  class="cta-btns">
+                <a class="text-decoration-none organizer-link fs-5 text-dark" asp-controller="Organizer" asp-action="About" asp-route-id="@Model.Organizer.OrganizerId">@Model.Organizer.Name</a>
+                <div  class="cta-btns my-2">
                     <button class="p-1">關注</button>
                     <a class="p-1" href="mailto:@Model.Organizer.Email">聯絡主辦</a>
                 </div>
             </div>
-            <p class="description d-none d-md-block">@Model.Organizer.Description</p>
+            <p class="description d-none d-md-block p-0">@Model.Organizer.Description</p>
         </div>
     </div>
     <p class="description mt-3 d-md-none">@Model.Organizer.Description</p>
