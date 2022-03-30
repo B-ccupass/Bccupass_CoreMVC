@@ -34,5 +34,9 @@
   {
     "outputFile": "wwwroot/css/Activity/ActivityCard.css",
     "inputFile": "wwwroot/css/Activity/ActivityCard.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Ticket/CreateTicket.css",
+    "inputFile": "wwwroot/css/Ticket/CreateTicket.scss"
   }
 ]

@@ -705,7 +705,7 @@ namespace Bccupass_CoreMVC.Models.DBEntity
 
                 entity.Property(e => e.Gender).HasComment("性別(true=男 False=女)");
 
-                entity.Property(e => e.Job).HasComment("醫療產業");
+                entity.Property(e => e.Job).HasComment("1.交通 / 物流 / 倉儲						2.營造 / 建築						3.製造業\r\n4.新聞廣告媒體業\r\n5.醫療產業							6.影視娛樂產業						7.教育 / 培訓 / 研究機構\r\n8.宗教團體							9.公共事業\r\n10.批發 / 零售 / 貿易\r\n11.服務業\r\n12.財會 / 金融\r\n13.家庭管理\r\n14.軍警消 / 保全\r\n15.法務人員\r\n16.顧問產業\r\n17.資訊 / 軟體 / 系統\r\n18.職業運動從業人員\r\n19.農林漁牧業\r\n20.礦業採石業\r\n21.自由接案者\r\n22.學生");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
