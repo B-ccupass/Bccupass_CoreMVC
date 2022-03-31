@@ -68,9 +68,14 @@ namespace Bccupass_CoreMVC
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "Detail/{id?}",
+                defaults: new { controller = "Activity", action = "Detail" });
             });
         }
     }
