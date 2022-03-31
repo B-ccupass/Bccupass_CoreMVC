@@ -1,6 +1,9 @@
 ﻿@using Bccupass_CoreMVC.Models.ViewModel.Activity
 @model ActivityIndexViewModel
-
+@{
+    int activePages = (int)ViewData["ActivePage"];
+    int pages = (int)ViewData["Pages"];
+}
 @section Topcss {
     <link rel="stylesheet" href="~/css/Activity/Index.css" />
 }
@@ -79,22 +82,25 @@
         </div>
     </div>
 </div>
-@*<div class="pagination m-auto d-flex justify-content-center">
+<div class="pagination m-auto d-flex justify-content-center">
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
+            <li class="page-item @(activePages == 1 ? "disabled" : "")">
+                <a class="page-link" href="/Activity/Index/@(activePages - 1)" aria-label="Previous">
+                    <span aria-hidden="true">上一頁</span>
                 </a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+            @for(int i = 1; i <= pages; i++)
+            {
+                <li class="page-item @(i == activePages ? "active" : "")">
+                    <a class="page-link" href="/Activity/Index/@i">@i</a>
+                </li>
+            }
+            <li class="page-item @(activePages == pages ? "disabled" : "")">
+                <a class="page-link" href="/Activity/Index/@(activePages + 1)" aria-label="Next">
+                    <span aria-hidden="true">下一頁</span>
                 </a>
             </li>
         </ul>
     </nav>
-</div>*@
+</div>

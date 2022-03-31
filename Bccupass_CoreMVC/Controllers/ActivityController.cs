@@ -11,14 +11,36 @@ namespace Bccupass_CoreMVC.Controllers
     {
         private readonly IActivityService _activityService;
         private readonly IOrganizerService _organizerService;
+        private static int total;
         public ActivityController(IActivityService activityService, IOrganizerService organizerService)
         {
             _activityService = activityService;
             _organizerService = organizerService;
+            if(total == 0)
+            {
+                total = _activityService.GetAllActivity().Count();
+            }
         }
-        public IActionResult Index()
+        public IActionResult Index(int id=1)
         {
-            var activityList = _activityService.GetAllActivity().Select(x => new ActivityCardViewModel.ActivityCardData()
+
+            int activePage = id; // 目前在第幾頁
+            int pageRows = 3; // 一頁幾筆資料
+
+            // 計算頁數
+            int pages = 0;
+            if(total % pageRows == 0)
+            {
+                pages = total / pageRows;
+            }
+            else
+            {
+                pages = (total / pageRows) + 1;
+            }
+
+            int startRow = (activePage - 1) * pageRows; // 起始紀錄 Index
+
+            var activityList = _activityService.GetAllActivity().Skip(startRow).Take(pageRows).Select(x => new ActivityCardViewModel.ActivityCardData()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -35,6 +57,10 @@ namespace Bccupass_CoreMVC.Controllers
             {
                 ActivityList = activityList
             };
+
+            ViewData["ActivePage"] = id;
+            ViewData["Pages"] = pages;
+
             return View(res);
         }
         public IActionResult Detail(int id)
