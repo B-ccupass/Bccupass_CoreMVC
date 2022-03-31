@@ -73,7 +73,7 @@ namespace Bccupass_CoreMVC
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             endpoints.MapControllerRoute(
-                name: "default",
+                name: "activitydetail",
                 pattern: "Detail/{id?}",
                 defaults: new { controller = "Activity", action = "Detail" });
             });
