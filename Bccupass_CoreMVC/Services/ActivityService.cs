@@ -138,19 +138,25 @@ namespace Bccupass_CoreMVC.Services
 
         public IEnumerable<ActivityCardDto> GetNewestActivity()
         {
-            var target = _context.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime).Take(6);//抓最新的前6個(活動的篩選)
-            
-            //var target = _context.GetAll<Activity>();//假資料不夠多測試用
+            int takeNum = 6;//target抓多少筆
+            var target = _context.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime).Take(takeNum);//抓最新的前6個(活動的篩選)
+
+            if (target.Count() != takeNum)
+            {
+                target = _context.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime);
+            }
+
             return ActivityCardDtoResult(target);
         }
 
         public IEnumerable<ActivityCardDto> GetChosenActivity()
         {
+            int takeNum = 6;//target抓多少筆
             var userFollowing = _context.GetAll<UserFollowOrganizer>().GroupBy(x => x.OrganizerId).OrderByDescending(x => (x.Select(s => s.UserId).Count()));//追隨數前4名的主辦
             var ordId = userFollowing.Select(group => new { OrganizerId = group.Key }).ToList();
 
-            var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == ordId[0].OrganizerId).OrderByDescending(x => x.CreateTime).Take(6);
-            //var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == ordId[0].OrganizerId || x.OrganizerId == ordId[1].OrganizerId || x.OrganizerId == ordId[2].OrganizerId || x.OrganizerId == ordId[3].OrganizerId).OrderByDescending(x => x.CreateTime).Take(6);
+            var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == ordId[0].OrganizerId).OrderByDescending(x => x.CreateTime).Take(takeNum);
+            //var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == ordId[0].OrganizerId || x.OrganizerId == ordId[1].OrganizerId || x.OrganizerId == ordId[2].OrganizerId || x.OrganizerId == ordId[3].OrganizerId).OrderByDescending(x => x.CreateTime).Take(takeNum);
 
             //var target = _context.GetAll<Activity>();//假資料不夠多測試用
             return ActivityCardDtoResult(target);
