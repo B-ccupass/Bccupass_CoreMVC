@@ -729,6 +729,8 @@ namespace Bccupass_CoreMVC.Models.DBEntity
                 entity.Property(e => e.Relationship).HasComment("感情狀態(Enum 1:單身 2. 有穩定交往對象 3.已婚)");
 
                 entity.Property(e => e.Verification).HasComment("帳號驗證");
+
+                entity.Property(e => e.IsAdmin).IsRequired().HasComment("是否為管理員");
             });
 
             modelBuilder.Entity<UserFavorite>(entity =>
