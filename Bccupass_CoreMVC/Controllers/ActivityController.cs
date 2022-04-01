@@ -23,7 +23,6 @@ namespace Bccupass_CoreMVC.Controllers
         }
         public IActionResult Index(int id=1)
         {
-
             int activePage = id; // 目前在第幾頁
             int pageRows = 3; // 一頁幾筆資料
 

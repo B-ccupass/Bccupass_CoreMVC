@@ -3,6 +3,7 @@ using Bccupass_CoreMVC.Repositories;
 using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services;
 using Bccupass_CoreMVC.Services.Interface;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -43,6 +44,11 @@ namespace Bccupass_CoreMVC
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Bccupass"));
             });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
+            services.AddHttpContextAccessor();
+
             services.AddControllersWithViews();
         }
 
@@ -64,6 +70,7 @@ namespace Bccupass_CoreMVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
