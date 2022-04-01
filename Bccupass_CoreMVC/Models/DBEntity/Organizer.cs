@@ -10,6 +10,7 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public Organizer()
         {
             Activities = new HashSet<Activity>();
+            ActivityDrafts = new HashSet<ActivityDraft>();
             UserFollowOrganizers = new HashSet<UserFollowOrganizer>();
         }
 
@@ -29,6 +30,7 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public string OrganizerWebQuery { get; set; }
 
         public virtual ICollection<Activity> Activities { get; set; }
+        public virtual ICollection<ActivityDraft> ActivityDrafts { get; set; }
         public virtual ICollection<UserFollowOrganizer> UserFollowOrganizers { get; set; }
     }
 }
