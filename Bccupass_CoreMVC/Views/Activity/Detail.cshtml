@@ -74,11 +74,11 @@
         <p class="page-title">活動嘉賓</p>
         <ul class="guest-list list-unstyled d-flex flex-wrap justify-content-around justify-content-md-start">
             @foreach(var guest in @Model.GuestList){
-                <li class="guest me-md-5" data-bs-toggle="modal" data-bs-target="#guestModal">
+                <li class="guest me-md-5" data-bs-toggle="modal" data-bs-target="#guestModal-@guest.Id">
                     <div class="img-wrap mb-3" style="background-image:url(@guest.Photo);">
                     </div>
                     <h3 class="guest-name text-center">@guest.Name</h3>
-                    <div class="modal fade" id="guestModal" tabindex="-1" aria-labelledby="guestModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="guestModal-@guest.Id" tabindex="-1" aria-labelledby="guestModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content p-3">
                                 <div class="modal-body">
