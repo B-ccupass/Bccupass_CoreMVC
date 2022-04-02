@@ -9,7 +9,7 @@ namespace Bccupass_CoreMVC.Models.DTO.Account
     {
         public bool IsSuccess { get; set; }
         public string Message { get; set; }
-        public UserData User { get; set; }  //傳回註冊好的那些基本資訊
+        public UserData User { get; set; } = new UserData();  //傳回註冊好的那些基本資訊
 
         public class UserData
         {

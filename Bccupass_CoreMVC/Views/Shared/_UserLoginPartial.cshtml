@@ -1,0 +1,60 @@
+﻿@{
+    var isLogin = User.Identity.IsAuthenticated;
+}
+
+@section Topcss {
+    <link rel="stylesheet" href="~/css/Activity/Detail.css" />
+    <link rel="stylesheet" href="~/css/layout/layout.css">
+    <link rel="stylesheet" href="~/css/layout/Login.css" />
+}
+
+
+@if (isLogin)
+{
+    <div class="nav-item">
+        @{
+            var userImage = User.Claims.FirstOrDefault(x => x.Type == "UserImage");
+            if (userImage != null)
+            {
+                <div style="width: 100%; height: 100%">
+                    <img class="img-wrap m-auto" src="@userImage.Value" style="width: 50px; height: 50px; border-radius: 50px" />
+                </div>
+            }
+        }
+    </div>
+    
+    <a class="nav-link text-dark" href="/Account/Logout">登出</a>
+
+    @*<div id="user-Img" class="d-flex">
+            <ul>
+                <li class="nav-item d-flex align-items-center">
+                    <a class="nav-link text-dark" href="/Account/Logout">登出</a>
+                </li>
+            </ul>
+        </div>*@
+}
+else
+{
+    <div class="d-flex">
+        <button type="button" class="nav-link bg-transparent border border-transparent border-0" data-bs-toggle="modal" data-bs-target="#loginModal">登入</button>
+    </div>
+    <div class="d-flex">
+        <button type="button" class="nav-link bg-transparent border border-transparent border-0" data-bs-toggle="modal" data-bs-target="#signUpModal">註冊</button>
+    </div>
+}
+@*<div id="user-info" class="d-flex">
+        <ul>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="/Account/Signup">註冊</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="/Account/Login">登入</a>
+            </li>
+        </ul>
+    </div>*@
+
+@*var userName = User.Claims.FirstOrDefault(x => x.Type == "UserName");
+    if (userName != null)
+    {
+        <span>@userName.Value,您好</span>
+    }*@

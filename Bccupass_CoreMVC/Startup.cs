@@ -3,6 +3,7 @@ using Bccupass_CoreMVC.Repositories;
 using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services;
 using Bccupass_CoreMVC.Services.Interface;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,10 +34,21 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IActivityRepository, ActivityRepository>();
             services.AddTransient<IOrganizerRepository, OrganizerRepository>();
             services.AddTransient<ITicketRepository, TicketRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
 
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IOrganizerService, OrganizerService>();
             services.AddTransient<ITicketService, TicketService>();
+            services.AddTransient<IAccountService, AccountService>();
+
+
+
+            //註冊Service要用的HttpContext
+            services.AddHttpContextAccessor();
+
+            //設定驗證方式
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
 
 
             services.AddDbContext<BccupassDBContext>(options =>
@@ -63,6 +75,8 @@ namespace Bccupass_CoreMVC
             app.UseStaticFiles();
 
             app.UseRouting();
+            
+            app.UseAuthentication();//驗證
 
             app.UseAuthorization();
 
