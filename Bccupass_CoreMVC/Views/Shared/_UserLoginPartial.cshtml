@@ -24,14 +24,6 @@
     </div>
     
     <a class="nav-link text-dark" href="/Account/Logout">登出</a>
-
-    @*<div id="user-Img" class="d-flex">
-            <ul>
-                <li class="nav-item d-flex align-items-center">
-                    <a class="nav-link text-dark" href="/Account/Logout">登出</a>
-                </li>
-            </ul>
-        </div>*@
 }
 else
 {
@@ -42,19 +34,3 @@ else
         <button type="button" class="nav-link bg-transparent border border-transparent border-0" data-bs-toggle="modal" data-bs-target="#signUpModal">註冊</button>
     </div>
 }
-@*<div id="user-info" class="d-flex">
-        <ul>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/Account/Signup">註冊</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/Account/Login">登入</a>
-            </li>
-        </ul>
-    </div>*@
-
-@*var userName = User.Claims.FirstOrDefault(x => x.Type == "UserName");
-    if (userName != null)
-    {
-        <span>@userName.Value,您好</span>
-    }*@
