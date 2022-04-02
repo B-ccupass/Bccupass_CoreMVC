@@ -1,5 +1,6 @@
 ﻿using Bccupass_CoreMVC.Models.DBEntity;
 using Bccupass_CoreMVC.Models.DTO.Activity;
+using Bccupass_CoreMVC.Models.DTO.CreateActivity;
 using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services.Interface;
 using System.Collections.Generic;
@@ -9,15 +10,18 @@ namespace Bccupass_CoreMVC.Services
 {
     public class ActivityService : IActivityService
     {
-        private readonly IActivityRepository _context;
-        public ActivityService(IActivityRepository context)
+        private readonly IActivityRepository _activity;
+        private readonly IActivityDraftRepository _activityDraft;
+
+        public ActivityService(IActivityRepository activity, IActivityDraftRepository activityDraft)
         {
-            _context = context;
+            _activity = activity;
+            _activityDraft = activityDraft;
         }
 
         public IEnumerable<ActivityCardDto> GetAllActivity()
         {
-            var target = _context.GetAll<Activity>();
+            var target = _activity.GetAll<Activity>();
             return ActivityCardDtoResult(target);
         }
 
@@ -39,7 +43,7 @@ namespace Bccupass_CoreMVC.Services
         #region 活動內頁所需資料
         private ActivityDetailDto.ActivityData GetActivity(int activityId)
         {
-            var resource = _context.GetAll<Activity>().First(x => x.ActivityId == activityId);
+            var resource = _activity.GetAll<Activity>().First(x => x.ActivityId == activityId);
             return new ActivityDetailDto.ActivityData()
             {
                 Id = resource.ActivityId,
@@ -62,10 +66,10 @@ namespace Bccupass_CoreMVC.Services
 
         private ActivityDetailDto.CategoriesData GetCategoriesByActivityId(int activityId)
         {
-            var activity = _context.GetAll<Activity>().First(x => x.ActivityId == activityId); ;
-            var mainTheme = _context.GetAll<ActivityTheme>().First(x => x.ActivityThemeId == activity.ActivityPrimaryThemeId);
-            var secondTheme = _context.GetAll<ActivityTheme>().First(x => x.ActivityThemeId == activity.ActivitySecondThemeId);
-            var type = _context.GetAll<ActivityType>().First(x => x.ActivityTypeId == activity.ActivityTypeId);
+            var activity = _activity.GetAll<Activity>().First(x => x.ActivityId == activityId); ;
+            var mainTheme = _activity.GetAll<ActivityTheme>().First(x => x.ActivityThemeId == activity.ActivityPrimaryThemeId);
+            var secondTheme = _activity.GetAll<ActivityTheme>().First(x => x.ActivityThemeId == activity.ActivitySecondThemeId);
+            var type = _activity.GetAll<ActivityType>().First(x => x.ActivityTypeId == activity.ActivityTypeId);
 
             return new ActivityDetailDto.CategoriesData()
             {
@@ -77,9 +81,9 @@ namespace Bccupass_CoreMVC.Services
 
         private IEnumerable<ActivityDetailDto.TagData> GetTagsByActivityId(int activityId)
         {
-            var res = _context.GetAll<ActivityTag>().Where(x => x.ActivityId == activityId).Select(x => x.TagId);
+            var res = _activity.GetAll<ActivityTag>().Where(x => x.ActivityId == activityId).Select(x => x.TagId);
             
-            return _context.GetAll<Tag>().Where(x => res.Any(y => y == x.TagId)).Select(x => new ActivityDetailDto.TagData()
+            return _activity.GetAll<Tag>().Where(x => res.Any(y => y == x.TagId)).Select(x => new ActivityDetailDto.TagData()
             {
                 TagId = x.TagId,
                 TagName = x.TagName,
@@ -88,11 +92,11 @@ namespace Bccupass_CoreMVC.Services
 
         private IEnumerable<ActivityDetailDto.CommentData> GetCommentsByActivityId(int activityId)
         {
-            return _context.GetAll<Comment>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.CommentData()
+            return _activity.GetAll<Comment>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.CommentData()
             {
                 UserId = x.UserId,
-                UserImage = (_context.GetAll<User>().First(y => y.UserId == x.UserId)).Photo,
-                UserName = (_context.GetAll<User>().First(y => y.UserId == x.UserId)).DisplayName,
+                UserImage = (_activity.GetAll<User>().First(y => y.UserId == x.UserId)).Photo,
+                UserName = (_activity.GetAll<User>().First(y => y.UserId == x.UserId)).DisplayName,
                 BuildTime = x.BuildTime,
                 Comment = x.Comment1,
                 StarRank = x.StarRank
@@ -101,7 +105,7 @@ namespace Bccupass_CoreMVC.Services
 
         private IEnumerable<ActivityDetailDto.GuestData> GetGuestsByActivityId(int activityId)
         {
-            return _context.GetAll<Guest>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.GuestData()
+            return _activity.GetAll<Guest>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.GuestData()
             {
                 Id = x.GuestId,
                 Name = x.Name,
@@ -114,7 +118,7 @@ namespace Bccupass_CoreMVC.Services
 
         private IEnumerable<ActivityDetailDto.QaData> GetQasByActivityId(int activityId)
         {
-            return _context.GetAll<Qa>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.QaData()
+            return _activity.GetAll<Qa>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.QaData()
             {
                 Id = x.QaId,
                 Question = x.Question,
@@ -125,7 +129,7 @@ namespace Bccupass_CoreMVC.Services
 
         private IEnumerable<ActivityDetailDto.AnnounceData> GetAnnouncesByActivityId(int activityId)
         {
-            return _context.GetAll<ActivityAnnouncement>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.AnnounceData()
+            return _activity.GetAll<ActivityAnnouncement>().Where(x => x.ActivityId == activityId).Select(x => new ActivityDetailDto.AnnounceData()
             {
                 AnnouncementId = x.ActivityAnnouncementId,
                 Sort = x.AnnouncementOrder,
@@ -136,14 +140,16 @@ namespace Bccupass_CoreMVC.Services
 
         #endregion
 
+
+        #region 活動卡牌模組
         public IEnumerable<ActivityCardDto> GetNewestActivity()
         {
             int takeNum = 6;//target抓多少筆
-            var target = _context.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime).Take(takeNum);//抓最新的前6個(活動的篩選)
+            var target = _activity.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime).Take(takeNum);//抓最新的前6個(活動的篩選)
 
             if (target.Count() != takeNum)
             {
-                target = _context.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime);
+                target = _activity.GetAll<Activity>().Where(x => x.ActivityState == 1).OrderByDescending(x => x.CreateTime);
             }
 
             return ActivityCardDtoResult(target);
@@ -152,10 +158,10 @@ namespace Bccupass_CoreMVC.Services
         public IEnumerable<ActivityCardDto> GetChosenActivity()
         {
             int takeNum = 6;//target抓多少筆
-            var userFollowing = _context.GetAll<UserFollowOrganizer>().GroupBy(x => x.OrganizerId).OrderByDescending(x => (x.Select(s => s.UserId).Count()));//追隨數前4名的主辦
+            var userFollowing = _activity.GetAll<UserFollowOrganizer>().GroupBy(x => x.OrganizerId).OrderByDescending(x => (x.Select(s => s.UserId).Count()));//追隨數前4名的主辦
             var ordId = userFollowing.Select(group => new { OrganizerId = group.Key }).ToList();
 
-            var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == ordId[0].OrganizerId).OrderByDescending(x => x.CreateTime).Take(takeNum);
+            var target = _activity.GetAll<Activity>().Where(x => x.OrganizerId == ordId[0].OrganizerId).OrderByDescending(x => x.CreateTime).Take(takeNum);
             //var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == ordId[0].OrganizerId || x.OrganizerId == ordId[1].OrganizerId || x.OrganizerId == ordId[2].OrganizerId || x.OrganizerId == ordId[3].OrganizerId).OrderByDescending(x => x.CreateTime).Take(takeNum);
 
             //var target = _context.GetAll<Activity>();//假資料不夠多測試用
@@ -164,34 +170,16 @@ namespace Bccupass_CoreMVC.Services
 
         public IEnumerable<ActivityCardDto> GetOrganizerActivity(int organzierId)
         {
-            var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == organzierId && x.ActivityState == 1);
+            var target = _activity.GetAll<Activity>().Where(x => x.OrganizerId == organzierId && x.ActivityState == 1);
 
             return ActivityCardDtoResult(target);
         }
 
-        public ActivityBuyTicketDto GetActivityById(int activityId)
-        {
-            var target = _context.GetAll<Activity>().FirstOrDefault(x => x.ActivityId == activityId);
-            var result = new ActivityBuyTicketDto()
-            {
-                Id = target.ActivityId,
-                Name = target.Name,
-                Image = target.Image,
-                StartTime = target.StartTime,
-                EndTime = target.EndTime,
-                City = target.City,
-                District = target.District,
-                Address = target.Address
-            };
-
-            return result;
-        }
-
         private IEnumerable<ActivityCardDto> ActivityCardDtoResult(IQueryable<Activity> target)
         {
-            var theme = _context.GetAll<ActivityTheme>();//主題
-            var ticket = _context.GetAll<TicketDatail>();//票卷
-            var favorite = _context.GetAll<UserFavorite>();//喜歡
+            var theme = _activity.GetAll<ActivityTheme>();//主題
+            var ticket = _activity.GetAll<TicketDatail>();//票卷
+            var favorite = _activity.GetAll<UserFavorite>();//喜歡
 
             var result = target.Select(x => new ActivityCardDto()
             {
@@ -208,5 +196,27 @@ namespace Bccupass_CoreMVC.Services
 
             return result;
         }
+        #endregion
+
+
+        public ActivityBuyTicketDto GetActivityById(int activityId)
+        {
+            var target = _activity.GetAll<Activity>().FirstOrDefault(x => x.ActivityId == activityId);
+            var result = new ActivityBuyTicketDto()
+            {
+                Id = target.ActivityId,
+                Name = target.Name,
+                Image = target.Image,
+                StartTime = target.StartTime,
+                EndTime = target.EndTime,
+                City = target.City,
+                District = target.District,
+                Address = target.Address
+            };
+
+            return result;
+        }
+
+        
     }
 }

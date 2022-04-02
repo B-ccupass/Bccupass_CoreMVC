@@ -5,7 +5,7 @@
 }
 <div class="container-md m-auto bg-white container-style">
     <div class="activity m-auto p-5">
-            <form method="post" action="/CreateActivity/Description">  
+            @*<form method="post" action="/CreateActivity/Description">  *@
             <input type="hidden" asp-for="activityDraftId" />
             <div class="col-12 border-bottom">
                 <div class="fw-bold mb-5 text-center">詳細介紹你的活動內容，讓參加者了解活動且提高參加意願！</div>
@@ -35,7 +35,7 @@
             <div class="mt-3 mb-5">
                 <button id="formBtn" class="btn btn-success w-100">儲存變更</button>
             </div>
-           </form>       
+           @*</form> *@      
     </div>
             
 </div>
@@ -58,7 +58,8 @@
                         '#editor'))
                 .then(editor=>{
                     console.log(editor);
-                    editor.setData(@Model.ActivityContent)
+                    console.log(@Model.ActivityContent);
+                    editor.setData(`@Model.ActivityContent`)
                     editorContain = editor
                 })
                 .catch(error=>{
