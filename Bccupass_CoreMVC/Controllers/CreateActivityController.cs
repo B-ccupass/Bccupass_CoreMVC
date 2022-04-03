@@ -20,28 +20,45 @@ namespace Bccupass_CoreMVC.Controllers
         public IActionResult Description(int id)
         {
             var inputDto = _activityDraftservice.GetActivityDraftDes(id);
-            var json = (JObject)JsonConvert.DeserializeObject(inputDto.ActivityContent);
-            var resultVM = new CreateDesViewModel()
+
+            var resultVM = new CreateDesViewModel();
+            if (inputDto.ActivityContent == null)
             {
-                activityDraftId = inputDto.activityDraftId,
-                ActivityInfo = json["ActivityInfo"].Value<string>(),
-                ActivityContent = json["ActivityContent"].Value<string>(),
-                ActivityNotice = json["ActivityNotice"].Value<string>()
-            };
+                resultVM = new CreateDesViewModel()
+                {
+                    activityDraftId = inputDto.activityDraftId,
+                    ActivityInfo = "",
+                    ActivityContent = "",
+                    ActivityNotice = ""
+                };
+            }
+            else
+            {
+                var json = (JObject)JsonConvert.DeserializeObject(inputDto.ActivityContent);
+                resultVM = new CreateDesViewModel()
+                {
+                    activityDraftId = inputDto.activityDraftId,
+                    ActivityInfo = json["ActivityInfo"].Value<string>(),
+                    ActivityContent = json["ActivityContent"].Value<string>(),
+                    ActivityNotice = json["ActivityNotice"].Value<string>()
+                };
+            }
+
+            
 
             return View(resultVM);
         }
         [HttpPost]
-        public IActionResult Description(int activityDraftId, string request)
+        public IActionResult Description(int activityDraftId, CreateDesViewModel request)
         {
             var inputDto = new CreateDesDto()
             {
                 activityDraftId = activityDraftId,
-                ActivityContent = request
+                ActivityContent = JsonConvert.SerializeObject(request),
             };
             _activityDraftservice.EditActivityDes(inputDto);
 
-            return View();
+            return RedirectToAction("Description");
         }
     }
 }

@@ -5,7 +5,7 @@
 }
 <div class="container-md m-auto bg-white container-style">
     <div class="activity m-auto p-5">
-            @*<form method="post" action="/CreateActivity/Description">  *@
+            <form method="post" action="/CreateActivity/Description/1">  
             <input type="hidden" asp-for="activityDraftId" />
             <div class="col-12 border-bottom">
                 <div class="fw-bold mb-5 text-center">詳細介紹你的活動內容，讓參加者了解活動且提高參加意願！</div>
@@ -13,21 +13,21 @@
                 <div class="activity-area" >
                     <p class="fw-bold">活動摘要<span>*</span></p>
                     <span>不能錯過本活動的理由！這段文字將會做為Google搜尋的簡介說明，正確的描述有助於提高消費者的興趣。</span>
-                    <textarea style="resize:none;" class="w-100 activity-area" name="" id="info" rows="4">@Model.ActivityInfo</textarea>
+                    <textarea style="resize:none;" class="w-100 activity-area" name="ActivityInfo" id="info" rows="4">@Model.ActivityInfo</textarea>
                     <p style="float: right;">0/500</p>
                 </div>
 
                 <div class="activity-area" >
                     <p class="fw-bold">活動簡介<span>*</span></p>
                     <span>若你的活動為收費活動，為避免消費爭議，請於活動內容中加上主辦是否開立發票之相關說明。</span>
-                    <textarea id="editor" class="w-100 activity-area" rows="4" style="height: 500px;"></textarea>
+                    <textarea id="editor" class="w-100 activity-area" rows="4" style="height: 500px;" name="ActivityContent"></textarea>
                 
                 </div>
 
                 <div class="activity-area" >
                     <p class="fw-bold">注意事項<span>*</span></p>
                     <span>本段文字會顯示在電子票券上，可以在這邊提示關於入場的重要資訊。</span>
-                    <textarea style="resize:none;" class="w-100 activity-area" name="" id="notice" rows="4">@Model.ActivityNotice</textarea>
+                    <textarea style="resize:none;" class="w-100 activity-area" name="ActivityNotice" id="notice" rows="4">@Model.ActivityNotice</textarea>
                     <p style="float: right;">0/500</p>
                 </div>
             </div>
@@ -35,12 +35,12 @@
             <div class="mt-3 mb-5">
                 <button id="formBtn" class="btn btn-success w-100">儲存變更</button>
             </div>
-           @*</form> *@      
+           </form>       
     </div>
             
 </div>
 
-@section endJS{
+@section endJS {
     <!-- CKEditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
 
@@ -48,24 +48,24 @@
         const activityInfo = document.getElementById('info')
         const activityNotice = document.getElementById('notice')
         const formBtn = document.getElementById('formBtn')
-
+        
         var editorContain
         
-
         //建立文字編輯器
         ClassicEditor
                 .create(document.querySelector( 
                         '#editor'))
                 .then(editor=>{
                     console.log(editor);
-                    console.log(@Model.ActivityContent);
-                    editor.setData(`@Model.ActivityContent`)
                     editorContain = editor
+                    
+                    editor.setData(`@Model.ActivityContent`)
                 })
                 .catch(error=>{
                     console.error(error);
                 });
-                
+
+        //設定文字編輯器內容       
         
         formBtn.onclick = function(){
             let data = {
