@@ -6,5 +6,7 @@ namespace Bccupass_CoreMVC.Services.Interface
     {
         public void EditActivityDes(CreateDesDto request);
         public CreateDesDto GetActivityDraftDes(int? id);
+        public CreateGuestDto GetActivityDraftGuest(int? id);
+        public void EditActivityGuest(CreateGuestDto request);
     }
 }

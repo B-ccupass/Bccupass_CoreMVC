@@ -6,7 +6,7 @@
 <div class="container-md m-auto bg-white container-style">
     <div class="activity m-auto p-5">
             <form method="post" action="/CreateActivity/Description/1">  
-            <input type="hidden" asp-for="activityDraftId" />
+            <input type="hidden" asp-for="ActivityDraftId" />
             <div class="col-12 border-bottom">
                 <div class="fw-bold mb-5 text-center">詳細介紹你的活動內容，讓參加者了解活動且提高參加意願！</div>
 
@@ -20,7 +20,7 @@
                 <div class="activity-area" >
                     <p class="fw-bold">活動簡介<span>*</span></p>
                     <span>若你的活動為收費活動，為避免消費爭議，請於活動內容中加上主辦是否開立發票之相關說明。</span>
-                    <textarea id="editor" class="w-100 activity-area" rows="4" style="height: 500px;" name="ActivityContent"></textarea>
+                    <textarea id="editor" class="w-100 activity-area ckeditor" rows="4" style="height: 500px;" name="ActivityContent">@Model.ActivityContent</textarea>
                 
                 </div>
 
@@ -42,39 +42,23 @@
 
 @section endJS {
     <!-- CKEditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
+    <script src="/lib/ckeditor/ckeditor.js"></script>
 
     <script>
-        const activityInfo = document.getElementById('info')
-        const activityNotice = document.getElementById('notice')
-        const formBtn = document.getElementById('formBtn')
-        
-        var editorContain
-        
         //建立文字編輯器
+
         ClassicEditor
-                .create(document.querySelector( 
-                        '#editor'))
-                .then(editor=>{
-                    console.log(editor);
-                    editorContain = editor
-                    
-                    editor.setData(`@Model.ActivityContent`)
-                })
-                .catch(error=>{
-                    console.error(error);
-                });
+		.create( document.querySelector( '#editor' ), {
+			// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+		} )
+		.then( editor => {
+			window.editor = editor;
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
 
-        //設定文字編輯器內容       
         
-        formBtn.onclick = function(){
-            let data = {
-                ActivityInfo : activityInfo.value,
-                ActivityContain : editorContain.getData(),
-                ActivityNotice : activityNotice.value
-            }
-
-            console.log(JSON.stringify(data))
-        }
+    
      </script>
 }

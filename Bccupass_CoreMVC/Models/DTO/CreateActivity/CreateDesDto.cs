@@ -2,7 +2,7 @@
 {
     public class CreateDesDto
     {
-        public int activityDraftId { get; set; }
+        public int ActivityDraftId { get; set; }
         public string ActivityContent { get; set; }
     }
 }

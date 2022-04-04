@@ -21,7 +21,7 @@ namespace Bccupass_CoreMVC.Services
             var target =  _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
             var result = new CreateDesDto()
             {
-                activityDraftId = target.ActivityDraftId,
+                ActivityDraftId = target.ActivityDraftId,
                 ActivityContent = target.ActivityContent
             };
 
@@ -29,8 +29,27 @@ namespace Bccupass_CoreMVC.Services
         }
         public void EditActivityDes(CreateDesDto request)
         {
-            var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.activityDraftId);
+            var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.ActivityDraftId);
             target.ActivityContent = request.ActivityContent;
+            _activityDraft.Update(target);
+            _activityDraft.Save();
+        }
+
+        public CreateGuestDto GetActivityDraftGuest(int? id)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
+            var result = new CreateGuestDto()
+            {
+                ActivityDraftId = target.ActivityDraftId,
+                ActivityGuests = target.ActivityGuests
+            };
+
+            return result;
+        }
+        public void EditActivityGuest(CreateGuestDto request)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.ActivityDraftId);
+            target.ActivityGuests = request.ActivityGuests;
             _activityDraft.Update(target);
             _activityDraft.Save();
         }
