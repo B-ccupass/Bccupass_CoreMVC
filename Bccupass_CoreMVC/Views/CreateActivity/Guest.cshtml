@@ -105,6 +105,8 @@
 </div>
 
 @section endJS {
+    
+    
     <script>
        
 
@@ -114,22 +116,7 @@
         const formBtn = document.getElementById('formBtn')
 
         let dataArray = []
-
-        window.onload = function(){
-            let data = {
-                ActivityDraftId: @ViewData["ActivityDraftId"],
-                //GuestImage: guest_img.src,
-                GuestName: guest_name.value,
-                GuestJob: guest_job.value,
-                GuestCompany: guest_company.value,
-                GuestInfo: guest_info.value,
-                GuestWeb: guest_web.value
-            }
-
-            dataArray.push(data)
-        }
-
-
+        let data
 
         function makeJson(id){
 
@@ -163,7 +150,7 @@
             
 
 
-            let data = {
+            data = {
                 ActivityDraftId: @ViewData["ActivityDraftId"],
                 //GuestImage: guest_img.src,
                 GuestName: guest_name.value,
@@ -211,4 +198,20 @@
         
         
     </script>
+
+    @foreach(var item in Model){
+        <script type="text/javascript">
+            data = {
+                ActivityDraftId: @item.ActivityDraftId,
+                GuestImage: "" @*@item.GuestImg*@,
+                GuestName: `@item.GuestName`,
+                GuestJob: `@item.GuestJob`,
+                GuestCompany: `@item.GuestCompany`,
+                GuestInfo: `@item.GuestInfo`,
+                GuestWeb: `@item.GuestWeb`
+            }
+
+            dataArray.push(data)
+        </script>
+    }
 }

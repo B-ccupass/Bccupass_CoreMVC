@@ -7,8 +7,7 @@
         public string GuestImg { get; set; }
         public string GuestJob { get; set; }
         public string GuestCompany { get; set; }
-        public string GuestDetail { get; set; }
-        public string GuestNotice { get; set; }
+        public string GuestInfo { get; set; }
         public string GuestWeb { get; set; }
         //public string 
     }

@@ -78,8 +78,7 @@ namespace Bccupass_CoreMVC.Controllers
                     GuestImg = "https://static.accupass.com/frontend/image/eventedit/organizer/organizer_avatar_placeholder.svg",
                     GuestJob = "",
                     GuestCompany = "",
-                    GuestDetail = "",
-                    GuestNotice = "",
+                    GuestInfo = "",
                     GuestWeb = ""
                 });
             }
