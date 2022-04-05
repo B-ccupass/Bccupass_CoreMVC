@@ -19,30 +19,14 @@ namespace Bccupass_CoreMVC.Controllers
     public class HomeController : Controller
     {
         private readonly IActivityService _activityCardService;
-        private readonly IHttpContextAccessor _contextAccessor;
 
-        public HomeController(IActivityService activityCardService, IHttpContextAccessor httpContextAccessor)
+        public HomeController(IActivityService activityCardService)
         {
             _activityCardService = activityCardService;
-            _contextAccessor = httpContextAccessor;
         }
 
         public IActionResult Index()
         {
-            #region FakeUserCookie
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, "1"),
-            };
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            _contextAccessor.HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
-
-            // var userId = int.Parse(User.Identity.Name); -> 抓 cookie 裡的 userId
-
-            #endregion
-
             var activityCardViewModel = _activityCardService.GetNewestActivity().Select(x => new ActivityCardViewModel.ActivityCardData()
             {
                 Id = x.Id,
