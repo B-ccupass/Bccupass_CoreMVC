@@ -33,7 +33,7 @@
         <div class="activity-tab my-3">
             <ul class="nav nav-tabs container">
                 <li class="nav-item" role="presentation">
-                    <a href="/Activity/Index/1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.Inprogress ? "active" : "")" id="inProgress-tab" @*data-bs-toggle="tab" data-bs-target="#inProgress"*@ role="tab" aria-controls="inProgress" aria-selected="true">進行中</a>
+                    <a href="/Activity/InProgress/1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.Inprogress ? "active" : "")" id="inProgress-tab" @*data-bs-toggle="tab" data-bs-target="#inProgress"*@ role="tab" aria-controls="inProgress" aria-selected="true">進行中</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a href="/Activity/NotStart/1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.NotStart ? "active" : "")" id="notStart-tab" @*data-bs-toggle="tab" data-bs-target="#notStart"*@ role="tab" aria-controls="notStart" aria-selected="false">尚未開始</a>

@@ -19,14 +19,14 @@ namespace Bccupass_CoreMVC.Controllers
             _activityService = activityService;
             _organizerService = organizerService;
         }
-        public IActionResult Index(int id=1)
+        public IActionResult InProgress(int id=1)
         {
             var pageObj = new Pagination
             {
                 Total = _activityService.GetAllActivityGroupByTime().InProgress.Count(),
                 //Total = _activityService.GetAllActivity().Count(),
                 ActivePage = id,
-                ActionUrl = "/Activity/Index",
+                ActionUrl = "/Activity/InProgress",
             };
 
             var inProgress = _activityService.GetAllActivityGroupByTime().InProgress.Skip(pageObj.StartRow).Take(pageObj.PageRows).Select(x => new ActivityCardViewModel.ActivityCardData()
@@ -49,7 +49,7 @@ namespace Bccupass_CoreMVC.Controllers
                 ActivityStateByTime = (int)ActivityStateByTime.Inprogress
             };
 
-            return View(res);
+            return View("Index", res);
         }
         public IActionResult End(int id = 1)
         {
