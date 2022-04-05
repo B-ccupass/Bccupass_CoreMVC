@@ -12,5 +12,6 @@ namespace Bccupass_CoreMVC.Services.Interface
         public IEnumerable<ActivityCardDto> GetOrganizerActivity(int organzierId);
         public ActivityBuyTicketDto GetActivityById(int activityId);
         public ActivityDetailDto GetActivityDetail(int id);
+        public ActivityCardGroupByTimeDto GetAllActivityGroupByTime();
     }
 }

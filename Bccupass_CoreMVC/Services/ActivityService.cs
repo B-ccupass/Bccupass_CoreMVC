@@ -2,6 +2,7 @@
 using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -178,6 +179,22 @@ namespace Bccupass_CoreMVC.Services
             };
 
             return result;
+        }
+
+        public ActivityCardGroupByTimeDto GetAllActivityGroupByTime()
+        {
+            var allActivity = _context.GetAll<Activity>();
+            DateTime now = DateTime.Now;
+            var inProgress = allActivity.Where(x => x.StartTime <= now && x.EndTime >= now);
+            var notStart = allActivity.Where(x => x.StartTime > now);
+            var end = allActivity.Where(x => x.EndTime < now);
+
+            return new ActivityCardGroupByTimeDto
+            {
+                NotStart = ActivityCardDtoResult(notStart),
+                InProgress = ActivityCardDtoResult(inProgress),
+                End = ActivityCardDtoResult(end)
+            };
         }
 
         private IEnumerable<ActivityCardDto> ActivityCardDtoResult(IQueryable<Activity> target)

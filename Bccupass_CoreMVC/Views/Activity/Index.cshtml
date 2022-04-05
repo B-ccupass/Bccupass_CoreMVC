@@ -1,14 +1,9 @@
-﻿@using Bccupass_CoreMVC.Models.ViewModel.Activity
+﻿@using Bccupass_CoreMVC.Common.Enum
+@using Bccupass_CoreMVC.Models.ViewModel.Activity
 @model ActivityIndexViewModel
-@{
-    int activePages = (int)ViewData["ActivePage"];
-    int pages = (int)ViewData["Pages"];
-}
 @section Topcss {
     <link rel="stylesheet" href="~/css/Activity/Index.css" />
 }
-
-<h1>userId: @ViewData["userId"]</h1>
 
 <div class="search-result bg-white p-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
     <div class="container">
@@ -38,13 +33,13 @@
         <div class="activity-tab my-3">
             <ul class="nav nav-tabs container">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">進行中</button>
+                    <a href="/Activity/Index/1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.Inprogress ? "active" : "")" id="inProgress-tab" @*data-bs-toggle="tab" data-bs-target="#inProgress"*@ role="tab" aria-controls="inProgress" aria-selected="true">進行中</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">尚未開始</button>
+                    <a href="/Activity/NotStart/1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.NotStart ? "active" : "")" id="notStart-tab" @*data-bs-toggle="tab" data-bs-target="#notStart"*@ role="tab" aria-controls="notStart" aria-selected="false">尚未開始</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">已結束</button>
+                    <a href="/Activity/End/1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.End ? "active" : "")" id="end-tab" @*data-bs-toggle="tab" data-bs-target="#end"*@ role="tab" aria-controls="end" aria-selected="false">已結束</a>
                 </li>
             </ul>
             <div class="sort d-flex my-3 container">
@@ -53,56 +48,52 @@
                 <button class="sort-btn px-3 py-1 m-1" id="sort-by-like">依收藏數排序</button>
             </div>
             <div class="tab-content container" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="tab-pane fade @(Model.ActivityStateByTime == (int)ActivityStateByTime.Inprogress ? "show active" : "")" id="inProgress" role="tabpanel" aria-labelledby="inProgress-tab">
                     <div class="row">
-                        @foreach(var item in Model.ActivityList){
-                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                @await Html.PartialAsync("_activityCardPartial", item)
-                            </div>
+                        @if(@Model.pageInfo.Total == 0)
+                        {
+                            @await Html.PartialAsync("_EmptyResultPartial")
+                        }else{
+                            @foreach(var item in Model.ActivityList){
+                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                    @await Html.PartialAsync("_activityCardPartial", item)
+                                </div>
+                            }
+                            @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
                         }
                     </div>
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="tab-pane fade @(Model.ActivityStateByTime == (int)ActivityStateByTime.NotStart ? "show active" : "")" id="notStart" role="tabpanel" aria-labelledby="notStart-tab">
                     <div class="row">
-                        @foreach(var item in Model.ActivityList){
-                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                @await Html.PartialAsync("_activityCardPartial", item)
-                            </div>
+                        @if(@Model.pageInfo.Total == 0)
+                        {
+                            @await Html.PartialAsync("_EmptyResultPartial")
+                        }else{
+                            @foreach(var item in Model.ActivityList){
+                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                    @await Html.PartialAsync("_activityCardPartial", item)
+                                </div>
+                            }
+                            @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
                         }
                     </div>
                 </div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="tab-pane fade @(Model.ActivityStateByTime == (int)ActivityStateByTime.End ? "show active" : "")" id="end" role="tabpanel" aria-labelledby="end-tab">
                     <div class="row">
-                        @foreach(var item in Model.ActivityList){
-                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                @await Html.PartialAsync("_activityCardPartial", item)
-                            </div>
+                        @if(@Model.pageInfo.Total == 0)
+                        {
+                            @await Html.PartialAsync("_EmptyResultPartial")
+                        }else{
+                            @foreach(var item in Model.ActivityList){
+                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                    @await Html.PartialAsync("_activityCardPartial", item)
+                                </div>
+                            }
+                            @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
                         }
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="pagination m-auto d-flex justify-content-center">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item @(activePages == 1 ? "disabled" : "")">
-                <a class="page-link" href="/Activity/Index/@(activePages - 1)" aria-label="Previous">
-                    <span aria-hidden="true">上一頁</span>
-                </a>
-            </li>
-            @for(int i = 1; i <= pages; i++)
-            {
-                <li class="page-item @(i == activePages ? "active" : "")">
-                    <a class="page-link" href="/Activity/Index/@i">@i</a>
-                </li>
-            }
-            <li class="page-item @(activePages == pages ? "disabled" : "")">
-                <a class="page-link" href="/Activity/Index/@(activePages + 1)" aria-label="Next">
-                    <span aria-hidden="true">下一頁</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
 </div>
