@@ -17,12 +17,12 @@
             if (userImage != null)
             {
                 <div style="width: 100%; height: 100%">
-                    <img class="img-wrap m-auto" src="@userImage.Value" style="width: 50px; height: 50px; border-radius: 50px" />
+                    <img class="img-wrap m-auto" src="@userImage.Value" style="width: 50px; height: 50px; border-radius: 50px" alt="使用者頭貼"/>
                 </div>
             }else{ 
                     
                 <div style="width: 100%; height: 100%">
-                    <img class="img-wrap m-auto" src="https://i.blogs.es/c4a662/chrome/840_560.jpg" style="width: 50px; height: 50px; border-radius: 50px" />
+                    <img class="img-wrap m-auto" src="@Url.Action("https://i.blogs.es/c4a662/chrome/840_560.jpg")" style="width: 50px; height: 50px; border-radius: 50px" alt="使用者頭貼" />
                 </div>  
             }
         }

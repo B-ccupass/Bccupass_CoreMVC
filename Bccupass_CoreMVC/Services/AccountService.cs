@@ -108,7 +108,7 @@ namespace Bccupass_CoreMVC.Services
                     new Claim(ClaimTypes.Name,res.User.UserId.ToString()),
                     new Claim(ClaimTypes.Email,res.User.UserEmail),
                     new Claim("UserName", res.User.UserName),
-                    new Claim("UserImage",res.User.UserImage)
+                    new Claim("UserImage",!string.IsNullOrEmpty(res.User.UserImage) ? res.User.UserImage : "")
                 };
 
 
