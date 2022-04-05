@@ -18,6 +18,7 @@ namespace Bccupass_CoreMVC.Controllers
             _activityDraftservice = service;
         }
 
+        #region 活動內容Controller
         [HttpGet]
         public IActionResult Description(int id)
         {
@@ -62,7 +63,10 @@ namespace Bccupass_CoreMVC.Controllers
 
             return RedirectToAction("Guest",new {id = activityDraftId });
         }
+        #endregion
 
+
+        #region 新增嘉賓Controller
         [HttpGet]
         public IActionResult Guest(int id)
         {
@@ -104,7 +108,10 @@ namespace Bccupass_CoreMVC.Controllers
 
             return RedirectToAction("Question", new { id = request.ActivityDraftId });
         }
+        #endregion
 
+
+        #region 活動問答Controller
         [HttpGet]
         public IActionResult Question(int id)
         {
@@ -142,6 +149,12 @@ namespace Bccupass_CoreMVC.Controllers
             _activityDraftservice.EditActivityQA(inputDto);
 
             return RedirectToAction("Question", new { id = request.ActivityDraftId });
+        }
+        #endregion
+
+        public IActionResult Ticket()
+        {
+            return View();
         }
 
     }
