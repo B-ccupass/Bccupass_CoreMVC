@@ -156,11 +156,20 @@ namespace Bccupass_CoreMVC.Services
             return ActivityCardDtoResult(target);
         }
 
-        public IEnumerable<ActivityCardDto> GetOrganizerActivity(int organzierId)
+        public ActivityCardGroupByTimeDto GetOrganizerActivity(int organzierId)
         {
             var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == organzierId && x.ActivityState == 1);
+            DateTime now = DateTime.Now;
+            var inProgress = target.Where(x => x.StartTime <= now && x.EndTime >= now);
+            var notStart = target.Where(x => x.StartTime > now);
+            var end = target.Where(x => x.EndTime < now);
 
-            return ActivityCardDtoResult(target);
+            return new ActivityCardGroupByTimeDto
+            {
+                NotStart = ActivityCardDtoResult(notStart),
+                InProgress = ActivityCardDtoResult(inProgress),
+                End = ActivityCardDtoResult(end)
+            };
         }
 
         public ActivityBuyTicketDto GetActivityById(int activityId)
