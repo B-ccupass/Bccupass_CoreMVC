@@ -8,5 +8,7 @@ namespace Bccupass_CoreMVC.Services.Interface
         public CreateDesDto GetActivityDraftDes(int? id);
         public CreateGuestDto GetActivityDraftGuest(int? id);
         public void EditActivityGuest(CreateGuestDto request);
+        public CreateQADto GetActivityDraftQA(int? id);
+        public void EditActivityQA(CreateQADto request);
     }
 }

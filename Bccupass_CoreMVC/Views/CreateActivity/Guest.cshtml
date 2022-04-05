@@ -22,7 +22,10 @@
                     {
                         foreach(var item in Model)
                         {
-                            @await Html.PartialAsync("_photoNamePartial", item)
+                            if (item.GuestName != "")
+                            {
+                                @await Html.PartialAsync("_photoNamePartial", item)
+                            }
                         }
                     }
 
@@ -45,7 +48,10 @@
                     {
                         foreach(var item in Model)
                         {
-                            @await Html.PartialAsync("_CeateGuestPartial", item)
+                            if(item.GuestName != "")
+                            {
+                                @await Html.PartialAsync("_CeateGuestPartial", item)
+                            }
                         }
                     }
             <div class="modal fade"id="GuestModal" tabindex="-1" aria-labelledby="GuestModalLabel" aria-hidden="true">
@@ -168,34 +174,7 @@
             bootstrap.Modal.getOrCreateInstance(myModal).hide();
             
         }
-
-        //formBtn.onclick = function(){
-        //    console.log(JSON.stringify(dataArray))
-        //    $.ajax({
-        //        url: "Guest",
-        //        data: JSON.stringify(dataArray),
-        //        type:"POST",
-        //        dataType:"json",
-        //        success: function(msg){
-        //            //$('#result').text("儲存成功！");                    
-        //        }            
-        //    });
-
-            //fetch('/CreateActivity/Guest', { 
-            //    headers: {
-            //        'Accept':'application/json, text/plain',  @*申明他是json*@
-            //        'Content-Type':'application/json;charset=UTF-8'
-            //    },
-            //    method: 'POST',
-            //    body: JSON.stringify(dataArray)
-            //})
-            //.then(response => response.json())
-            //.then(jsonData => {
-            //    console.log(jsonData)
-                
-            //})
-    //} 
-        
+     
         
     </script>
 
@@ -212,6 +191,8 @@
             }
 
             dataArray.push(data)
+
+            outputJson.setAttribute('value',JSON.stringify(dataArray))   
         </script>
     }
 }

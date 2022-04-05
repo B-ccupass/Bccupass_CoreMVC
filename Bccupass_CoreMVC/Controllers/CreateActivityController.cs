@@ -102,7 +102,46 @@ namespace Bccupass_CoreMVC.Controllers
             };
             _activityDraftservice.EditActivityGuest(inputDto);
 
-            return RedirectToAction("Guest", new { id = request.ActivityDraftId });
+            return RedirectToAction("Question", new { id = request.ActivityDraftId });
+        }
+
+        [HttpGet]
+        public IActionResult Question(int id)
+        {
+            var inputDto = _activityDraftservice.GetActivityDraftQA(id);
+
+            List<CreateQAViewModel> resultVM = new List<CreateQAViewModel>();
+            if (inputDto.ActivityQA == null)
+            {
+                resultVM.Add(new CreateQAViewModel()
+                {
+                    ActivityDraftId = inputDto.ActivityDraftId,
+                    ActivityQuest = "這裡填上您的問題",
+                    ActivityAnswer= "這裡填上您的回答",
+                    Sort = 1,
+                });
+            }
+            else
+            {
+                var json = JsonConvert.DeserializeObject<CreateQAViewModel[]>(inputDto.ActivityQA);
+
+                resultVM = json.ToList();
+            }
+
+            ViewData["ActivityDraftId"] = id;
+            return View(resultVM);
+        }
+        [HttpPost]
+        public IActionResult Question(QAInputViewModel request)
+        {
+            var inputDto = new CreateQADto()
+            {
+                ActivityDraftId = request.ActivityDraftId,
+                ActivityQA = request.GuestDataJson
+            };
+            _activityDraftservice.EditActivityQA(inputDto);
+
+            return RedirectToAction("Question", new { id = request.ActivityDraftId });
         }
 
     }

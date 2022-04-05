@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace Bccupass_CoreMVC
@@ -46,6 +48,11 @@ namespace Bccupass_CoreMVC
                 options.UseSqlServer(Configuration.GetConnectionString("Bccupass"));
             });
             services.AddControllersWithViews();
+
+            //避免Net Core Razor View 中文被自動編碼 https://www.gss.com.tw/blog/aspnetcore-chinese-encoding
+            services.AddSingleton<HtmlEncoder>(
+                 HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
+                                                           UnicodeRanges.CjkUnifiedIdeographs }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -54,6 +54,25 @@ namespace Bccupass_CoreMVC.Services
             _activityDraft.Save();
         }
 
+        public CreateQADto GetActivityDraftQA(int? id)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
+            var result = new CreateQADto()
+            {
+                ActivityDraftId = target.ActivityDraftId,
+                ActivityQA = target.ActivityQa
+            };
+
+            return result;
+        }
+        public void EditActivityQA(CreateQADto request)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.ActivityDraftId);
+            target.ActivityQa = request.ActivityQA;
+            _activityDraft.Update(target);
+            _activityDraft.Save();
+        }
+
 
         #endregion
 
