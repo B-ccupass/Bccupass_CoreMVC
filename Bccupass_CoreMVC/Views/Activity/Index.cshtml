@@ -4,6 +4,14 @@
 @section Topcss {
     <link rel="stylesheet" href="~/css/Activity/Index.css" />
 }
+@*@{
+    var ActivityListQueries = new Dictionary<string, int>
+    {
+        { "Page" , 1 },
+        { "activityStateByTime" , 0 },
+        { "sortOrder" , 0 },
+    };
+}*@
 
 <div class="search-result bg-white p-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
     <div class="container">
@@ -33,19 +41,19 @@
         <div class="activity-tab my-3">
             <ul class="nav nav-tabs container">
                 <li class="nav-item" role="presentation">
-                    <a href="/Activity/InProgress/1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.Inprogress ? "active" : "")" id="inProgress-tab" @*data-bs-toggle="tab" data-bs-target="#inProgress"*@ role="tab" aria-controls="inProgress" aria-selected="true">進行中</a>
+                    <a asp-action="Index" asp-route-activityStateByTime="0" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.Inprogress ? "active" : "")" id="inProgress-tab" role="tab" aria-controls="inProgress" aria-selected="true">進行中</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a href="/Activity/NotStart/1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.NotStart ? "active" : "")" id="notStart-tab" @*data-bs-toggle="tab" data-bs-target="#notStart"*@ role="tab" aria-controls="notStart" aria-selected="false">尚未開始</a>
+                    <a asp-action="Index" asp-route-activityStateByTime="1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.NotStart ? "active" : "")" id="notStart-tab" role="tab" aria-controls="notStart" aria-selected="false">尚未開始</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a href="/Activity/End/1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.End ? "active" : "")" id="end-tab" @*data-bs-toggle="tab" data-bs-target="#end"*@ role="tab" aria-controls="end" aria-selected="false">已結束</a>
+                    <a asp-action="Index" asp-route-activityStateByTime="2" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.End ? "active" : "")" id="end-tab" role="tab" aria-controls="end" aria-selected="false">已結束</a>
                 </li>
             </ul>
             <div class="sort d-flex my-3 container">
-                <button class="sort-btn px-3 py-1 m-1 active" id="sort-by-time">依時間排序</button>
-                <button class="sort-btn px-3 py-1 m-1" id="sort-by-price">依票價排序</button>
-                <button class="sort-btn px-3 py-1 m-1" id="sort-by-like">依收藏數排序</button>
+                <a asp-action="Index" asp-route-activityStateByTime="@Model.ActivityStateByTime" asp-route-sortOrder="0" class="sort-btn px-3 py-1 m-1 text-decoration-none @(Model.ActivitySortOrder == (int)ActivitySortOrder.StartDate ? "active" : "")" id="sort-by-time">依時間排序</a>
+                <a asp-action="Index" asp-route-activityStateByTime="@Model.ActivityStateByTime" asp-route-sortOrder="1" class="sort-btn px-3 py-1 m-1 text-decoration-none @(Model.ActivitySortOrder == (int)ActivitySortOrder.Price ? "active" : "")" id="sort-by-price">依票價排序</a>
+                <a asp-action="Index" asp-route-activityStateByTime="@Model.ActivityStateByTime" asp-route-sortOrder="2" class="sort-btn px-3 py-1 m-1 text-decoration-none @(Model.ActivitySortOrder == (int)ActivitySortOrder.LikeCount ? "active" : "")" id="sort-by-like">依收藏數排序</a>
             </div>
             <div class="tab-content container" id="myTabContent">
                 <div class="tab-pane fade @(Model.ActivityStateByTime == (int)ActivityStateByTime.Inprogress ? "show active" : "")" id="inProgress" role="tabpanel" aria-labelledby="inProgress-tab">

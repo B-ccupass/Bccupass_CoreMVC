@@ -2,8 +2,8 @@
 {
     public enum ActivityStateByTime
     {
-        NotStart = 0,
-        Inprogress = 1,
+        Inprogress = 0,
+        NotStart = 1,
         End = 2,
     }
 }

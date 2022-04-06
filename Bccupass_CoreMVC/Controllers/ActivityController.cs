@@ -1,10 +1,13 @@
 ﻿using Bccupass_CoreMVC.Common.Enum;
 using Bccupass_CoreMVC.Common.Funtion;
+using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Models.ViewModel;
 using Bccupass_CoreMVC.Models.ViewModel.Activity;
 using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Bccupass_CoreMVC.Controllers
@@ -13,23 +16,64 @@ namespace Bccupass_CoreMVC.Controllers
     {
         private readonly IActivityService _activityService;
         private readonly IOrganizerService _organizerService;
-        //private static int total;
+        private IEnumerable<ActivityCardDto> activityList;
         public ActivityController(IActivityService activityService, IOrganizerService organizerService)
         {
             _activityService = activityService;
             _organizerService = organizerService;
         }
-        public IActionResult InProgress(int id=1)
+
+        [Route("Activity/Index", Name = "ActivityFilter")]
+        public IActionResult Index(
+            int page = 1,
+            string activityStateByTime = "0",
+            string sortOrder = "0"
+        )
         {
             var pageObj = new Pagination
             {
-                Total = _activityService.GetAllActivityGroupByTime().InProgress.Count(),
-                //Total = _activityService.GetAllActivity().Count(),
-                ActivePage = id,
-                ActionUrl = "/Activity/InProgress",
+                ActivePage = page,
+                ActionUrl = $"activityStateByTime={activityStateByTime}&sortOrder={sortOrder}",
             };
 
-            var inProgress = _activityService.GetAllActivityGroupByTime().InProgress.Skip(pageObj.StartRow).Take(pageObj.PageRows).Select(x => new ActivityCardViewModel.ActivityCardData()
+            var allActivity = _activityService.GetAllActivityGroupByTime();
+            var res = new ActivityIndexViewModel();
+
+            // 依活動狀態(進行中、尚未開始、已結束)篩選
+            switch (int.Parse(activityStateByTime))
+            {
+                case (int)ActivityStateByTime.NotStart:
+                    pageObj.Total = _activityService.GetAllActivityGroupByTime().NotStart.Count();
+                    activityList = allActivity.NotStart.Skip(pageObj.StartRow).Take(pageObj.PageRows);
+                    res.ActivityStateByTime = (int)ActivityStateByTime.NotStart;
+                    break;
+                case (int)ActivityStateByTime.End:
+                    pageObj.Total = _activityService.GetAllActivityGroupByTime().End.Count();
+                    activityList = allActivity.End.Skip(pageObj.StartRow).Take(pageObj.PageRows);
+                    res.ActivityStateByTime = (int)ActivityStateByTime.End;
+                    break;
+                default:
+                    pageObj.Total = _activityService.GetAllActivityGroupByTime().InProgress.Count();
+                    activityList = allActivity.InProgress.Skip(pageObj.StartRow).Take(pageObj.PageRows);
+                    res.ActivityStateByTime = (int)ActivityStateByTime.Inprogress;
+                    break;
+            }
+
+            // 排序(開始時間、票價、收藏人數)
+            switch (int.Parse(sortOrder))
+            {
+                case (int)ActivitySortOrder.Price:
+                    activityList = activityList.OrderByDescending(x => x.IsFree).ThenBy(x => x.StartTime);
+                    break;
+                case (int)ActivitySortOrder.LikeCount:
+                    activityList = activityList.OrderBy(x => x.Favorite);
+                    break;
+                default:
+                    activityList = activityList.OrderBy(x => x.StartTime);
+                    break;
+            }
+
+            var activityListByTime = activityList.Select(x => new ActivityCardViewModel.ActivityCardData()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -42,76 +86,11 @@ namespace Bccupass_CoreMVC.Controllers
                 Favorite = x.Favorite
             });
 
-            var res = new ActivityIndexViewModel()
-            {
-                ActivityList = inProgress,
-                pageInfo = pageObj,
-                ActivityStateByTime = (int)ActivityStateByTime.Inprogress
-            };
+            res.ActivityList = activityListByTime;
+            res.pageInfo = pageObj;
+            res.ActivitySortOrder = int.Parse(sortOrder);
 
-            return View("Index", res);
-        }
-        public IActionResult End(int id = 1)
-        {
-            var pageObj = new Pagination
-            {
-                Total = _activityService.GetAllActivityGroupByTime().End.Count(),
-                //Total = _activityService.GetAllActivity().Count(),
-                ActivePage = id,
-                ActionUrl = "/Activity/End",
-            };
-
-            var end = (_activityService.GetAllActivityGroupByTime().End).Skip(pageObj.StartRow).Take(pageObj.PageRows).Select(x => new ActivityCardViewModel.ActivityCardData()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Image = x.Image,
-                StartTime = x.StartTime,
-                EndTime = x.EndTime,
-                City = x.City,
-                ActivityTheme = x.ActivityTheme,
-                IsFree = x.IsFree,
-                Favorite = x.Favorite
-            });
-
-            var res = new ActivityIndexViewModel()
-            {
-                ActivityList = end,
-                pageInfo = pageObj,
-                ActivityStateByTime = (int)ActivityStateByTime.End
-            };
-            return View("Index", res);
-        }
-        public IActionResult NotStart(int id = 1)
-        {
-            var pageObj = new Pagination
-            {
-                Total = _activityService.GetAllActivityGroupByTime().NotStart.Count(),
-                //Total = _activityService.GetAllActivity().Count(),
-                ActivePage = id,
-                ActionUrl = "/Activity/NotStart",
-            };
-
-            var notStart = _activityService.GetAllActivityGroupByTime().NotStart.Skip(pageObj.StartRow).Take(pageObj.PageRows).Select(x => new ActivityCardViewModel.ActivityCardData()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Image = x.Image,
-                StartTime = x.StartTime,
-                EndTime = x.EndTime,
-                City = x.City,
-                ActivityTheme = x.ActivityTheme,
-                IsFree = x.IsFree,
-                Favorite = x.Favorite
-            });
-
-            var res = new ActivityIndexViewModel()
-            {
-                ActivityList = notStart,
-                pageInfo = pageObj,
-                ActivityStateByTime = (int)ActivityStateByTime.NotStart
-            };
-            return View("Index", res);
+            return View(res);
         }
         public IActionResult Detail(int id)
         {
