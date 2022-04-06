@@ -14,8 +14,8 @@ namespace Bccupass_CoreMVC.Services
             _activityDraft = activityDraft;
         }
 
-
-        #region 主辦活動模組
+        
+        #region 活動內容RU
         public CreateDesDto GetActivityDraftDes(int? id)
         {
             var target =  _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
@@ -34,7 +34,9 @@ namespace Bccupass_CoreMVC.Services
             _activityDraft.Update(target);
             _activityDraft.Save();
         }
+        #endregion
 
+        #region 活動嘉賓RU
         public CreateGuestDto GetActivityDraftGuest(int? id)
         {
             var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
@@ -53,7 +55,10 @@ namespace Bccupass_CoreMVC.Services
             _activityDraft.Update(target);
             _activityDraft.Save();
         }
+        #endregion
 
+
+        #region 新增問答RU
         public CreateQADto GetActivityDraftQA(int? id)
         {
             var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
@@ -72,9 +77,29 @@ namespace Bccupass_CoreMVC.Services
             _activityDraft.Update(target);
             _activityDraft.Save();
         }
-
-
         #endregion
+
+        #region 票卷設定RU
+        public CreateTicketDto GetActivityDraftTicket(int? id)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
+            var result = new CreateTicketDto()
+            {
+                ActivityDraftId = target.ActivityDraftId,
+                ActivityTicket = target.ActivityQa
+            };
+
+            return result;
+        }
+        public void EditActivityTicket(CreateTicketDto request)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.ActivityDraftId);
+            target.ActivityQa = request.ActivityTicket;
+            _activityDraft.Update(target);
+            _activityDraft.Save();
+        }
+        #endregion
+
 
 
     }

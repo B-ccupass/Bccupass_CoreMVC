@@ -9,42 +9,7 @@
         <form>
             <div class="col-12 border-bottom pb-5 flex-wrap">
                 <p class="mb-4">修改活動時間</p>
-                <div>
-                    <label for="startTime" class="d-block m-md-2">開始時間:</label>
-                    <input class="time-select d-inline col-11 col-md-5 m-md-2 m-0" type="date" id="startTime" name="startTime">
-                    <select class="time-select d-inline col-5 col-md-3 m-md-2 me-2" aria-label="Default select example">
-                        <option selected></option>
-                        <option value="1">00</option>
-                        <option value="2">01</option>
-                        <option value="3">02</option>
-                        <!-- 選項用JS -->
-                    </select>
-                    <select class="time-select d-inline col-5 col-md-3 m-md-2 m-2" aria-label="Default select example">
-                        <option selected></option>
-                        <option value="1">00</option>
-                        <option value="2">05</option>
-                        <option value="3">10</option>
-                        <!-- 選項用JS -->
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label for="startTime" class="d-block m-md-2">結束時間:</label>
-                    <input class="time-select d-inline col-11 col-md-5 m-md-2 m-0" type="date" id="startTime" name="startTime">
-                    <select class="time-select d-inline col-5 col-md-3 m-md-2 me-2" aria-label="Default select example">
-                        <option selected></option>
-                        <option value="1">00</option>
-                        <option value="2">01</option>
-                        <option value="3">02</option>
-                        <!-- 選項用JS -->
-                    </select>
-                    <select class="time-select d-inline col-5 col-md-3 m-md-2 m-2" aria-label="Default select example">
-                        <option selected></option>
-                        <option value="1">00</option>
-                        <option value="2">05</option>
-                        <option value="3">10</option>
-                        <!-- 選項用JS -->
-                    </select>
-                </div>
+                @await Html.PartialAsync("_ticketSelectTimePartial")
                 <!-- 新增 -->
                 <p class="mb-5">新增的活動票券</p>
                 <div class="overflow-auto">
@@ -98,84 +63,14 @@
                                             <textarea class="resize" name="" id="" cols="30" rows="10"></textarea>
 
                                         <p>售票時間</p>
-                                            <div>
-                                                <label for="startTime" class="d-block m-md-2">開始時間:</label>
-                                                <input class="time-select d-inline col-11 col-md-5 m-md-2 m-0" type="date" id="startTime" name="startTime">
-                                                <select class="time-select d-inline col-5 col-md-3 m-md-2 me-2" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="1">00</option>
-                                                    <option value="2">01</option>
-                                                    <option value="3">02</option>
-                                                    <!-- 選項用JS -->
-                                                </select>
-                                                <select class="time-select d-inline col-5 col-md-3 m-md-2 m-2" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="1">00</option>
-                                                    <option value="2">05</option>
-                                                    <option value="3">10</option>
-                                                    <!-- 選項用JS -->
-                                                </select>
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="startTime" class="d-block m-md-2">結束時間:</label>
-                                                <input class="time-select d-inline col-11 col-md-5 m-md-2 m-0" type="date" id="startTime" name="startTime">
-                                                <select class="time-select d-inline col-5 col-md-3 m-md-2 me-2" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="1">00</option>
-                                                    <option value="2">01</option>
-                                                    <option value="3">02</option>
-                                                    <!-- 選項用JS -->
-                                                </select>
-                                                <select class="time-select d-inline col-5 col-md-3 m-md-2 m-2" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="1">00</option>
-                                                    <option value="2">05</option>
-                                                    <option value="3">10</option>
-                                                    <!-- 選項用JS -->
-                                                </select>
-                                            </div>
+                                            @await Html.PartialAsync("_ticketSelectTimePartial")
                                         <p>有效時間(可驗票時間)</p>
                                             <span>有效時間為可驗票入場的時間，系統自動提前兩小時開放給主辦方現場測試。</span>
-                                            <label class="d-flex check-ticket">
+                                            <label class="d-flex check-ticket ">
                                                 <input type="checkbox" class="" checked="">
                                                 <span class="">有效時間建議設定為活動時間</span>
                                             </label>
-                                            <div>
-                                                <label for="startTime" class="d-block m-md-2">開始時間:</label>
-                                                <input class="time-select d-inline col-11 col-md-5 m-md-2 m-0" type="date" id="startTime" name="startTime">
-                                                <select class="time-select d-inline col-5 col-md-3 m-md-2 me-2" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="1">00</option>
-                                                    <option value="2">01</option>
-                                                    <option value="3">02</option>
-                                                    <!-- 選項用JS -->
-                                                </select>
-                                                <select class="time-select d-inline col-5 col-md-3 m-md-2 m-2" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="1">00</option>
-                                                    <option value="2">05</option>
-                                                    <option value="3">10</option>
-                                                    <!-- 選項用JS -->
-                                                </select>
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="startTime" class="d-block m-md-2">結束時間:</label>
-                                                <input class="time-select d-inline col-11 col-md-5 m-md-2 m-0" type="date" id="startTime" name="startTime">
-                                                <select class="time-select d-inline col-5 col-md-3 m-md-2 me-2" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="1">00</option>
-                                                    <option value="2">01</option>
-                                                    <option value="3">02</option>
-                                                    <!-- 選項用JS -->
-                                                </select>
-                                                <select class="time-select d-inline col-5 col-md-3 m-md-2 m-2" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="1">00</option>
-                                                    <option value="2">05</option>
-                                                    <option value="3">10</option>
-                                                    <!-- 選項用JS -->
-                                                </select>
-                                            </div>
+                                            @await Html.PartialAsync("_ticketSelectTimePartial")
                                         <p>是否開賣？</p>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
@@ -239,3 +134,10 @@
     </div>
             
 </div>
+
+@section endJS {
+    <script>
+        
+    </script>
+
+}
