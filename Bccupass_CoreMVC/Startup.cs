@@ -34,21 +34,27 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IActivityRepository, ActivityRepository>();
             services.AddTransient<IOrganizerRepository, OrganizerRepository>();
             services.AddTransient<ITicketRepository, TicketRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
 
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IOrganizerService, OrganizerService>();
             services.AddTransient<ITicketService, TicketService>();
+            services.AddTransient<IAccountService, AccountService>();
+
+
+
+            //註冊Service要用的HttpContext
+            services.AddHttpContextAccessor();
+
+            //設定驗證方式
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
 
 
             services.AddDbContext<BccupassDBContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Bccupass"));
             });
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-
-            services.AddHttpContextAccessor();
-
             services.AddControllersWithViews();
         }
 
@@ -70,19 +76,15 @@ namespace Bccupass_CoreMVC
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            app.UseAuthentication();//驗證
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-            endpoints.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            endpoints.MapControllerRoute(
-                name: "activitydetail",
-                pattern: "Detail/{id?}",
-                defaults: new { controller = "Activity", action = "Detail" });
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

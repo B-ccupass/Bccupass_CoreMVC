@@ -752,8 +752,6 @@ namespace Bccupass_CoreMVC.Models.DBEntity
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(20)
-                    .IsFixedLength(true)
                     .HasComment("密碼");
 
                 entity.Property(e => e.Phone)
