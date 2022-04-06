@@ -1,0 +1,83 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.Account
+
+
+@model SignupViewModel
+
+
+<!-- 註冊 -->
+
+<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered sign-up-modal-dialog">
+        <div class="modal-content sign-up-modal p-2">
+            <button type="button" class="btn-close d-flex justify-content-center" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header d-flex justify-content-center mt-5 mb-0">
+                <h5 class="modal-title fs-5 fw-bold" id="exampleModalLabel">成為BCCUPASS會員</h5>
+            </div>
+            <p class="description text-center mt-0">會員可享各項專屬權益:票券隨身帶著走、即時管理真方便、追蹤主辦方最新動態、掌握第一手活動資訊</p>
+            <div class="modal-body mt-0 mb-0">
+                <div class="inner">
+                    <input name="account" id="regAccount" class="input account d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="電子郵件" value="">
+                    <span class="icon icon d-flex justify-content-center  align-items-center">
+                        <i class="fas fa-envelope d-inline-block">
+                        </i>
+                    </span>
+
+                    @Html.ValidationMessageFor(model => model.Input.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="inner">
+                    <input name="Name" id="regName" class="input Name d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="姓名" value="">
+                    <span class="icon icon d-flex justify-content-center  align-items-center">
+                        <i class="fas fa-user d-inline-block">
+                        </i>
+                    </span>
+
+                    @Html.ValidationMessageFor(model => model.Input.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="inner">
+                    <input name="phone" id="regPhone" class="input phone d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="手機" value="">
+                    <span class="icon icon d-flex justify-content-center  align-items-center">
+                        <i class="fas fa-phone d-inline-block">
+                        </i>
+                    </span>
+
+                    @Html.ValidationMessageFor(model => model.Input.Phone, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="inner">
+                    <input name="password" id="regPassword" class="input password d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="密碼" value="">
+                    <span class="icon icon d-flex justify-content-center  align-items-center">
+                        <i class="fas fa-key d-inline-block">
+                        </i>
+                    </span>
+
+                    @Html.ValidationMessageFor(model => model.Input.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="agree mb-3">
+                    <span>
+                        成為會員即代表我已同意BCCUPASS
+                        <a class="service text-decoration-none" href="#" target="_blank">服務條款</a>
+                        及
+                        <a class="private text-decoration-none" href="#" target="_blank">隱私權政策</a>
+                    </span>
+                </div>
+                <div class="btn-div">
+                    <button type="button" id="regBtn" class="finish-btn submit-btn btn-primary">
+                        成為會員
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between mt-1 mb-3 pt-1">
+                <span>已經是Bccupass會員?</span>
+                <div class="a-div">
+                    <a class="login text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">登入</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
