@@ -11,10 +11,44 @@
 
 @if (isLogin)
 {
-    <div class="nav-item justify-content-center align-content-center">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+           data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="user-img">
+                @{
+                    var userImage = User.Claims.FirstOrDefault(x => x.Type == "UserImage");
+                    if (!string.IsNullOrEmpty(userImage.Value))
+                    {
+                        @*<div style="width: 100%; height: 100%">*@
+                            <img class="user-img" src="@userImage.Value" alt="使用者頭貼" />
+                        @*</div>*@
+                    }
+                    else
+                    {
+                        @*<div style="width: 100%; height: 100%">*@
+                            <img class="user-img" src="https://static.accupass.com/default/orgCover.png" alt="使用者頭貼" />
+                        @*</div>*@
+                    }
+                }
+            </div>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">個人主頁</a></li>
+            <li><a class="dropdown-item" href="../UserCenter/Tickets/tickets.html">我的票券</a></li>
+            <li><a class="dropdown-item" href="#">主辦中心</a></li>
+            <li><a class="dropdown-item" href="../UserCenter/Account/account.html">個人檔案</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="/Account/Logout">登出</a></li>
+        </ul>
+    </li>
+
+
+    @*<div class="nav-item justify-content-center align-content-center">
         @{
             var userImage = User.Claims.FirstOrDefault(x => x.Type == "UserImage");
-            if (userImage != null)
+            if (!string.IsNullOrEmpty(userImage.Value))
             {
                 <div style="width: 100%; height: 100%">
                     <img class="img-wrap m-auto" src="@userImage.Value" style="width: 50px; height: 50px; border-radius: 50px" alt="使用者頭貼" />
@@ -24,15 +58,15 @@
             {
 
                 <div style="width: 100%; height: 100%">
-                    <img class="img-wrap m-auto" src="@Url.Action("https://i.blogs.es/c4a662/chrome/840_560.jpg")" style="width: 50px; height: 50px; border-radius: 50px" alt="使用者頭貼" />
+                    <img class="img-wrap m-auto" src="https://static.accupass.com/default/orgCover.png" style="width: 50px; height: 50px; border-radius: 50px" alt="使用者頭貼" />
                 </div>
             }
         }
-    </div>
+    </div>*@
 
-    <div  class="nav-item">
+    @*<div class="nav-item">
         <a class="nav-link text-dark" href="/Account/Logout">登出</a>
-    </div>
+    </div>*@
 }
 else
 {
