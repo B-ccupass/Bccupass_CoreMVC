@@ -52,8 +52,8 @@ namespace Bccupass_CoreMVC.Services
                 Email = input.Email,
                 Name = input.Name,
                 Phone = input.Phone,
-                //Password = Encryption.SHA256Encrypt(input.Password),
-                Password = input.Password,
+                Password = Encryption.SHA256Encrypt(input.Password),
+                //Password = input.Password,
                 IsAdmin = false,
                 Verification = false,
             };
@@ -88,7 +88,7 @@ namespace Bccupass_CoreMVC.Services
                 return res;
             }
 
-            if(input.Password != currentUser.Password)
+            if(Encryption.SHA256Encrypt(input.Password) != currentUser.Password)
             {
                 res.Message = "密碼錯誤";
                 return res;
