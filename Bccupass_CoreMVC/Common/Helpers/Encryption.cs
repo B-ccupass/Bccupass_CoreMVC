@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bccupass_CoreMVC.Common
+namespace Bccupass_CoreMVC.Common.Helpers
 {
     public static class Encryption
     {

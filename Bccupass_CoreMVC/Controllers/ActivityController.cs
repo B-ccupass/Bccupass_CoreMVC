@@ -1,5 +1,5 @@
 ﻿using Bccupass_CoreMVC.Common.Enum;
-using Bccupass_CoreMVC.Common.Funtion;
+using Bccupass_CoreMVC.Common.Helpers;
 using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Models.ViewModel;
 using Bccupass_CoreMVC.Models.ViewModel.Activity;
@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Bccupass_CoreMVC.Models.ViewModel.Activity.SearchKeysViewModel;
 
 namespace Bccupass_CoreMVC.Controllers
 {
@@ -87,9 +88,44 @@ namespace Bccupass_CoreMVC.Controllers
                 Favorite = x.Favorite
             });
 
+            // 搜尋視窗
+            var StartTimeList = new List<StartTimeData>();
+            var TicketPriceList = new List<TicketPriceData>();
+
+            foreach (var value in Enum.GetValues(typeof(StartTime)))
+            {
+                var data = new StartTimeData
+                {
+                    EnumValue = (int)value,
+                    EnumName = value.ToString(),
+                    Description = new GetEnumDescription().TimeDiscription((int)value)
+                };
+                StartTimeList.Add(data);
+            }
+
+            foreach (var value in Enum.GetValues(typeof(TicketPrice)))
+            {
+                var data = new TicketPriceData
+                {
+                    EnumValue = (int)value,
+                    EnumName = value.ToString(),
+                    Description = new GetEnumDescription().PriceDiscription((int)value)
+                };
+                TicketPriceList.Add(data);
+            }
+
+            var searchData = new SearchKeysViewModel
+            {
+                Themes = _activityService.GetAllActivityTheme().Select(x => new SearchKeysViewModel.ThemeData { Id = x.Id, Name = x.Name }),
+                Types = _activityService.GetAllActivityType().Select(x => new SearchKeysViewModel.TypesData { Id = x.Id, Name = x.Name }),
+                StartTime = StartTimeList,
+                TicketPrice = TicketPriceList,
+            };
+
             res.ActivityList = activityListByTime;
             res.pageInfo = pageObj;
             res.ActivitySortOrder = int.Parse(sortOrder);
+            res.SearchKeys = searchData;
 
             return View(res);
         }

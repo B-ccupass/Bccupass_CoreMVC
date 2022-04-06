@@ -1,4 +1,4 @@
-﻿namespace Bccupass_CoreMVC.Common.Funtion
+﻿namespace Bccupass_CoreMVC.Common.Helpers
 {
     public class Pagination
     {

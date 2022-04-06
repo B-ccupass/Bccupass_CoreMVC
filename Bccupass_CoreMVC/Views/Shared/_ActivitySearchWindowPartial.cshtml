@@ -1,0 +1,71 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.Activity
+@model SearchKeysViewModel
+<form>
+    <div>
+        <input type="text"/>
+        <div class="search-key-wrap">
+            <div>
+                <span>地區</span>
+                <ul>
+                    <li>
+                        <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off">
+                        <label class="btn btn-primary" for="btn-check-2">台北市</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off">
+                        <label class="btn btn-primary" for="btn-check-3">台北市</label>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <span>活動主題</span>
+                <ul>
+                    @foreach (var item in @Model.Themes)
+                   {
+                       <li>
+                           <input type="checkbox" class="btn-check" id="theme-@item.Id" autocomplete="off">
+                           <label class="btn btn-primary" for="theme-@item.Id">@item.Name</label>
+                       </li>
+                   }
+                </ul>
+            </div>
+            <div>
+                <span>活動類型</span>
+                <ul>
+                    @foreach (var item in @Model.Types)
+                   {
+                       <li>
+                           <input type="checkbox" class="btn-check" id="type-@item.Id" autocomplete="off">
+                           <label class="btn btn-primary" for="type-@item.Id">@item.Name</label>
+                       </li>
+                   }
+                </ul>
+            </div>
+            <div>
+                <span>活動開始時間</span>
+                <ul>
+                    @foreach (var item in @Model.StartTime)
+                   {
+                       <li>
+                           <input type="checkbox" class="btn-check" id="type-@item.EnumValue" autocomplete="off">
+                           <label class="btn btn-primary" for="type-@item.EnumValue">@item.Description</label>
+                       </li>
+                   }
+                </ul>
+            </div>
+            <div>
+                <span>票價</span>
+                <ul>
+                    @foreach (var item in @Model.TicketPrice)
+                   {
+                       <li>
+                           <input type="checkbox" class="btn-check" id="type-@item.EnumValue" autocomplete="off">
+                           <label class="btn btn-primary" for="type-@item.EnumValue">@item.Description</label>
+                       </li>
+                   }
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</form>

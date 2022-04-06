@@ -6,7 +6,7 @@ using Bccupass_CoreMVC.Services.Interface;
 using Bccupass_CoreMVC.Models.DBEntity;
 using Bccupass_CoreMVC.Models.DTO.Account;
 using Bccupass_CoreMVC.Repositories.Interface;
-using Bccupass_CoreMVC.Common;
+using Bccupass_CoreMVC.Common.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
