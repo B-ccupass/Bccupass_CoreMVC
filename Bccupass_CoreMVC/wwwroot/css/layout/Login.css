@@ -105,7 +105,7 @@ a {
 
 @media (min-width: 576px) {
   .forget-modal-dialog,
-.login-modal-dialog {
+  .login-modal-dialog {
     max-width: 300px;
   }
 

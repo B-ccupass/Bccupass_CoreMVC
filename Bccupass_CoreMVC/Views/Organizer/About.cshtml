@@ -60,34 +60,34 @@
                             {
                                 @if(Model.ActivityInProgressList.Count() != 0)
                                 {
-                                    <div class="inprogress-wrap py-2">
-                                        <p class="fs-5 fw-bold mb-3">進行中</p>
-                                        <div class="row">
+                            <div class="inprogress-wrap py-2">
+                                <p class="fs-5 fw-bold mb-3">進行中</p>
+                                <div class="row">
                                             @foreach(var item in Model.ActivityInProgressList){
-                                                <div class="activity-card col-6">
-                                                    @await Html.PartialAsync("_activityCardPartial", item)
-                                                </div>
-                                            }
+                                        <div class="activity-card col-6">
+                                            @await Html.PartialAsync("_activityCardPartial", item)
                                         </div>
-                                    </div>
+                                    }
+                                </div>
+                            </div>
                                 }
                                 @if(Model.ActivityNotStartList.Count() != 0)
                                 {
-                                    <div class="notstart-wrap py-2">
-                                        <p class="fs-5 fw-bold mb-3">尚未開始</p>
+                            <div class="notstart-wrap py-2">
+                                <p class="fs-5 fw-bold mb-3">尚未開始</p>
                                         <div class="row">
                                             @foreach(var item in Model.ActivityNotStartList){
                                                 <div class="activity-card col-6">
                                                     @await Html.PartialAsync("_activityCardPartial", item)
-                                                </div>
+                            </div>
                                             }
                                         </div>
                                     </div>
                                 }
                                 @if(Model.ActivityEndList.Count() != 0)
                                 {
-                                    <div class="end-wrap py-2">
-                                        <p class="fs-5 fw-bold mb-3">已結束</p>
+                            <div class="end-wrap py-2">
+                                <p class="fs-5 fw-bold mb-3">已結束</p>
                                         <div class="row">
                                             @foreach(var item in Model.ActivityEndList){
                                                 <div class="activity-card col-6">
@@ -95,7 +95,7 @@
                                                 </div>
                                             }
                                         </div>
-                                    </div>
+                            </div>
                                 }
                             }
                             else

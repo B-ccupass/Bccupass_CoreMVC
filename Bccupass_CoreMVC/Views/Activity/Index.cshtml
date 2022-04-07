@@ -1,5 +1,6 @@
 ﻿@using Bccupass_CoreMVC.Common.Enum
 @using Bccupass_CoreMVC.Models.ViewModel.Activity
+@model ActivityIndexViewModel
 
 @model ActivityIndexViewModel
 @section Topcss {
@@ -55,11 +56,11 @@
                         {
                             @await Html.PartialAsync("_EmptyResultPartial")
                         }else{
-                            @foreach(var item in Model.ActivityList){
-                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                    @await Html.PartialAsync("_activityCardPartial", item)
-                                </div>
-                            }
+                        @foreach(var item in Model.ActivityList){
+                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                @await Html.PartialAsync("_activityCardPartial", item)
+                            </div>
+                        }
                             @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
                         }
                     </div>
@@ -70,11 +71,11 @@
                         {
                             @await Html.PartialAsync("_EmptyResultPartial")
                         }else{
-                            @foreach(var item in Model.ActivityList){
-                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                    @await Html.PartialAsync("_activityCardPartial", item)
-                                </div>
-                            }
+                        @foreach(var item in Model.ActivityList){
+                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                @await Html.PartialAsync("_activityCardPartial", item)
+                            </div>
+                        }
                             @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
                         }
                     </div>
@@ -85,11 +86,11 @@
                         {
                             @await Html.PartialAsync("_EmptyResultPartial")
                         }else{
-                            @foreach(var item in Model.ActivityList){
-                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                    @await Html.PartialAsync("_activityCardPartial", item)
-                                </div>
-                            }
+                        @foreach(var item in Model.ActivityList){
+                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                @await Html.PartialAsync("_activityCardPartial", item)
+                            </div>
+                        }
                             @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
                         }
                     </div>
@@ -98,3 +99,22 @@
         </div>
     </div>
 </div>
+@*<div class="pagination m-auto d-flex justify-content-center">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>*@

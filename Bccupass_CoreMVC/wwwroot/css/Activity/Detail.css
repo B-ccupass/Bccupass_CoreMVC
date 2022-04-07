@@ -21,9 +21,9 @@
   line-height: 24px;
   color: #333333;
 }
-@media screen and (min-width: 768px) {
-  .page-title {
-    font-size: 24px;
+  @media screen and (min-width: 768px) {
+    .page-title {
+      font-size: 24px;
     line-height: 28px;
   }
 }
@@ -41,8 +41,8 @@
 .banner {
   height: 200px;
 }
-@media screen and (min-width: 768px) {
-  .banner {
+  @media screen and (min-width: 768px) {
+    .banner {
     height: 300px;
   }
 }
@@ -63,8 +63,8 @@
 .activity-main .info .info-item {
   color: #B2B2B2;
 }
-.activity-main .info .info-item a {
-  text-decoration: none;
+  .activity-main .info .info-item a {
+    text-decoration: none;
   color: #B2B2B2;
 }
 .activity-main .info-icon {
@@ -96,20 +96,20 @@
 .announce-wrap {
   background-color: #FFEEF3;
 }
-.announce-wrap .container {
-  padding-top: 0px;
+  .announce-wrap .container {
+    padding-top: 0px;
   padding-bottom: 0px;
 }
-.announce-wrap .announce-list .announce-time {
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 24px;
+  .announce-wrap .announce-list .announce-time {
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 24px;
   color: #B2B2B2;
 }
-.announce-wrap .announce-list .announce-msg {
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
+  .announce-wrap .announce-list .announce-msg {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
   color: #333333;
 }
 .organizer .cta-btns button, .organizer .cta-btns a {
@@ -140,14 +140,14 @@
 .activity-content .guests {
   padding-top: 20px;
 }
-@media screen and (min-width: 768px) {
-  .activity-content .guests .img-wrap {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-position: center;
-    background-repeat: no-repeat;
+  @media screen and (min-width: 768px) {
+    .activity-content .guests .img-wrap {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-position: center;
+      background-repeat: no-repeat;
     background-size: cover;
   }
 }
@@ -158,14 +158,14 @@
   justify-content: center;
   align-content: center;
 }
-@media screen and (min-width: 768px) {
-  .activity-content .modal-dialog .img-wrap {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-position: center;
-    background-repeat: no-repeat;
+  @media screen and (min-width: 768px) {
+    .activity-content .modal-dialog .img-wrap {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-position: center;
+      background-repeat: no-repeat;
     background-size: cover;
   }
 }
@@ -174,7 +174,7 @@
   background-color: #5995DD;
   color: #333;
 }
-.qa .accordion-button:focus {
+  .qa .accordion-button:focus {
   box-shadow: none;
 }
 
@@ -209,13 +209,13 @@
   font-size: 22px;
   /*調整字體大小可放大縮小星星*/
 }
-.comment .ratings .full_star {
-  position: absolute;
-  left: 0;
-  top: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  color: #FAC12D;
+  .comment .ratings .full_star {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #FAC12D;
   /*前景星星顏色*/
 }
 
@@ -227,10 +227,10 @@
   right: 50px;
   bottom: 100px;
 }
-.buy-cta .buy-link {
-  color: #fff;
-  text-decoration: none;
-  font-size: 14px;
-  text-align: center;
+  .buy-cta .buy-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    text-align: center;
   line-height: 18px;
 }

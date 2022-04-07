@@ -80,6 +80,7 @@ namespace Bccupass_CoreMVC.Controllers
                 ActivityTheme = x.ActivityTheme,
                 IsFree = x.IsFree,
                 Favorite = x.Favorite,
+                //State = x.State
             });
 
             var result = new OrganizerAboutViewModel()
