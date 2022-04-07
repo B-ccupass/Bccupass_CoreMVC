@@ -15,8 +15,11 @@ namespace Bccupass_CoreMVC.Services
         }
         public IQueryable<UserTicketDto.OrderData> GetOrderListOfUser(int userId)
         {
-            var orderList = _context.GetAll<OrderDetail>().Where(x => x.UserId == userId).Select(x=>new UserTicketDto.OrderData());
-            return orderList;
+            var orderList = _context.GetAll<OrderDetail>().Where(x => x.UserId == userId);
+            var test = orderList.Select(x => new UserTicketDto.OrderData() { OrderId = x.OrderDetailId });
+
+            return test;
+            //return orderList;
         }
 
         //public UserTicketDto GetTicket(int userId)

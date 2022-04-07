@@ -17,7 +17,7 @@
             <div class="user-img">
                 @{
                     var userImage = User.Claims.FirstOrDefault(x => x.Type == "UserImage");
-                    if (!string.IsNullOrEmpty(userImage.Value))
+                    if (false)
                     {
                         @*<div style="width: 100%; height: 100%">*@
                             <img class="user-img" src="@userImage.Value" alt="使用者頭貼" />

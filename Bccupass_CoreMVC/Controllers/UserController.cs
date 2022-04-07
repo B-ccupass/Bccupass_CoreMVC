@@ -31,9 +31,7 @@ namespace Bccupass_CoreMVC.Controllers
 
             userId = 1;
             var userTicketDto = _userService.GetOrderListOfUser(userId);
-
             var order = userTicketDto.Select(x => _ticketService.GetTicket(x.OrderId));
-
             var total = userTicketDto.Count();
 
             // 計算頁數
@@ -56,7 +54,10 @@ namespace Bccupass_CoreMVC.Controllers
                  {
                      Order = new CreateTicketViewModel.OrderData
                      {
-                         OrderId = x.Order.OrderId
+                         OrderId = x.Order.OrderId,
+                         OrderTime=x.Order.OrderTime,
+                         OrderState=x.Order.OrderState,
+
                      },
                      TdOd = x.TdOd.Select(x => new CreateTicketViewModel.TicketDetailOrderDetail()
                      {
@@ -69,7 +70,10 @@ namespace Bccupass_CoreMVC.Controllers
                      TicketDetail = x.TicketDetail.Select(x => new CreateTicketViewModel.TicketDatail()
                      {
                          TicketId = x.TicketId,
-                         TicketName = x.TicketName
+                         TicketName = x.TicketName,
+                         CheckStart = x.CheckStart,
+                         CheckEnd = x.CheckEnd,
+                         Price=x.Price,
                      }),
                      Activity = new CreateTicketViewModel.ActivityData
                      {
