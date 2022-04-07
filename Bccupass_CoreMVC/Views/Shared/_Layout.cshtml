@@ -275,6 +275,7 @@
                     console.log(data);
                     if (data.isSuccess) {
                         $('#signUpModal').modal('hide');
+                        alert(data.message);
                         $('#loginModal').modal('show');
 
                     } else {

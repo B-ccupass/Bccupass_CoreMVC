@@ -48,9 +48,9 @@ namespace Bccupass_CoreMVC.Controllers
 
             if (outputDto.IsSuccess)
             {
-                return new JsonResult(new SignupViewModel.SignUpResponse() { IsSuccess = true, Message = "Success" });
+                return new JsonResult(new SignupViewModel.SignUpResponse() { IsSuccess = true, Message = "註冊成功" });
             }
-            return new JsonResult(new SignupViewModel.SignUpResponse() { IsSuccess = false, Message = "Fail" });
+            return new JsonResult(new SignupViewModel.SignUpResponse() { IsSuccess = false, Message = "請重新註冊" });
         }
 
 
@@ -98,7 +98,7 @@ namespace Bccupass_CoreMVC.Controllers
             {
                 return new JsonResult(new LoginViewModel()
                 {
-                    Response = new LoginViewModel.SignUpResponse() { IsSuccess = false, Message = "Fail" }
+                    Response = new LoginViewModel.SignUpResponse() { IsSuccess = false, Message = "請重新登入" }
                 });
             }
 
