@@ -1,7 +1,10 @@
 ﻿using Bccupass_CoreMVC.Models.DBEntity;
+using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Models.DTO.CreateActivity;
 using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services.Interface;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Bccupass_CoreMVC.Services
@@ -14,11 +17,11 @@ namespace Bccupass_CoreMVC.Services
             _activityDraft = activityDraft;
         }
 
-        
+
         #region 活動內容RU
         public CreateDesDto GetActivityDraftDes(int? id)
         {
-            var target =  _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
+            var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
             var result = new CreateDesDto()
             {
                 ActivityDraftId = target.ActivityDraftId,
@@ -100,7 +103,40 @@ namespace Bccupass_CoreMVC.Services
         }
         #endregion
 
+        public IEnumerable<ActivityCategoryCardDto> GetAllActivityThemeForCategory()
+        {
+            var themes = _activityDraft.GetAll<ActivityTheme>();
+            var result = themes.Select(x => new ActivityCategoryCardDto()
+            {
+                Id = x.ActivityThemeId,
+                Title = x.ActivityThemeName,
+                Icon = x.ActivityThemeImage,
+            });
+            return result;
+        }
 
+        public IEnumerable<ActivityCategoryCardDto> GetActivityType()
+        {
+            var type = _activityDraft.GetAll<ActivityType>();
+            var result = type.Select(x => new ActivityCategoryCardDto()
+            {
+                Id = x.ActivityTypeId,
+                Title = x.TypeName,
+                Icon = x.TypeImg,
+            });
+            return result;
+        }
+
+        public void CreateThemeCategory(ActivityCategoryCardDto request)
+        {
+            var activityDraft = new ActivityDraft
+            {
+                ActivityDraftId = request.Id,
+                ThemeCategory = request.ThemeCategory,
+            };
+            _activityDraft.Create(activityDraft);
+            _activityDraft.Save();
+        }
 
     }
 }

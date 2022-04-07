@@ -1,5 +1,8 @@
-﻿using Bccupass_CoreMVC.Models.DTO.CreateActivity;
+﻿using Bccupass_CoreMVC.Models.DTO.Activity;
+using Bccupass_CoreMVC.Models.DTO.CreateActivity;
+using Bccupass_CoreMVC.Models.ViewModel.Activity;
 using Bccupass_CoreMVC.Models.ViewModel.CreateActivity;
+using Bccupass_CoreMVC.Services;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -47,7 +50,7 @@ namespace Bccupass_CoreMVC.Controllers
                 };
             }
 
-            
+
 
             return View(resultVM);
         }
@@ -61,7 +64,7 @@ namespace Bccupass_CoreMVC.Controllers
             };
             _activityDraftservice.EditActivityDes(inputDto);
 
-            return RedirectToAction("Guest",new {id = activityDraftId });
+            return RedirectToAction("Guest", new { id = activityDraftId });
         }
         #endregion
 
@@ -124,7 +127,7 @@ namespace Bccupass_CoreMVC.Controllers
                 {
                     ActivityDraftId = inputDto.ActivityDraftId,
                     ActivityQuest = "這裡填上您的問題",
-                    ActivityAnswer= "這裡填上您的回答",
+                    ActivityAnswer = "這裡填上您的回答",
                     Sort = 1,
                 });
             }
@@ -157,5 +160,46 @@ namespace Bccupass_CoreMVC.Controllers
             return View();
         }
 
+        public IActionResult Policy()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Category()
+        {
+            var _themeList = _activityDraftservice.GetAllActivityThemeForCategory().Select(x => new ActivityCategoryCardViewModel.CardData()
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Icon = x.Icon,
+            });
+            var _typeList = _activityDraftservice.GetActivityType().Select(x => new ActivityCategoryCardViewModel.CardData()
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Icon = x.Icon,
+            });
+            var result = new ActivityCategoryCardViewModel()
+            {
+                Theme = _themeList,
+                Type = _typeList,
+            };
+
+            return View(result);
+        }
+        [HttpPost]
+        public IActionResult Category(ActivityCategoryCardDto request)
+        {
+            var inputDto = new ActivityCategoryCardDto
+            {
+                ThemeCategory = request.ThemeCategory,
+            };
+            _activityDraftservice.CreateThemeCategory(inputDto);
+            return RedirectToAction(nameof(Info));
+        }
+        public IActionResult Info()
+        {
+            return View();
+        }
     }
 }
