@@ -38,5 +38,9 @@
   {
     "outputFile": "wwwroot/css/Ticket/CreateTicket.css",
     "inputFile": "wwwroot/css/Ticket/CreateTicket.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Activity/SearchWindow.css",
+    "inputFile": "wwwroot/css/Activity/SearchWindow.scss"
   }
 ]

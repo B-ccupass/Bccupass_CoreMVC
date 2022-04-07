@@ -1,71 +1,91 @@
 ﻿@using Bccupass_CoreMVC.Models.ViewModel.Activity
 @model SearchKeysViewModel
-<form>
-    <div>
-        <input type="text"/>
+<form method="post">
+    <div class="container">
+        <input type="text" class="w-100"/>
         <div class="search-key-wrap">
-            <div>
-                <span>地區</span>
-                <ul>
+            <div class="row">
+                <span class="col-12 col-lg-1">地區</span>
+                <ul class="d-flex col-12 col-lg-11 flex-wrap list-unstyled">
                     <li>
                         <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off">
-                        <label class="btn btn-primary" for="btn-check-2">台北市</label>
+                        <label class="btn btn-lg-sm" for="btn-check-2">台北市</label>
                     </li>
                     <li>
                         <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off">
-                        <label class="btn btn-primary" for="btn-check-3">台北市</label>
+                        <label class="btn btn-lg-sm" for="btn-check-3">台北市</label>
                     </li>
                 </ul>
             </div>
-            <div>
-                <span>活動主題</span>
-                <ul>
+            <div class="row">
+                <span class="col-12 col-lg-1">活動主題</span>
+                <ul class="d-flex col-12 col-lg-11 flex-wrap list-unstyled">
+                    <li>
+                        <input type="checkbox" class="btn-check" id="theme-all" autocomplete="off">
+                        <label class="btn btn-lg-sm" for="theme-all">全部</label>
+                    </li>
                     @foreach (var item in @Model.Themes)
                    {
                        <li>
                            <input type="checkbox" class="btn-check" id="theme-@item.Id" autocomplete="off">
-                           <label class="btn btn-primary" for="theme-@item.Id">@item.Name</label>
+                           <label class="btn btn-lg-sm" for="theme-@item.Id">@item.Name</label>
                        </li>
                    }
                 </ul>
             </div>
-            <div>
-                <span>活動類型</span>
-                <ul>
+            <div class="row">
+                <span class="col-12 col-lg-1">活動類型</span>
+                <ul class="d-flex col-12 col-lg-11 flex-wrap list-unstyled">
+                    <li>
+                        <input type="checkbox" class="btn-check" id="type-all" autocomplete="off">
+                        <label class="btn btn-lg-sm" for="type-all">全部</label>
+                    </li>
                     @foreach (var item in @Model.Types)
                    {
                        <li>
                            <input type="checkbox" class="btn-check" id="type-@item.Id" autocomplete="off">
-                           <label class="btn btn-primary" for="type-@item.Id">@item.Name</label>
+                           <label class="btn btn-lg-sm" for="type-@item.Id">@item.Name</label>
                        </li>
                    }
                 </ul>
             </div>
-            <div>
-                <span>活動開始時間</span>
-                <ul>
+            <div class="row">
+                <span class="col-12 col-lg-1">開始時間</span>
+                <ul class="d-flex col-12 col-lg-11 flex-wrap list-unstyled">
+                    <li>
+                        <input type="checkbox" class="btn-check" id="time-all" autocomplete="off">
+                        <label class="btn btn-lg-sm" for="time-all">全部</label>
+                    </li>
                     @foreach (var item in @Model.StartTime)
                    {
                        <li>
-                           <input type="checkbox" class="btn-check" id="type-@item.EnumValue" autocomplete="off">
-                           <label class="btn btn-primary" for="type-@item.EnumValue">@item.Description</label>
+                           <input type="checkbox" class="btn-check" id="time-@item.EnumValue" autocomplete="off">
+                           <label class="btn btn-lg-sm" for="time-@item.EnumValue">@item.Description</label>
                        </li>
                    }
                 </ul>
             </div>
-            <div>
-                <span>票價</span>
-                <ul>
+            <div class="row">
+                <span class="col-12 col-lg-1">票價</span>
+                <ul class="d-flex col-12 col-lg-11 flex-wrap list-unstyled">
+                    <li>
+                        <input type="checkbox" class="btn-check" id="price-all" autocomplete="off">
+                        <label class="btn btn-lg-sm" for="price-all">全部</label>
+                    </li>
                     @foreach (var item in @Model.TicketPrice)
                    {
                        <li>
-                           <input type="checkbox" class="btn-check" id="type-@item.EnumValue" autocomplete="off">
-                           <label class="btn btn-primary" for="type-@item.EnumValue">@item.Description</label>
+                           <input type="checkbox" class="btn-check" id="price-@item.EnumValue" autocomplete="off">
+                           <label class="btn btn-lg-sm" for="price-@item.EnumValue">@item.Description</label>
                        </li>
                    }
                 </ul>
             </div>
         </div>
-
+        <input type="submit"/>
     </div>
 </form>
+
+@section Topcss {
+    <link rel="stylesheet" href="~/css/Activity/SearchWindow.scss" />
+}  
