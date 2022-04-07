@@ -1,12 +1,14 @@
-﻿using Bccupass_CoreMVC.Common.Enum;
+﻿using Bccupass_CoreMVC.Common.Enums;
 using Bccupass_CoreMVC.Common.Helpers;
 using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Models.ViewModel;
 using Bccupass_CoreMVC.Models.ViewModel.Activity;
+using Bccupass_CoreMVC.Models.ViewModel.Activity.Data;
 using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,8 +39,16 @@ namespace Bccupass_CoreMVC.Controllers
                 ActivePage = page,
                 ActionUrl = $"activityStateByTime={activityStateByTime}&sortOrder={sortOrder}",
             };
-
             var allActivity = _activityService.GetAllActivityGroupByTime();
+            //var allActivity = new ActivityCardGroupByTimeDto();
+            //if (TempData["SearchResultCardList"] != null)
+            //{
+            //    allActivity = (ActivityCardGroupByTimeDto)TempData["SearchResultCardList"];
+            //}
+            //else
+            //{
+            //    allActivity = _activityService.GetAllActivityGroupByTime();
+            //}
             var res = new ActivityIndexViewModel();
 
             // 依活動狀態(進行中、尚未開始、已結束)篩選
@@ -88,44 +98,9 @@ namespace Bccupass_CoreMVC.Controllers
                 Favorite = x.Favorite
             });
 
-            // 搜尋視窗
-            //var StartTimeList = new List<StartTimeData>();
-            //var TicketPriceList = new List<TicketPriceData>();
-
-            //foreach (var value in Enum.GetValues(typeof(StartTime)))
-            //{
-            //    var data = new StartTimeData
-            //    {
-            //        EnumValue = (int)value,
-            //        EnumName = value.ToString(),
-            //        Description = new GetEnumDescription().TimeDiscription((int)value)
-            //    };
-            //    StartTimeList.Add(data);
-            //}
-
-            //foreach (var value in Enum.GetValues(typeof(TicketPrice)))
-            //{
-            //    var data = new TicketPriceData
-            //    {
-            //        EnumValue = (int)value,
-            //        EnumName = value.ToString(),
-            //        Description = new GetEnumDescription().PriceDiscription((int)value)
-            //    };
-            //    TicketPriceList.Add(data);
-            //}
-
-            //var searchData = new SearchKeysViewModel
-            //{
-            //    Themes = _activityService.GetAllActivityTheme().Select(x => new SearchKeysViewModel.ThemeData { Id = x.Id, Name = x.Name }),
-            //    Types = _activityService.GetAllActivityType().Select(x => new SearchKeysViewModel.TypesData { Id = x.Id, Name = x.Name }),
-            //    StartTime = StartTimeList,
-            //    TicketPrice = TicketPriceList,
-            //};
-
             res.ActivityList = activityListByTime;
             res.pageInfo = pageObj;
             res.ActivitySortOrder = int.Parse(sortOrder);
-            //res.SearchKeys = searchData;
 
             return View(res);
         }
@@ -204,5 +179,24 @@ namespace Bccupass_CoreMVC.Controllers
             };
             return View(activityDetailVM);
         }
+
+        [HttpPost]
+        public IActionResult FetchSearch([FromBody] SearchKeysDataModel request)
+        {
+            var inputDto = new SearchKeysInputDto
+            {
+                SearchInput = request.SearchInput,
+                ThemesInput = request.ThemesList,
+                TypesInput = request.TypesList,
+                StartTimeInput = (StartTime)request.StartTimeEnumValue,
+                TicketPriceInput = (TicketPrice)request.TicketPriceEnumValue,
+            };
+
+            var outputDto = _activityService.ActivityFilter(inputDto);
+            //TempData["SearchResultCardList"] = outputDto.SearchResultCards;
+            //return RedirectToAction("Index");
+            return new JsonResult(new { outputDto.SearchInput });
+        }
+
     }
 }

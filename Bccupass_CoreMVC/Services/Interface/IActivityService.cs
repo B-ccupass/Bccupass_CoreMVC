@@ -15,5 +15,6 @@ namespace Bccupass_CoreMVC.Services.Interface
         public ActivityBuyTicketDto GetActivityById(int activityId);
         public ActivityDetailDto GetActivityDetail(int id);
         public ActivityCardGroupByTimeDto GetAllActivityGroupByTime();
+        public SearchKeysOutputDto ActivityFilter(SearchKeysInputDto input);
     }
 }

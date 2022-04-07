@@ -1,4 +1,5 @@
-﻿using Bccupass_CoreMVC.Models.DBEntity;
+﻿using Bccupass_CoreMVC.Common.Enums;
+using Bccupass_CoreMVC.Models.DBEntity;
 using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services.Interface;
@@ -176,17 +177,7 @@ namespace Bccupass_CoreMVC.Services
         public ActivityCardGroupByTimeDto GetOrganizerActivity(int organzierId)
         {
             var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == organzierId && x.ActivityState == 1);
-            DateTime now = DateTime.Now;
-            var inProgress = target.Where(x => x.StartTime <= now && x.EndTime >= now);
-            var notStart = target.Where(x => x.StartTime > now);
-            var end = target.Where(x => x.EndTime < now);
-
-            return new ActivityCardGroupByTimeDto
-            {
-                NotStart = ActivityCardDtoResult(notStart),
-                InProgress = ActivityCardDtoResult(inProgress),
-                End = ActivityCardDtoResult(end)
-            };
+            return GetActivityGroupByTime(target);
         }
 
         public ActivityBuyTicketDto GetActivityById(int activityId)
@@ -210,10 +201,56 @@ namespace Bccupass_CoreMVC.Services
         public ActivityCardGroupByTimeDto GetAllActivityGroupByTime()
         {
             var allActivity = _context.GetAll<Activity>();
+            return GetActivityGroupByTime(allActivity);
+        }
+
+        #region 搜尋活動
+        public SearchKeysOutputDto ActivityFilter(SearchKeysInputDto input)
+        {
+            var res = new SearchKeysOutputDto();
+            var target = _context.GetAll<Activity>();
+            if (input.SearchInput != "")
+            {
+                target = target.Where(x => x.Name.Contains(input.SearchInput));
+            }
+            if ((input.ThemesInput.Count() > 0 || input.TypesInput.Count() > 0) && target != null)
+            {
+                var ThemeTarget = target.Where(x => input.ThemesInput.Any(y => y == x.ActivityPrimaryThemeId || y == x.ActivitySecondThemeId));
+                var TypeTarget = target.Where(x => input.TypesInput.Any(y => y == x.ActivityTypeId));
+                target = ThemeTarget.Union(TypeTarget);
+            }
+            // TODO: 活動時間
+            if (input.TicketPriceInput != TicketPrice.All)
+            {
+                if (input.TicketPriceInput == TicketPrice.Free)
+                {
+                    var ticket = _context.GetAll<TicketDatail>();
+                    target = target.Where(x => ticket.Where(t => t.ActivityId == x.ActivityId).Sum(t => t.Price) == 0);
+                }
+                else
+                {
+                    var ticket = _context.GetAll<TicketDatail>();
+                    target = target.Where(x => ticket.Where(t => t.ActivityId == x.ActivityId).Sum(t => t.Price) != 0);
+                }
+            }
+
+            res.SearchInput = input.SearchInput;
+            res.SelectedThemeId = input.ThemesInput.ToList();
+            res.SelectedTypeId = input.TypesInput.ToList();
+            res.SelectedStartTimeEnumValue = (int)input.StartTimeInput;
+            res.SelectedTicketPriceEnumValue = (int)input.TicketPriceInput;
+            res.SearchResultCards = GetActivityGroupByTime(target);
+
+            return res;
+        }
+        #endregion
+
+        private ActivityCardGroupByTimeDto GetActivityGroupByTime(IQueryable<Activity> target)
+        {
             DateTime now = DateTime.Now;
-            var inProgress = allActivity.Where(x => x.StartTime <= now && x.EndTime >= now);
-            var notStart = allActivity.Where(x => x.StartTime > now);
-            var end = allActivity.Where(x => x.EndTime < now);
+            var inProgress = target.Where(x => x.StartTime <= now && x.EndTime >= now);
+            var notStart = target.Where(x => x.StartTime > now);
+            var end = target.Where(x => x.EndTime < now);
 
             return new ActivityCardGroupByTimeDto
             {
@@ -244,5 +281,7 @@ namespace Bccupass_CoreMVC.Services
 
             return result;
         }
+
+        
     }
 }

@@ -48,6 +48,9 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IActivityDraftService, ActivityDraftService>();
             services.AddTransient<IUserService, UserService>();
 
+            services.AddMemoryCache();
+            services.AddSession();
+            services.AddMvc();
 
             //註冊Service要用的HttpContext
             services.AddHttpContextAccessor();
