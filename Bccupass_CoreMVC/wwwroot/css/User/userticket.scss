@@ -1,0 +1,65 @@
+﻿.ticket-nav {
+    .nav-link {
+        font-size: 15px;
+    }
+}
+
+.ticket-main {
+    border: 1px solid #dee2e6;
+    border-left: 10px solid blue;
+}
+
+.ticket table {
+    border: 1px solid #dee2e6;
+    border-left: 10px solid gray;
+
+    i {
+        cursor: pointer;
+    }
+}
+
+.ticket-operate {
+
+
+    .get, .info, .price, .info-btn {
+        width: 32%;
+        height: 70%;
+        font-size: 12px;
+    }
+}
+
+.accordion-button {
+    background-color: #fff0;
+}
+
+.accordion-button:focus {
+    z-index: 3;
+    border-color: #fff0;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem #fff0;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #0c63e4;
+    background-color: #fff0;
+    box-shadow: inset 0 -1px 0 #fff0;
+}
+
+.accordion-button::after {
+    margin-left: 3px;
+}
+
+
+@media screen and (min-width: 768px) {
+}
+
+@media screen and (min-width: 1024px) {
+
+    .ticket-operate {
+        .get, .info, .price, .info-btn {
+            width: 32%;
+            height: 50%;
+            font-size: 14px;
+        }
+    }
+}

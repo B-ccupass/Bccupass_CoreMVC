@@ -3,7 +3,6 @@ using Bccupass_CoreMVC.Models.DTO;
 using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services.Interface;
 using Bccupass_CoreMVC.Models.DTO.Ticket;
-using Bccupass_CoreMVC.Models.DBEntity;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -99,6 +98,8 @@ namespace Bccupass_CoreMVC.Services
             return new CreateTicketDto.OrderData()
             {
                 OrderId = order.OrderDetailId,
+                OrderState =order.OrderState,
+                OrderTime = order.OrderTime,
             };
         }
 
@@ -108,7 +109,10 @@ namespace Bccupass_CoreMVC.Services
             return _context.GetAll<TicketDatail>().Where(x => res.Any(y => y == x.TicketDatailId)).Select(x => new CreateTicketDto.TicketDatail()
             {
                 TicketId = x.TicketDatailId,
-                TicketName = x.TicketName
+                TicketName = x.TicketName,
+                Price = x.Price,
+                CheckStart=x.CheckStartTime,
+                CheckEnd=x.CheckEndTime,
             });
         }
         private IEnumerable<CreateTicketDto.TicketDetailOrderDetail> GetTdOdByOrderDetailId(int orderDetailId)

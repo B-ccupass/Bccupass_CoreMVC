@@ -37,17 +37,19 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IOrganizerRepository, OrganizerRepository>();
             services.AddTransient<ITicketRepository, TicketRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IActivityDraftRepository, ActivityDraftRepository>();
+
 
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IOrganizerService, OrganizerService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IActivityDraftService, ActivityDraftService>();
+            services.AddTransient<IUserService, UserService>();
 
 
-
-            //���UService�n�Ϊ�HttpContext
+            //註冊Service要用的HttpContext
             services.AddHttpContextAccessor();
 
             //�]�w���Ҥ覡
