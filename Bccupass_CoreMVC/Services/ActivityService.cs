@@ -16,22 +16,22 @@ namespace Bccupass_CoreMVC.Services
             _context = context;
         }
 
-        public IEnumerable<ActivityThemeDto> GetAllActivityTheme()
-        {
-            return _context.GetAll<ActivityTheme>().Select(x => new ActivityThemeDto
-            {
-                Id = x.ActivityThemeId,
-                Name = x.ActivityThemeName
-            });
-        }
-        public IEnumerable<ActivityTypeDto> GetAllActivityType()
-        {
-            return _context.GetAll<ActivityType>().Select(x => new ActivityTypeDto
-            {
-                Id = x.ActivityTypeId,
-                Name = x.TypeName
-            });
-        }
+        //public IEnumerable<ActivityThemeDto> GetAllActivityTheme()
+        //{
+        //    return _context.GetAll<ActivityTheme>().Select(x => new ActivityThemeDto
+        //    {
+        //        Id = x.ActivityThemeId,
+        //        Name = x.ActivityThemeName
+        //    });
+        //}
+        //public IEnumerable<ActivityTypeDto> GetAllActivityType()
+        //{
+        //    return _context.GetAll<ActivityType>().Select(x => new ActivityTypeDto
+        //    {
+        //        Id = x.ActivityTypeId,
+        //        Name = x.TypeName
+        //    });
+        //}
 
         public IEnumerable<ActivityCardDto> GetAllActivity()
         {

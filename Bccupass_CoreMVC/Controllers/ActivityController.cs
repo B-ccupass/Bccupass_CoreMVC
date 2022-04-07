@@ -89,43 +89,43 @@ namespace Bccupass_CoreMVC.Controllers
             });
 
             // 搜尋視窗
-            var StartTimeList = new List<StartTimeData>();
-            var TicketPriceList = new List<TicketPriceData>();
+            //var StartTimeList = new List<StartTimeData>();
+            //var TicketPriceList = new List<TicketPriceData>();
 
-            foreach (var value in Enum.GetValues(typeof(StartTime)))
-            {
-                var data = new StartTimeData
-                {
-                    EnumValue = (int)value,
-                    EnumName = value.ToString(),
-                    Description = new GetEnumDescription().TimeDiscription((int)value)
-                };
-                StartTimeList.Add(data);
-            }
+            //foreach (var value in Enum.GetValues(typeof(StartTime)))
+            //{
+            //    var data = new StartTimeData
+            //    {
+            //        EnumValue = (int)value,
+            //        EnumName = value.ToString(),
+            //        Description = new GetEnumDescription().TimeDiscription((int)value)
+            //    };
+            //    StartTimeList.Add(data);
+            //}
 
-            foreach (var value in Enum.GetValues(typeof(TicketPrice)))
-            {
-                var data = new TicketPriceData
-                {
-                    EnumValue = (int)value,
-                    EnumName = value.ToString(),
-                    Description = new GetEnumDescription().PriceDiscription((int)value)
-                };
-                TicketPriceList.Add(data);
-            }
+            //foreach (var value in Enum.GetValues(typeof(TicketPrice)))
+            //{
+            //    var data = new TicketPriceData
+            //    {
+            //        EnumValue = (int)value,
+            //        EnumName = value.ToString(),
+            //        Description = new GetEnumDescription().PriceDiscription((int)value)
+            //    };
+            //    TicketPriceList.Add(data);
+            //}
 
-            var searchData = new SearchKeysViewModel
-            {
-                Themes = _activityService.GetAllActivityTheme().Select(x => new SearchKeysViewModel.ThemeData { Id = x.Id, Name = x.Name }),
-                Types = _activityService.GetAllActivityType().Select(x => new SearchKeysViewModel.TypesData { Id = x.Id, Name = x.Name }),
-                StartTime = StartTimeList,
-                TicketPrice = TicketPriceList,
-            };
+            //var searchData = new SearchKeysViewModel
+            //{
+            //    Themes = _activityService.GetAllActivityTheme().Select(x => new SearchKeysViewModel.ThemeData { Id = x.Id, Name = x.Name }),
+            //    Types = _activityService.GetAllActivityType().Select(x => new SearchKeysViewModel.TypesData { Id = x.Id, Name = x.Name }),
+            //    StartTime = StartTimeList,
+            //    TicketPrice = TicketPriceList,
+            //};
 
             res.ActivityList = activityListByTime;
             res.pageInfo = pageObj;
             res.ActivitySortOrder = int.Parse(sortOrder);
-            res.SearchKeys = searchData;
+            //res.SearchKeys = searchData;
 
             return View(res);
         }
