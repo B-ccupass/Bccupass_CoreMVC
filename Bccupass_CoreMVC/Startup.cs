@@ -35,12 +35,14 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IOrganizerRepository, OrganizerRepository>();
             services.AddTransient<ITicketRepository, TicketRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+
 
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IOrganizerService, OrganizerService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IAccountService, AccountService>();
-
+            services.AddTransient<IUserService, UserService>();
 
 
             //註冊Service要用的HttpContext
@@ -55,11 +57,6 @@ namespace Bccupass_CoreMVC
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Bccupass"));
             });
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-
-            services.AddHttpContextAccessor();
-
             services.AddControllersWithViews();
         }
 
@@ -83,19 +80,13 @@ namespace Bccupass_CoreMVC
             
             app.UseAuthentication();//驗證
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-            endpoints.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            endpoints.MapControllerRoute(
-                name: "activitydetail",
-                pattern: "Detail/{id?}",
-                defaults: new { controller = "Activity", action = "Detail" });
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

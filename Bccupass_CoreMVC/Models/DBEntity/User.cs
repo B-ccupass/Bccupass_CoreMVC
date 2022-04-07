@@ -28,7 +28,6 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public string Password { get; set; }
         public int? Job { get; set; }
         public bool Verification { get; set; }
-        public bool? IsAdmin { get; set; }
 
         public bool IsAdmin { get; set; }
 

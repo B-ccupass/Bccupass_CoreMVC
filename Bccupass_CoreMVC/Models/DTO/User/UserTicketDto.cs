@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Bccupass_CoreMVC.Models.ViewModel
+namespace Bccupass_CoreMVC.Models.DTO.User
 {
-    public class CreateTicketViewModel
+    public class UserTicketDto
     {
-        public OrderData Order { get; set; }
+        public UserData User { get; set; }
+        public IEnumerable<OrderData> Order { get; set; }
         public IEnumerable<TicketDetailOrderDetail> TdOd { get; set; }
         public IEnumerable<TicketDatail> TicketDetail { get; set; }
-        public ActivityData Activity { get; set; }
-        public OrganizerData Organizer { get; set; }
+        public IEnumerable<ActivityData> Activity { get; set; }
 
-        public int TicketNum { get; set; }
+
+
+
 
         public class TicketDetailOrderDetail
         {
@@ -28,6 +30,8 @@ namespace Bccupass_CoreMVC.Models.ViewModel
         {
             public int TicketId { get; set; }
             public string TicketName { get; set; }
+            public decimal Price { get; set; }
+
 
         }
 
@@ -52,5 +56,11 @@ namespace Bccupass_CoreMVC.Models.ViewModel
         {
             public int OrderId { get; set; }
         }
+
+        public class UserData
+        {
+            public int UserId { get; set; }
+        }
     }
 }
+
