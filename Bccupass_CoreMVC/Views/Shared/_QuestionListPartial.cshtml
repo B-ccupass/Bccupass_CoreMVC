@@ -2,7 +2,7 @@
 @model CreateQAViewModel
 <tr>
     <th scope="row"  class="lh-lg"><i class="fas fa-grip-vertical"></i></th>
-    <td class="lh-lg"><input type="checkbox" name="c" value="@Model.Sort" class="checked" /></td>
+    <td class="lh-lg"><input type="checkbox" name="c"class="checked" /></td>
     <td class="lh-lg" colspan="4" id="Quest@(Model.Sort)">@Model.ActivityQuest</td>
     <td class="accordion-header flex-nowrap" id="flush-headingOne">
         <button class="btn btn-outline-light rounded-circle border-0 text-primary collapsed" 
@@ -20,6 +20,7 @@
     <td class="p-0" colspan="7">
         <div class="collapse" id="collapse-@(Model.Sort)">
             <div class="card card-body border-0 list-color card-pad">
+                <input type="hidden" id="sort@(Model.Sort)" value="@Model.Sort"/>
                 <p>答:</p>
 
                 <p id="Answer@(Model.Sort)">@Model.ActivityAnswer</p>

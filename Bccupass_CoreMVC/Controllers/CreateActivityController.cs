@@ -132,7 +132,7 @@ namespace Bccupass_CoreMVC.Controllers
                     ActivityDraftId = inputDto.ActivityDraftId,
                     ActivityQuest = "這裡填上您的問題",
                     ActivityAnswer = "這裡填上您的回答",
-                    Sort = 1,
+                    Sort = 0,
                 });
             }
             else

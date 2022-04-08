@@ -86,14 +86,15 @@
                 <div class="modal-dialog m-0 m-auto modal-dialog-centered">
                     <div class="modal-content question-model m-auto">
                         <div class="modal-body lh-lg m-3">
+                            <input type="hidden" id="sort"/>
                             <p>問題:</p>
-                            <input type="text" class="col-md-11 col-10 bg-secondary mb-4 input-text">
+                            <input id="quest" type="text" class="col-md-11 col-10 bg-secondary mb-4 input-text">
                             <p>回答:</p>
                             <textarea name="" id="" cols="30" rows="10" class="col-md-11 col-10" style="resize:none;"></textarea>
                         </div>
                         <div class="modal-footer p-0 flex-nowrap">
                             <button class="btn border-0 p-1 col-6 m-0 border-end" data-bs-dismiss="modal">取消</button>
-                            <button class="btn border-0 p-1 col-6 m-0 lh-lg" id="edit">確認修改</button>
+                            <button type="button" class="btn border-0 p-1 col-6 m-0 lh-lg" id="edit">確認修改</button>
                         </div>
                     </div>
                 </div>
@@ -123,10 +124,12 @@
         function getQAData(sort){
             var question = document.getElementById(`Quest${sort}`)
             var answer = document.getElementById(`Answer${sort}`)
+            var sortItem = document.getElementById(`sort${sort}`)
 
             let model = document.getElementById(`EditModal`)
 
-            model.querySelector('input').value = question.textContent
+            model.querySelector('#sort').value = sortItem.value
+            model.querySelector('#quest').value = question.textContent
             model.querySelector('textarea').value = answer.textContent
         }
        
@@ -147,7 +150,22 @@
         }
 
         editBtn.onclick = function(){
+            let model = document.getElementById(`EditModal`)
 
+            var sort = model.querySelector('#sort').value 
+            var question = model.querySelector('#quest').value 
+            var answer = model.querySelector('textarea').value 
+
+            dataArray.forEach(data =>{
+                if(data.Sort == sort){
+                    data.ActivityQuest = question
+                    data.ActivityAnswer = answer
+                }
+            })
+
+            outputJson.setAttribute('value',JSON.stringify(dataArray))    
+            var myModal = document.querySelector(`#EditModal`)
+            bootstrap.Modal.getOrCreateInstance(myModal).hide();
         }
 
         deleteBtn.onclick = function(){
@@ -186,3 +204,5 @@
         </script>
     }
 }
+
+
