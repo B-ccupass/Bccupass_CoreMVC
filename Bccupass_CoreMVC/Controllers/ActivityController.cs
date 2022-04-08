@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static Bccupass_CoreMVC.Models.ViewModel.Activity.SearchKeysViewModel;
 
 namespace Bccupass_CoreMVC.Controllers
@@ -39,33 +40,45 @@ namespace Bccupass_CoreMVC.Controllers
                 ActivePage = page,
                 ActionUrl = $"activityStateByTime={activityStateByTime}&sortOrder={sortOrder}",
             };
-            var allActivity = _activityService.GetAllActivityGroupByTime();
-            //var allActivity = new ActivityCardGroupByTimeDto();
-            //if (TempData["SearchResultCardList"] != null)
-            //{
-            //    allActivity = (ActivityCardGroupByTimeDto)TempData["SearchResultCardList"];
-            //}
-            //else
-            //{
-            //    allActivity = _activityService.GetAllActivityGroupByTime();
-            //}
+            var allActivity = new ActivityCardGroupByTimeDto();
+            if (TempData["SearchResultCardList"] != null)
+            {
+                string json = (string)TempData["SearchResultCardList"];
+                var searchInput = JsonConvert.DeserializeObject<SearchKeysDataModel>(json);
+                var inputDto = new SearchKeysInputDto
+                {
+                    ThemesInput = searchInput.ThemesList,
+                    TypesInput = searchInput.TypesList,
+                    StartTimeInput = (StartTime)searchInput.StartTimeEnumValue,
+                    TicketPriceInput = (TicketPrice)searchInput.TicketPriceEnumValue,
+                };
+
+                var outputDto = _activityService.ActivityFilter(inputDto);
+                allActivity = outputDto.SearchResultCards;
+
+                TempData.Keep();
+            }
+            else
+            {
+                allActivity = _activityService.GetAllActivityGroupByTime();
+            }
             var res = new ActivityIndexViewModel();
 
             // 依活動狀態(進行中、尚未開始、已結束)篩選
             switch (int.Parse(activityStateByTime))
             {
                 case (int)ActivityStateByTime.NotStart:
-                    pageObj.Total = _activityService.GetAllActivityGroupByTime().NotStart.Count();
+                    pageObj.Total = allActivity.NotStart.Count();
                     activityList = allActivity.NotStart.Skip(pageObj.StartRow).Take(pageObj.PageRows);
                     res.ActivityStateByTime = (int)ActivityStateByTime.NotStart;
                     break;
                 case (int)ActivityStateByTime.End:
-                    pageObj.Total = _activityService.GetAllActivityGroupByTime().End.Count();
+                    pageObj.Total = allActivity.End.Count();
                     activityList = allActivity.End.Skip(pageObj.StartRow).Take(pageObj.PageRows);
                     res.ActivityStateByTime = (int)ActivityStateByTime.End;
                     break;
                 default:
-                    pageObj.Total = _activityService.GetAllActivityGroupByTime().InProgress.Count();
+                    pageObj.Total = allActivity.InProgress.Count();
                     activityList = allActivity.InProgress.Skip(pageObj.StartRow).Take(pageObj.PageRows);
                     res.ActivityStateByTime = (int)ActivityStateByTime.Inprogress;
                     break;
@@ -183,19 +196,14 @@ namespace Bccupass_CoreMVC.Controllers
         [HttpPost]
         public IActionResult FetchSearch([FromBody] SearchKeysDataModel request)
         {
-            var inputDto = new SearchKeysInputDto
-            {
-                SearchInput = request.SearchInput,
-                ThemesInput = request.ThemesList,
-                TypesInput = request.TypesList,
-                StartTimeInput = (StartTime)request.StartTimeEnumValue,
-                TicketPriceInput = (TicketPrice)request.TicketPriceEnumValue,
-            };
+            TempData["SearchResultCardList"] = JsonConvert.SerializeObject(request);
 
-            var outputDto = _activityService.ActivityFilter(inputDto);
-            //TempData["SearchResultCardList"] = outputDto.SearchResultCards;
-            //return RedirectToAction("Index");
-            return new JsonResult(new { outputDto.SearchInput });
+            return new JsonResult(new { isSuccess = true });
+        }
+
+        public IActionResult FetchSearchResult()
+        {
+            return RedirectToAction("Index");
         }
 
     }

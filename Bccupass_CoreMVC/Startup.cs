@@ -48,10 +48,6 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IActivityDraftService, ActivityDraftService>();
             services.AddTransient<IUserService, UserService>();
 
-            services.AddMemoryCache();
-            services.AddSession();
-            services.AddMvc();
-
             //註冊Service要用的HttpContext
             services.AddHttpContextAccessor();
 
@@ -64,6 +60,14 @@ namespace Bccupass_CoreMVC
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Bccupass"));
             });
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(120);
+            });
+
             services.AddControllersWithViews();
 
             //�קKNet Core Razor View ����Q�۰ʽs�X https://www.gss.com.tw/blog/aspnetcore-chinese-encoding
@@ -93,6 +97,8 @@ namespace Bccupass_CoreMVC
             app.UseAuthentication();//����
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

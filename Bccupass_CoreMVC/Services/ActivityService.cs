@@ -209,15 +209,30 @@ namespace Bccupass_CoreMVC.Services
         {
             var res = new SearchKeysOutputDto();
             var target = _context.GetAll<Activity>();
-            if (input.SearchInput != "")
+            if (input.SearchInput != null)
             {
                 target = target.Where(x => x.Name.Contains(input.SearchInput));
             }
             if ((input.ThemesInput.Count() > 0 || input.TypesInput.Count() > 0) && target != null)
             {
-                var ThemeTarget = target.Where(x => input.ThemesInput.Any(y => y == x.ActivityPrimaryThemeId || y == x.ActivitySecondThemeId));
-                var TypeTarget = target.Where(x => input.TypesInput.Any(y => y == x.ActivityTypeId));
-                target = ThemeTarget.Union(TypeTarget);
+                // Theme
+                IQueryable<Activity> themeFilter = Enumerable.Empty<Activity>().AsQueryable();
+                foreach(int themeId in input.ThemesInput)
+                {
+                    var filterActivityByThemeId = target.Where(x => x.ActivityPrimaryThemeId == themeId || x.ActivitySecondThemeId == themeId).ToList();
+                    themeFilter = themeFilter.Concat(filterActivityByThemeId);
+                }
+                var ThemeTarget = themeFilter;
+
+                //Type
+                IQueryable<Activity> typeFilter = Enumerable.Empty<Activity>().AsQueryable();
+                foreach (int typeId in input.TypesInput)
+                {
+                    var filterActivityByTypeId = target.Where(x => x.ActivityTypeId == typeId).ToList();
+                    typeFilter = typeFilter.Concat(filterActivityByTypeId);
+                }
+                var TypeTarget = typeFilter;
+                target = (IQueryable<Activity>)ThemeTarget.Union(TypeTarget);
             }
             // TODO: 活動時間
             if (input.TicketPriceInput != TicketPrice.All)
