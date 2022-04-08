@@ -26,26 +26,26 @@ namespace Bccupass_CoreMVC.Controllers
         public IActionResult UserTicket(int userId)
         {
 
-            int activePage = 1; // 目前在第幾頁
-            int pageRows = 5; // 一頁幾筆資料
+            //int activePage = 1; // 目前在第幾頁
+            //int pageRows = 5; // 一頁幾筆資料
 
             userId = 1;
             var userTicketDto = _userService.GetOrderListOfUser(userId);
             var order = userTicketDto.Select(x => _ticketService.GetTicket(x.OrderId));
             var total = userTicketDto.Count();
 
-            // 計算頁數
-            int pages = 0;
-            if (total % pageRows == 0)
-            {
-                pages = total / pageRows;
-            }
-            else
-            {
-                pages = (total / pageRows) + 1;
-            }
+            //// 計算頁數
+            //int pages = 0;
+            //if (total % pageRows == 0)
+            //{
+            //    pages = total / pageRows;
+            //}
+            //else
+            //{
+            //    pages = (total / pageRows) + 1;
+            //}
 
-            int startRow = (activePage - 1) * pageRows;
+            //int startRow = (activePage - 1) * pageRows;
 
 
 
