@@ -6,8 +6,8 @@ namespace Bccupass_CoreMVC.Services.Interface
 {
     public interface IActivityService
     {
-        public IEnumerable<ActivityThemeDto> GetAllActivityTheme();
-        public IEnumerable<ActivityTypeDto> GetAllActivityType();
+        //public IEnumerable<ActivityThemeDto> GetAllActivityTheme();
+        //public IEnumerable<ActivityTypeDto> GetAllActivityType();
         public IEnumerable<ActivityCardDto> GetAllActivity();
         public IEnumerable<ActivityCardDto> GetNewestActivity();
         public IEnumerable<ActivityCardDto> GetChosenActivity();
@@ -15,5 +15,6 @@ namespace Bccupass_CoreMVC.Services.Interface
         public ActivityBuyTicketDto GetActivityById(int activityId);
         public ActivityDetailDto GetActivityDetail(int id);
         public ActivityCardGroupByTimeDto GetAllActivityGroupByTime();
+        public SearchKeysOutputDto ActivityFilter(SearchKeysInputDto input);
     }
 }

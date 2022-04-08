@@ -1,9 +1,47 @@
-﻿@using Bccupass_CoreMVC.Common.Enum
+﻿@using Bccupass_CoreMVC.Common.Enums
+@using Bccupass_CoreMVC.Common.Helpers
 @using Bccupass_CoreMVC.Models.ViewModel.Activity
 @model ActivityIndexViewModel
 @section Topcss {
     <link rel="stylesheet" href="~/css/Activity/Index.css" />
 }
+@{
+    // 活動開始時間
+    var startTimeList = new List<SearchKeysViewModel.StartTimeData>();
+    foreach(int value  in Enum.GetValues(typeof(StartTime)))
+    {
+        var item = new SearchKeysViewModel.StartTimeData
+        {
+            EnumValue = value,
+            EnumName = Enum.GetName(typeof(StartTime), value),
+            Description = GetEnumDescription.GetDescriptionText((StartTime)value)
+        };
+        startTimeList.Add(item);
+    }
+
+    // 活動票券
+    var PriceList = new List<SearchKeysViewModel.TicketPriceData>();
+    foreach(int value  in Enum.GetValues(typeof(TicketPrice)))
+    {
+        var item = new SearchKeysViewModel.TicketPriceData
+        {
+            EnumValue = value,
+            EnumName = Enum.GetName(typeof(TicketPrice), value),
+            Description = GetEnumDescription.GetDescriptionText((TicketPrice)value)
+        };
+        PriceList.Add(item);
+    }
+
+    var searchKeyVM = new SearchKeysViewModel
+    {
+        //ThemesList
+        //TypesList
+        StartTimeList = startTimeList,
+        TicketPriceList = PriceList,
+    };
+}
+
+
 
 <div class="search-result bg-white p-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
     <div class="container">
@@ -26,7 +64,7 @@
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            @await Html.PartialAsync("_ActivitySearchWindowPartial", @Model.SearchKeys)
+            @await Html.PartialAsync("_ActivitySearchWindowPartial", @searchKeyVM)
         </div>
     </div>
     <div class="card-list-wrap">
@@ -54,12 +92,15 @@
                         {
                             @await Html.PartialAsync("_EmptyResultPartial")
                         }else{
-                        @foreach(var item in Model.ActivityList){
-                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                @await Html.PartialAsync("_activityCardPartial", item)
-                            </div>
-                        }
-                            @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
+                            @foreach(var item in Model.ActivityList){
+                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                    @await Html.PartialAsync("_activityCardPartial", item)
+                                </div>
+                            }
+                            @if(@Model.pageInfo.Total > 0 && @Model.pageInfo.Total > @Model.pageInfo.PageRows)
+                            {
+                                @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
+                            }
                         }
                     </div>
                 </div>
@@ -69,12 +110,15 @@
                         {
                             @await Html.PartialAsync("_EmptyResultPartial")
                         }else{
-                        @foreach(var item in Model.ActivityList){
-                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                @await Html.PartialAsync("_activityCardPartial", item)
-                            </div>
-                        }
-                            @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
+                            @foreach(var item in Model.ActivityList){
+                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                    @await Html.PartialAsync("_activityCardPartial", item)
+                                </div>
+                            }
+                            @if(@Model.pageInfo.Total > 0 && @Model.pageInfo.Total > @Model.pageInfo.PageRows)
+                            {
+                                @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
+                            }
                         }
                     </div>
                 </div>
@@ -84,12 +128,15 @@
                         {
                             @await Html.PartialAsync("_EmptyResultPartial")
                         }else{
-                        @foreach(var item in Model.ActivityList){
-                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                @await Html.PartialAsync("_activityCardPartial", item)
-                            </div>
-                        }
-                            @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
+                            @foreach(var item in Model.ActivityList){
+                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                    @await Html.PartialAsync("_activityCardPartial", item)
+                                </div>
+                            }
+                            @if(@Model.pageInfo.Total > 0 && @Model.pageInfo.Total > @Model.pageInfo.PageRows)
+                            {
+                                @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
+                            }
                         }
                     </div>
                 </div>
@@ -97,22 +144,37 @@
         </div>
     </div>
 </div>
-@*<div class="pagination m-auto d-flex justify-content-center">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>*@
+
+@section EndJS {
+    <script>
+        const searchInput = document.querySelector(".search-input");
+        const submit = document.querySelector("#submit");
+
+        submit.onclick = function(){
+            let res = {
+                SearchInput: "",
+                ThemesList: [1,2],
+                TypesList: [1,2],
+                StartTimeEnumValue: 0,
+                TicketPriceEnumValue: 0,
+            }
+            fetch("/Activity/FetchSearch", {
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                method: 'POST',
+                body: JSON.stringify(res)
+            })
+            .then(response => {
+                console.log(response)
+                if(response.ok){
+                    window.location.href = "/Activity/Index"
+                }else{
+                    
+                }
+
+            })
+        }
+    </script>
+}  

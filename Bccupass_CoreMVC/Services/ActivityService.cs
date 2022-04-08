@@ -1,4 +1,5 @@
-﻿using Bccupass_CoreMVC.Models.DBEntity;
+﻿using Bccupass_CoreMVC.Common.Enums;
+using Bccupass_CoreMVC.Models.DBEntity;
 using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services.Interface;
@@ -16,22 +17,22 @@ namespace Bccupass_CoreMVC.Services
             _context = context;
         }
 
-        public IEnumerable<ActivityThemeDto> GetAllActivityTheme()
-        {
-            return _context.GetAll<ActivityTheme>().Select(x => new ActivityThemeDto
-            {
-                Id = x.ActivityThemeId,
-                Name = x.ActivityThemeName
-            });
-        }
-        public IEnumerable<ActivityTypeDto> GetAllActivityType()
-        {
-            return _context.GetAll<ActivityType>().Select(x => new ActivityTypeDto
-            {
-                Id = x.ActivityTypeId,
-                Name = x.TypeName
-            });
-        }
+        //public IEnumerable<ActivityThemeDto> GetAllActivityTheme()
+        //{
+        //    return _context.GetAll<ActivityTheme>().Select(x => new ActivityThemeDto
+        //    {
+        //        Id = x.ActivityThemeId,
+        //        Name = x.ActivityThemeName
+        //    });
+        //}
+        //public IEnumerable<ActivityTypeDto> GetAllActivityType()
+        //{
+        //    return _context.GetAll<ActivityType>().Select(x => new ActivityTypeDto
+        //    {
+        //        Id = x.ActivityTypeId,
+        //        Name = x.TypeName
+        //    });
+        //}
 
         public IEnumerable<ActivityCardDto> GetAllActivity()
         {
@@ -176,17 +177,7 @@ namespace Bccupass_CoreMVC.Services
         public ActivityCardGroupByTimeDto GetOrganizerActivity(int organzierId)
         {
             var target = _context.GetAll<Activity>().Where(x => x.OrganizerId == organzierId && x.ActivityState == 1);
-            DateTime now = DateTime.Now;
-            var inProgress = target.Where(x => x.StartTime <= now && x.EndTime >= now);
-            var notStart = target.Where(x => x.StartTime > now);
-            var end = target.Where(x => x.EndTime < now);
-
-            return new ActivityCardGroupByTimeDto
-            {
-                NotStart = ActivityCardDtoResult(notStart),
-                InProgress = ActivityCardDtoResult(inProgress),
-                End = ActivityCardDtoResult(end)
-            };
+            return GetActivityGroupByTime(target);
         }
 
         public ActivityBuyTicketDto GetActivityById(int activityId)
@@ -210,10 +201,71 @@ namespace Bccupass_CoreMVC.Services
         public ActivityCardGroupByTimeDto GetAllActivityGroupByTime()
         {
             var allActivity = _context.GetAll<Activity>();
+            return GetActivityGroupByTime(allActivity);
+        }
+
+        #region 搜尋活動
+        public SearchKeysOutputDto ActivityFilter(SearchKeysInputDto input)
+        {
+            var res = new SearchKeysOutputDto();
+            var target = _context.GetAll<Activity>();
+            if (input.SearchInput != null)
+            {
+                target = target.Where(x => x.Name.Contains(input.SearchInput));
+            }
+            if ((input.ThemesInput.Count() > 0 || input.TypesInput.Count() > 0) && target != null)
+            {
+                // Theme
+                IQueryable<Activity> themeFilter = Enumerable.Empty<Activity>().AsQueryable();
+                foreach(int themeId in input.ThemesInput)
+                {
+                    var filterActivityByThemeId = target.Where(x => x.ActivityPrimaryThemeId == themeId || x.ActivitySecondThemeId == themeId).ToList();
+                    themeFilter = themeFilter.Concat(filterActivityByThemeId);
+                }
+                var ThemeTarget = themeFilter;
+
+                //Type
+                IQueryable<Activity> typeFilter = Enumerable.Empty<Activity>().AsQueryable();
+                foreach (int typeId in input.TypesInput)
+                {
+                    var filterActivityByTypeId = target.Where(x => x.ActivityTypeId == typeId).ToList();
+                    typeFilter = typeFilter.Concat(filterActivityByTypeId);
+                }
+                var TypeTarget = typeFilter;
+                target = (IQueryable<Activity>)ThemeTarget.Union(TypeTarget);
+            }
+            // TODO: 活動時間
+            if (input.TicketPriceInput != TicketPrice.All)
+            {
+                if (input.TicketPriceInput == TicketPrice.Free)
+                {
+                    var ticket = _context.GetAll<TicketDatail>();
+                    target = target.Where(x => ticket.Where(t => t.ActivityId == x.ActivityId).Sum(t => t.Price) == 0);
+                }
+                else
+                {
+                    var ticket = _context.GetAll<TicketDatail>();
+                    target = target.Where(x => ticket.Where(t => t.ActivityId == x.ActivityId).Sum(t => t.Price) != 0);
+                }
+            }
+
+            res.SearchInput = input.SearchInput;
+            res.SelectedThemeId = input.ThemesInput.ToList();
+            res.SelectedTypeId = input.TypesInput.ToList();
+            res.SelectedStartTimeEnumValue = (int)input.StartTimeInput;
+            res.SelectedTicketPriceEnumValue = (int)input.TicketPriceInput;
+            res.SearchResultCards = GetActivityGroupByTime(target);
+
+            return res;
+        }
+        #endregion
+
+        private ActivityCardGroupByTimeDto GetActivityGroupByTime(IQueryable<Activity> target)
+        {
             DateTime now = DateTime.Now;
-            var inProgress = allActivity.Where(x => x.StartTime <= now && x.EndTime >= now);
-            var notStart = allActivity.Where(x => x.StartTime > now);
-            var end = allActivity.Where(x => x.EndTime < now);
+            var inProgress = target.Where(x => x.StartTime <= now && x.EndTime >= now);
+            var notStart = target.Where(x => x.StartTime > now);
+            var end = target.Where(x => x.EndTime < now);
 
             return new ActivityCardGroupByTimeDto
             {
@@ -244,5 +296,7 @@ namespace Bccupass_CoreMVC.Services
 
             return result;
         }
+
+        
     }
 }
