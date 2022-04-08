@@ -170,7 +170,6 @@
             
             outputJson.setAttribute('value',JSON.stringify(dataArray))
 
-            //WHy?
             debugger
             bootstrap.Modal.getOrCreateInstance(myModal).hide();
             
@@ -184,6 +183,10 @@
                         dataArray.splice(dataArray.findIndex(index => index == item),1)
                     }
                 })
+            for(var i = 0; i < dataArray.length;i++){
+                dataArray[i].ItemId = i
+            }
+
              outputJson.setAttribute('value',JSON.stringify(dataArray))
             
             bootstrap.Modal.getOrCreateInstance(myModal).hide();
@@ -205,7 +208,7 @@
                     GuestCompany: `@item.GuestCompany`,
                     GuestInfo: `@item.GuestInfo`,
                     GuestWeb: `@item.GuestWeb`,
-                    ItemId: `@item.ItemId`
+                    ItemId: dataArray.length
                 }
 
                 dataArray.push(data)
