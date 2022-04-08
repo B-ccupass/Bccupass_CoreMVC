@@ -1,4 +1,5 @@
-﻿
+﻿@using Bccupass_CoreMVC.Models.ViewModel.CreateActivity
+@model List<CreateTicketViewModel>
 
 @section Topcss {
      <link rel="stylesheet" href="~/css/CreateActivity/Ticket.css" />
@@ -23,82 +24,18 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td class="lh-lg" colspan="2">
-                                <div class="border col-12 col-md-9 p-1">
-                                    <input type="text" class="border-0"/>
-                                </div>
-                            </td>
-                            <td class="lh-lg">
-                                <div class="border col-12 col-md-9 p-1">
-                                    <input class="col-10 border-0 d-inline-block" type="number"/>
-                                </div>
-                            </td>
-                            <td class="lh-lg" colspan="2" class="m-1" >
-                                <div class="border w-75 p-md-1 p-0 flex-nowrap">
-                                    <div class="d-inline col-4 me-2">NT$</div>
-                                    <input type="number" class="border-0 d-inline col-7" step="1" maxlength="50" value="200">
-                                </div>
-                            </td>
-                            <td class="accordion-header"  colspan="2"id="flush-headingOne">
-                                <button class="btn btn-outline-light rounded-circle border-0 text-primary collapsed" 
-                                type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1">
-                                    <i class="fas fa-cog"></i>
-                                </button>
-                                <button class="btn btn-outline-light rounded-circle border-0 text-primary collapsed" type="button" >
-                                    <i class="far fa-clone"></i>
-                                </button>
-                                <button class="btn btn-outline-light rounded-circle border-0 text-primary collapsed" 
-                                type="button"  data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                    <i class="far fa-trash-alt"></i>
-                                </button>
-                            </td>                                    
-                        </tr>    
-                        <!-- 票卷設定-延伸區塊   -->
-                        <tr>
-                            <td class="p-0" colspan="7">
-                                <div class="collapse" id="collapse-1">
-                                    <div class="card card-body border-0 backcolor card-pad">
-                                        <p>票卷說明</p>
-                                            <textarea class="resize" name="" id="" cols="30" rows="10"></textarea>
 
-                                        <p>售票時間</p>
-                                            @await Html.PartialAsync("_ticketSelectTimePartial")
-                                        <p>有效時間(可驗票時間)</p>
-                                            <span>有效時間為可驗票入場的時間，系統自動提前兩小時開放給主辦方現場測試。</span>
-                                            <label class="d-flex check-ticket ">
-                                                <input type="checkbox" class="" checked="">
-                                                <span class="">有效時間建議設定為活動時間</span>
-                                            </label>
-                                            @await Html.PartialAsync("_ticketSelectTimePartial")
-                                        <p>是否開賣？</p>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                    發售，活動上架後立即開賣
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                                                <label class="form-check-label" for="flexRadioDefault2">
-                                                    停售，該票券暫停對外銷售，並從購票頁中隱藏
-                                                </label>
-                                            </div>
-                                    </div>
-                                    <div class="text-center border-0 text-primary collapsed bg-opacity-10 bg-secondary" 
-                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1">
-                                        收和資訊
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
+                            @foreach(var item in Model)
+                            {
+                                @await Html.PartialAsync("_ticketSettingPartial",item)
+                                
+                            }
 
                         <tr>
                             <td colspan="7" class="p-0">
                                 <div class="backcolor justify-content-center align-content-center d-flex pt-4 pb-4">
-                                    <button class="btn bg-white btn-add-ticket me-2"><i class="fas fa-plus icon-btn"></i>免費票</button>
-                                    <button class="btn bg-white btn-add-ticket"><i class="fas fa-plus icon-btn"></i>付費票</button>
+                                    <button id="free" class="btn bg-white btn-add-ticket me-2"><i class="fas fa-plus icon-btn"></i>免費票</button>
+                                    <button id="noFree" class="btn bg-white btn-add-ticket"><i class="fas fa-plus icon-btn"></i>付費票</button>
                                 </div>
                             </td>
                         </tr>
@@ -137,7 +74,42 @@
 
 @section endJS {
     <script>
-        
-    </script>
+        var addFree = document.getElementById('free')
+        var hour = document.getElementById('hour')
 
+        var dataArray = []
+
+
+        addFree.onclick = function(){
+
+        }
+
+
+    </script>
+   
+
+
+     @foreach(var item in Model){
+            <script type="text/javascript">
+                data = {
+                    ActivityDraftId: @item.ActivityDraftId,
+                    TicketName: `@item.TicketName`,
+                    Quantity: @item.Quantity,
+                    Price: @item.Price,
+                    Description: `@item.Description`,
+                    SellStartTime: `@item.SellStartTime`,
+                    SellEndTime: `@item.SellEndTime`,
+                    CheckStartTime: `@item.CheckStartTime`,
+                    CheckEndTime: `@item.CheckEndTime`,
+                    IsSell: `@item.IsSell`,
+                    IsCheckEqualActivityTime: `@item.IsCheckEqualActivityTime`,
+                    BuyLimitLeast: @item.BuyLimitLeast,
+                    BuyLimitMost: @item.BuyLimitMost
+                }
+
+                dataArray.push(data)
+
+                @*outputJson.setAttribute('value',JSON.stringify(dataArray))   *@
+            </script>
+     }
 }

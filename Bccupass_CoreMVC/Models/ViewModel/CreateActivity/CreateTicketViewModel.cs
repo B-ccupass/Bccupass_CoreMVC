@@ -9,10 +9,10 @@ namespace Bccupass_CoreMVC.Models.ViewModel.CreateActivity
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; } //票卷說明
-        public DateTime SellStartTime { get; set; }
-        public DateTime SellEndTime { get; set; }
-        public DateTime CheckStartTime { get; set; }
-        public DateTime CheckEndTime { get; set; }
+        public string SellStartTime { get; set; }
+        public string SellEndTime { get; set; }
+        public string CheckStartTime { get; set; }
+        public string CheckEndTime { get; set; }
         public bool IsSell { get; set; }
         public bool IsCheckEqualActivityTime { get; set; } //有效時間建議設定為活動時間
         public int BuyLimitLeast { get; set; }

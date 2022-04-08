@@ -8,6 +8,7 @@ using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -159,10 +160,46 @@ namespace Bccupass_CoreMVC.Controllers
         }
         #endregion
 
-        public IActionResult Ticket()
+
+        #region 票卷設定
+        public IActionResult Ticket(int id)
         {
-            return View();
+
+            var inputDto = _activityDraftservice.GetActivityDraftTicket(id);
+
+            List<CreateTicketViewModel> resultVM = new List<CreateTicketViewModel>();
+            if (inputDto.ActivityTicket == null)
+            {
+                resultVM.Add(new CreateTicketViewModel()
+                {
+                    ActivityDraftId = id,
+                    TicketName = "",
+                    Quantity = 0,
+                    Price = 0,
+                    Description = "",
+                    SellStartTime = "20200102",
+                    SellEndTime = "20200102",
+                    CheckStartTime = "20200102",
+                    CheckEndTime = "20200102",
+                    IsSell = false,
+                    IsCheckEqualActivityTime = false,
+                    BuyLimitLeast = 0,
+                    BuyLimitMost = 0
+                });
+            }
+            else
+            {
+                var json = JsonConvert.DeserializeObject<CreateTicketViewModel[]>(inputDto.ActivityTicket);
+
+                resultVM = json.ToList();
+            }
+
+            ViewData["ActivityDraftId"] = id;
+            return View(resultVM);
         }
+
+        #endregion
+
 
         public IActionResult Policy(int id)
         {

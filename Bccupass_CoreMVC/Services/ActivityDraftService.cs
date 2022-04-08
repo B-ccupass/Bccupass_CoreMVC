@@ -89,7 +89,7 @@ namespace Bccupass_CoreMVC.Services
             var result = new CreateTicketDto()
             {
                 ActivityDraftId = target.ActivityDraftId,
-                ActivityTicket = target.ActivityQa
+                ActivityTicket = target.ActivityTicket
             };
 
             return result;
