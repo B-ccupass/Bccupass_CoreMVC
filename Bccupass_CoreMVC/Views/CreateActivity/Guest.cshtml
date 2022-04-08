@@ -126,7 +126,7 @@
 
         function makeJson(id){
 
-            const guest_img = document.getElementById(`guest-img${id}`)
+            //const guest_img = document.getElementById(`guest-img${id}`)
             const guest_name = document.getElementById(`guest-name${id}`)
             const guest_job = document.getElementById(`guest-job${id}`)
             const guest_company = document.getElementById(`guest-company${id}`)
@@ -158,7 +158,7 @@
 
             data = {
                 ActivityDraftId: @ViewData["ActivityDraftId"],
-                GuestImage: "",
+                GuestImage: "123",
                 GuestName: guest_name.value,
                 GuestJob: guest_job.value,
                 GuestCompany: guest_company.value,
@@ -166,13 +166,14 @@
                 GuestWeb: guest_web.value,
                 ItemId: dataArray.length
             }
-            debugger
             dataArray.push(data)
             
             outputJson.setAttribute('value',JSON.stringify(dataArray))
 
-            
+            //WHy?
+            debugger
             bootstrap.Modal.getOrCreateInstance(myModal).hide();
+            
             
         }
 
