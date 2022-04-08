@@ -41,6 +41,7 @@ namespace Bccupass_CoreMVC.Controllers
                 ActionUrl = $"activityStateByTime={activityStateByTime}&sortOrder={sortOrder}",
             };
             var allActivity = new ActivityCardGroupByTimeDto();
+            var res = new ActivityIndexViewModel();
             if (TempData["SearchResultCardList"] != null)
             {
                 string json = (string)TempData["SearchResultCardList"];
@@ -55,14 +56,13 @@ namespace Bccupass_CoreMVC.Controllers
 
                 var outputDto = _activityService.ActivityFilter(inputDto);
                 allActivity = outputDto.SearchResultCards;
-
+                res.searchInput = searchInput;
                 TempData.Keep();
             }
             else
             {
                 allActivity = _activityService.GetAllActivityGroupByTime();
             }
-            var res = new ActivityIndexViewModel();
 
             // 依活動狀態(進行中、尚未開始、已結束)篩選
             switch (int.Parse(activityStateByTime))
@@ -111,9 +111,22 @@ namespace Bccupass_CoreMVC.Controllers
                 Favorite = x.Favorite
             });
 
+            var themesList = _activityService.GetAllActivityTheme().Select(x => new ActivityIndexViewModel.ThemeData
+            {
+                Id = x.Id,
+                Name = x.Name
+            });
+            var typeList = _activityService.GetAllActivityType().Select(x => new ActivityIndexViewModel.TypeData
+            {
+                Id = x.Id,
+                Name = x.Name
+            });
+
             res.ActivityList = activityListByTime;
             res.pageInfo = pageObj;
             res.ActivitySortOrder = int.Parse(sortOrder);
+            res.ThemeList = themesList;
+            res.TypeList = typeList;
 
             return View(res);
         }
@@ -201,9 +214,15 @@ namespace Bccupass_CoreMVC.Controllers
             return new JsonResult(new { isSuccess = true });
         }
 
-        public IActionResult FetchSearchResult()
+        //public IActionResult FetchSearchResult()
+        //{
+        //    return RedirectToAction("Index");
+        //}
+
+        public IActionResult ClearSearchOptions()
         {
-            return RedirectToAction("Index");
+            TempData.Remove("SearchResultCardList");
+            return new JsonResult(new { isSuccess = true });
         }
 
     }

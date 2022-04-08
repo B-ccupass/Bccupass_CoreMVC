@@ -4,48 +4,111 @@
 @model ActivityIndexViewModel
 @section Topcss {
     <link rel="stylesheet" href="~/css/Activity/Index.css" />
+    <link rel="stylesheet" href="~/css/Activity/SearchWindow.css" />
 }
 @{
-    // 活動開始時間
-    var startTimeList = new List<SearchKeysViewModel.StartTimeData>();
-    foreach(int value  in Enum.GetValues(typeof(StartTime)))
+    var searchKeyVM = new SearchKeysViewModel();
+    if (Model.searchInput == null)
     {
-        var item = new SearchKeysViewModel.StartTimeData
+        // 活動開始時間
+        var startTimeList = new List<SearchKeysViewModel.StartTimeData>();
+        foreach(int value  in Enum.GetValues(typeof(StartTime)))
         {
-            EnumValue = value,
-            EnumName = Enum.GetName(typeof(StartTime), value),
-            Description = GetEnumDescription.GetDescriptionText((StartTime)value)
-        };
-        startTimeList.Add(item);
-    }
+            var item = new SearchKeysViewModel.StartTimeData
+            {
+                EnumValue = value,
+                EnumName = Enum.GetName(typeof(StartTime), value),
+                Description = GetEnumDescription.GetDescriptionText((StartTime)value),
+                Selected = value == 0 ? true : false,
+            };
+            startTimeList.Add(item);
+        }
 
-    // 活動票券
-    var PriceList = new List<SearchKeysViewModel.TicketPriceData>();
-    foreach(int value  in Enum.GetValues(typeof(TicketPrice)))
-    {
-        var item = new SearchKeysViewModel.TicketPriceData
+        // 活動票券
+        var PriceList = new List<SearchKeysViewModel.TicketPriceData>();
+        foreach(int value  in Enum.GetValues(typeof(TicketPrice)))
         {
-            EnumValue = value,
-            EnumName = Enum.GetName(typeof(TicketPrice), value),
-            Description = GetEnumDescription.GetDescriptionText((TicketPrice)value)
-        };
-        PriceList.Add(item);
-    }
+            var item = new SearchKeysViewModel.TicketPriceData
+            {
+                EnumValue = value,
+                EnumName = Enum.GetName(typeof(TicketPrice), value),
+                Description = GetEnumDescription.GetDescriptionText((TicketPrice)value),
+                Selected = value == 0 ? true : false,
+            };
+            PriceList.Add(item);
+        }
 
-    var searchKeyVM = new SearchKeysViewModel
+
+        searchKeyVM.SearchInput = "";
+        searchKeyVM.ThemesList = Model.ThemeList.Select(x => new SearchKeysViewModel.ThemeData
+        {
+            Id = x.Id,
+            Name = x.Name,
+        });
+        searchKeyVM.SelectedThemeIds = new int[] { };
+        searchKeyVM.TypesList = Model.TypeList.Select(x => new SearchKeysViewModel.TypesData
+        {
+            Id = x.Id,
+            Name = x.Name
+        });
+        searchKeyVM.SelectedTypeIds = new int[] { };
+        searchKeyVM.StartTimeList = startTimeList;
+        searchKeyVM.TicketPriceList = PriceList;
+    }
+    else
     {
-        //ThemesList
-        //TypesList
-        StartTimeList = startTimeList,
-        TicketPriceList = PriceList,
-    };
+        // 活動開始時間
+        var startTimeList = new List<SearchKeysViewModel.StartTimeData>();
+        foreach(int value  in Enum.GetValues(typeof(StartTime)))
+        {
+            var item = new SearchKeysViewModel.StartTimeData
+            {
+                EnumValue = value,
+                EnumName = Enum.GetName(typeof(StartTime), value),
+                Description = GetEnumDescription.GetDescriptionText((StartTime)value),
+                Selected = value == Model.searchInput.StartTimeEnumValue,
+            };
+            startTimeList.Add(item);
+        }
+
+        // 活動票券
+        var PriceList = new List<SearchKeysViewModel.TicketPriceData>();
+        foreach(int value  in Enum.GetValues(typeof(TicketPrice)))
+        {
+            var item = new SearchKeysViewModel.TicketPriceData
+            {
+                EnumValue = value,
+                EnumName = Enum.GetName(typeof(TicketPrice), value),
+                Description = GetEnumDescription.GetDescriptionText((TicketPrice)value),
+                Selected = value == Model.searchInput.TicketPriceEnumValue,
+            };
+            PriceList.Add(item);
+        }
+
+        searchKeyVM.SearchInput = Model.searchInput.SearchInput;
+        searchKeyVM.ThemesList = Model.ThemeList.Select(x => new SearchKeysViewModel.ThemeData
+        {
+            Id = x.Id,
+            Name = x.Name,
+        });
+        searchKeyVM.SelectedThemeIds = Model.searchInput.ThemesList;
+        searchKeyVM.TypesList = Model.TypeList.Select(x => new SearchKeysViewModel.TypesData
+        {
+            Id = x.Id,
+            Name = x.Name
+        });
+        searchKeyVM.SelectedTypeIds = Model.searchInput.TypesList;
+        searchKeyVM.StartTimeList = startTimeList;
+        searchKeyVM.TicketPriceList = PriceList;
+    }
 }
 
 
 
 <div class="search-result bg-white p-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
     <div class="container">
-        <p class="m-0 d-xl-none"><span>台北</span> / <span>藝文</span> / <span>免費</span></p>
+        <p class="m-0">搜尋活動</pclass>
+        @*<p class="m-0 d-xl-none"><span>台北</span> / <span>藝文</span> / <span>免費</span></p>
         <ul class="m-0 p-0 d-none d-xl-block">
             <li class="d-flex">
                 <span class="category">地區</span>
@@ -54,13 +117,12 @@
                     <li class="option mx-1">新北</li>
                 </ul>
             </li>
-        </ul>
+        </ul>*@
     </div>
 </div>
 <div class="">
     <div class="search-window offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
         <div class="offcanvas-header">
-            <h5 id="offcanvasTopLabel">搜尋條件</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -149,15 +211,80 @@
     <script>
         const searchInput = document.querySelector(".search-input");
         const submit = document.querySelector("#submit");
+        const clear = document.querySelector("#clear");
+        const optionBtns = document.querySelectorAll(".search-key");
+        const SearchClassWrap = document.querySelectorAll(".seach-class-wrap");
+        
+        let allOptionBtns = document.querySelectorAll(".all-option");
+        
+        allOptionBtns.forEach(btn => {
+            btn.onclick = function(){
+                if(btn.hasAttribute("checked")){
+                    btn.querySelector('.btn-check').removeAttribute("checked");
+                    btn.classList.remove("active");
+                }else{
+                    btn.querySelector('.btn-check').setAttribute("checked", "");
+                    btn.classList.add("active");
+                    btn.parentElement.querySelectorAll(".search-key").forEach(btn => {
+                        btn.querySelector('.btn-check').removeAttribute("checked");
+                        btn.classList.remove("active");
+                    })
+                }
+            }
+        })
+
+        optionBtns.forEach(x => x.querySelector('.btn').onclick = function(e){
+            let input = x.querySelector('.btn-check');
+            let labelBtn = x.querySelector('.btn');
+            let wrap = x.parentElement.parentElement;
+            if(wrap.classList.contains('time-wrap') || wrap.classList.contains('price-wrap')){
+                wrap.querySelectorAll('.btn-check').forEach(x => x.removeAttribute("checked"));
+                wrap.querySelectorAll(".search-key").forEach(x => x.classList.remove("active"));
+                wrap.querySelector('.all-option>.btn-check').removeAttribute("checked");
+                wrap.querySelector('.all-option').classList.remove("active")
+                console.log(e.srcElement.parentElement)
+                e.srcElement.parentElement.querySelector('.btn-check').setAttribute("checked", "");
+                e.srcElement.parentElement.classList.add("active");
+            }else{
+                if(input.hasAttribute("checked")){
+                    input.removeAttribute("checked");
+                    x.classList.remove("active");
+                }else{
+                    input.setAttribute("checked", "");
+                    x.classList.add("active");
+                }
+                checkAllOption();
+            }
+        })
+
+        function checkAllOption(){
+            SearchClassWrap.forEach(wrap => {
+                let allOption = wrap.querySelector(".all-option");
+                let otherOptions = wrap.querySelectorAll(".search-key");
+                // 任一條件選到 > 「全部」銷掉
+                if(IsOptionChecked(otherOptions)){
+                    allOption.querySelector('.btn-check').removeAttribute("checked");
+                    allOption.classList.remove("active")
+                }else{
+                    allOption.querySelector('.btn-check').setAttribute("checked", "");
+                    allOption.classList.add("active");
+                }
+                
+            })
+        }
+
+        function IsOptionChecked(optionBtns){
+            var res = false;
+            optionBtns.forEach(btn => {
+                if(btn.classList.contains('active')){
+                    res = true;
+                }
+            })
+            return res;
+        }
 
         submit.onclick = function(){
-            let res = {
-                SearchInput: "",
-                ThemesList: [1,2],
-                TypesList: [1,2],
-                StartTimeEnumValue: 0,
-                TicketPriceEnumValue: 0,
-            }
+            let res = getSearchInput();
             fetch("/Activity/FetchSearch", {
                 headers: {
                     'Accept': 'application/json, text/plain',
@@ -167,7 +294,6 @@
                 body: JSON.stringify(res)
             })
             .then(response => {
-                console.log(response)
                 if(response.ok){
                     window.location.href = "/Activity/Index"
                 }else{
@@ -176,5 +302,53 @@
 
             })
         }
+
+        clear.onclick = function(){
+            fetch("/Activity/ClearSearchOptions")
+            .then(response => {
+                if(response.ok){
+                    window.location.href = "/Activity/Index"
+                }else{
+                    
+                }
+
+            })
+        }
+
+        function getSearchInput(){
+            let res = {
+                SearchInput: searchInput.value,
+                ThemesList: [],
+                TypesList: [],
+                StartTimeEnumValue: 0,
+                TicketPriceEnumValue: 0,
+            }
+
+            let themeWrap = document.querySelector('.theme-wrap');
+            let typeWrap = document.querySelector('.type-wrap');
+            let timeWrap = document.querySelector('.time-wrap');
+            let priceWrap = document.querySelector('.price-wrap');
+
+            var themeKeys = themeWrap.querySelectorAll('.search-key.active');
+            if(themeKeys.length != 0){
+                themeKeys.forEach(btn => {
+                    res.ThemesList.push(btn.dataset.id);
+                })
+            }
+
+            var typeKeys = typeWrap.querySelectorAll('.search-key.active');
+            if(typeKeys.length != 0){
+                typeKeys.forEach(btn => {
+                    res.TypesList.push(btn.dataset.id);
+                })
+            }
+            
+            StartTimeEnumValue = timeWrap.querySelector('.active').dataset.id;
+            TicketPriceEnumValue = priceWrap.querySelector('.active').dataset.id;
+            alert(JSON.stringify(res));
+            return res;
+        }
+
+
     </script>
 }  
