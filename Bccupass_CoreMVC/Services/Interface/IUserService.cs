@@ -6,7 +6,7 @@ namespace Bccupass_CoreMVC.Services
 {
     public interface IUserService
     {
-        public IQueryable<UserTicketDto.OrderData> GetOrderListOfUser(int userId);
+        public IEnumerable<UserTicketDto.OrderData> GetOrderListOfUser(int userId);
         //public UserTicketDto GetTicket(int userId);
     }
 }

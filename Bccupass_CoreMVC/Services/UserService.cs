@@ -13,10 +13,10 @@ namespace Bccupass_CoreMVC.Services
         {
             _context = context;
         }
-        public IQueryable<UserTicketDto.OrderData> GetOrderListOfUser(int userId)
+        public IEnumerable<UserTicketDto.OrderData> GetOrderListOfUser(int userId)
         {
             var orderList = _context.GetAll<OrderDetail>().Where(x => x.UserId == userId);
-            var test = orderList.Select(x => new UserTicketDto.OrderData() { OrderId = x.OrderDetailId });
+            var test = orderList.Select(x => new UserTicketDto.OrderData() { OrderId = x.OrderDetailId }).ToList();
 
             return test;
             //return orderList;
