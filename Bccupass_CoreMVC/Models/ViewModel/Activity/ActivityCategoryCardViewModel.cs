@@ -4,6 +4,8 @@ namespace Bccupass_CoreMVC.Models.ViewModel.Activity
 {
     public class ActivityCategoryCardViewModel
     {
+        public int OrganizerId { get; set; }
+        public string OrganizerName { get; set; }
         public IEnumerable<CardData> Theme { get;  set; }
         public IEnumerable<CardData> Type { get;  set; }
         public string ThemeCategory { get; set; }
