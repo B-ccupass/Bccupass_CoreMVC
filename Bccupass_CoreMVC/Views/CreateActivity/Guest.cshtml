@@ -134,6 +134,7 @@
             const guest_web = document.getElementById(`guest-web${id}`)
 
             var myModal = document.querySelector(`#model${id}`)
+            var myModal2 = document.querySelector(`#GuestModal`)
             
             if(id != "GuestModal"){
                 dataArray.forEach(item => {
@@ -170,8 +171,8 @@
             
             outputJson.setAttribute('value',JSON.stringify(dataArray))
 
-            debugger
-            bootstrap.Modal.getOrCreateInstance(myModal).hide();
+
+            bootstrap.Modal.getOrCreateInstance(myModal2).hide();
             
             
         }

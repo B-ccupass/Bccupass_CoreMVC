@@ -2,7 +2,7 @@
 @model CreateQAViewModel
 <tr>
     <th scope="row"  class="lh-lg"><i class="fas fa-grip-vertical"></i></th>
-    <td class="lh-lg"><input type="checkbox" name="c" value="" /></td>
+    <td class="lh-lg"><input type="checkbox" name="c" value="@Model.Sort" class="checked" /></td>
     <td class="lh-lg" colspan="4" id="Quest@(Model.Sort)">@Model.ActivityQuest</td>
     <td class="accordion-header flex-nowrap" id="flush-headingOne">
         <button class="btn btn-outline-light rounded-circle border-0 text-primary collapsed" 
