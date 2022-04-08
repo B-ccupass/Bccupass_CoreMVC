@@ -9,6 +9,6 @@
         public string GuestCompany { get; set; }
         public string GuestInfo { get; set; }
         public string GuestWeb { get; set; }
-        //public string 
+        public int ItemId { get; set; }
     }
 }

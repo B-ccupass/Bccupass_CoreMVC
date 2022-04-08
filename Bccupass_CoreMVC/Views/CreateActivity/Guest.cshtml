@@ -18,7 +18,7 @@
                     快來介紹你的來賓有多厲害！ <div class="btn-dark rounded-circle d-inline-block icon-div"><i class="far fa-lightbulb"></i></div>
                 </p>    
                 <div class="mt-5 guest">
-                    @if(Model.Any(x =>x.GuestName != ""))
+                    @if(Model.Any(x =>x.GuestName != null))
                     {
                         foreach(var item in Model)
                         {
@@ -44,7 +44,7 @@
         
 
             <!-- Modal -->
-            @if(Model.Any(x =>x.GuestName != ""))
+            @if(Model.Any(x =>x.GuestName != null))
                     {
                         foreach(var item in Model)
                         {
@@ -133,11 +133,11 @@
             const guest_info = document.getElementById(`guest-info${id}`)
             const guest_web = document.getElementById(`guest-web${id}`)
 
-            var myModal = document.querySelector(`#${id}`)
+            var myModal = document.querySelector(`#model${id}`)
             
             if(id != "GuestModal"){
                 dataArray.forEach(item => {
-                    if(item.GuestName == id){
+                    if(item.ItemId == id){
                         item.GuestName = guest_name.value,
                         item.GuestJob = guest_job.value,
                         item.GuestCompany = guest_company.value,
@@ -158,14 +158,15 @@
 
             data = {
                 ActivityDraftId: @ViewData["ActivityDraftId"],
-                //GuestImage: guest_img.src,
+                GuestImage: "",
                 GuestName: guest_name.value,
                 GuestJob: guest_job.value,
                 GuestCompany: guest_company.value,
                 GuestInfo: guest_info.value,
-                GuestWeb: guest_web.value
+                GuestWeb: guest_web.value,
+                ItemId: dataArray.length
             }
-
+            debugger
             dataArray.push(data)
             
             outputJson.setAttribute('value',JSON.stringify(dataArray))
@@ -176,9 +177,9 @@
         }
 
         function deleteGuest(id){
-            var myModal = document.querySelector(`#${id}`)
+            var myModal = document.querySelector(`#model${id}`)
             dataArray.forEach(item => {
-                    if(item.GuestName == id){
+                    if(item.ItemId == id){
                         dataArray.splice(dataArray.findIndex(index => index == item),1)
                     }
                 })
@@ -192,21 +193,24 @@
         
     </script>
 
-    @foreach(var item in Model){
-        <script type="text/javascript">
-            data = {
-                ActivityDraftId: @item.ActivityDraftId,
-                GuestImage: "" @*@item.GuestImg*@,
-                GuestName: `@item.GuestName`,
-                GuestJob: `@item.GuestJob`,
-                GuestCompany: `@item.GuestCompany`,
-                GuestInfo: `@item.GuestInfo`,
-                GuestWeb: `@item.GuestWeb`
-            }
+    @if(Model.Any(x => x.GuestName != null)){
+        foreach(var item in Model){
+            <script type="text/javascript">
+                data = {
+                    ActivityDraftId: @item.ActivityDraftId,
+                    GuestImage: "" @*@item.GuestImg*@,
+                    GuestName: `@item.GuestName`,
+                    GuestJob: `@item.GuestJob`,
+                    GuestCompany: `@item.GuestCompany`,
+                    GuestInfo: `@item.GuestInfo`,
+                    GuestWeb: `@item.GuestWeb`,
+                    ItemId: `@item.ItemId`
+                }
 
-            dataArray.push(data)
+                dataArray.push(data)
 
-            outputJson.setAttribute('value',JSON.stringify(dataArray))   
-        </script>
+                outputJson.setAttribute('value',JSON.stringify(dataArray))   
+            </script>
+    }
     }
 }

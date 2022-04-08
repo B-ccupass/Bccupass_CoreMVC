@@ -93,7 +93,7 @@
                         </div>
                         <div class="modal-footer p-0 flex-nowrap">
                             <button class="btn border-0 p-1 col-6 m-0 border-end" data-bs-dismiss="modal">取消</button>
-                            <button class="btn border-0 p-1 col-6 m-0 lh-lg">確認修改</button>
+                            <button class="btn border-0 p-1 col-6 m-0 lh-lg" id="edit">確認修改</button>
                         </div>
                     </div>
                 </div>
@@ -112,6 +112,7 @@
         var newQuestion = document.getElementById('newQ')
         var newAnswer = document.getElementById('newA')
         var createBtn = document.getElementById('createCon')
+        var editBtn = document.getElementById('edit')
 
         const outputJson = document.getElementById('QAJson')
 
@@ -142,6 +143,10 @@
             outputJson.setAttribute('value',JSON.stringify(dataArray))    
             var myModal = document.querySelector(`#groupModal`)
             bootstrap.Modal.getOrCreateInstance(myModal).hide();
+        }
+
+        editBtn.onclick = function(){
+
         }
         
 

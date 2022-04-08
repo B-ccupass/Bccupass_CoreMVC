@@ -78,12 +78,13 @@ namespace Bccupass_CoreMVC.Controllers
                 resultVM.Add(new CreateGuestViewModel()
                 {
                     ActivityDraftId = inputDto.ActivityDraftId,
-                    GuestName = "",
+                    GuestName = null,
                     GuestImg = "https://static.accupass.com/frontend/image/eventedit/organizer/organizer_avatar_placeholder.svg",
                     GuestJob = "",
                     GuestCompany = "",
                     GuestInfo = "",
-                    GuestWeb = ""
+                    GuestWeb = "",
+                    ItemId = 0
                 });
             }
             else
