@@ -60,7 +60,6 @@ namespace Bccupass_CoreMVC.Services
         }
         #endregion
 
-
         #region 新增問答RU
         public CreateQADto GetActivityDraftQA(int? id)
         {
@@ -103,40 +102,43 @@ namespace Bccupass_CoreMVC.Services
         }
         #endregion
 
-        public IEnumerable<ActivityCategoryCardDto> GetAllActivityThemeForCategory()
+        public CreateThemeCategoryDto GetActivityThemeCat(int? id)
         {
-            var themes = _activityDraft.GetAll<ActivityTheme>();
-            var result = themes.Select(x => new ActivityCategoryCardDto()
+            var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
+            var result = new CreateThemeCategoryDto()
             {
-                Id = x.ActivityThemeId,
-                Title = x.ActivityThemeName,
-                Icon = x.ActivityThemeImage,
-            });
-            return result;
-        }
-
-        public IEnumerable<ActivityCategoryCardDto> GetActivityType()
-        {
-            var type = _activityDraft.GetAll<ActivityType>();
-            var result = type.Select(x => new ActivityCategoryCardDto()
-            {
-                Id = x.ActivityTypeId,
-                Title = x.TypeName,
-                Icon = x.TypeImg,
-            });
-            return result;
-        }
-
-        public void CreateThemeCategory(ActivityCategoryCardDto request)
-        {
-            var activityDraft = new ActivityDraft
-            {
-                ActivityDraftId = request.Id,
-                ThemeCategory = request.ThemeCategory,
+                ActivityDraftId = target.ActivityDraftId,
+                ThemeCategory = target.ThemeCategory,
             };
-            _activityDraft.Create(activityDraft);
+            return result;
+        }
+
+        public CreateActivityInfoDto GetActivityInfo(int? id)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
+            var result = new CreateActivityInfoDto()
+            {
+                ActivityDraftId = target.ActivityDraftId,
+                ActivityInfo = target.ActivityInfo
+            };
+            return result;
+        }
+
+        public void EditActivityThemeCat(CreateThemeCategoryDto request)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.ActivityDraftId);
+            target.ThemeCategory = request.ThemeCategory;
+            _activityDraft.Update(target);
             _activityDraft.Save();
         }
 
+        public void EditActivityInfo(CreateActivityInfoDto request)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.ActivityDraftId);
+            target.ActivityInfo = request.ActivityInfo;
+            _activityDraft.Update(target);
+            _activityDraft.Save();
+        }
+        
     }
 }

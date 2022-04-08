@@ -12,8 +12,10 @@ namespace Bccupass_CoreMVC.Services.Interface
         public void EditActivityGuest(CreateGuestDto request);
         public CreateQADto GetActivityDraftQA(int? id);
         public void EditActivityQA(CreateQADto request);
-        public IEnumerable<ActivityCategoryCardDto> GetAllActivityThemeForCategory();
-        public IEnumerable<ActivityCategoryCardDto> GetActivityType();
-        public void CreateThemeCategory(ActivityCategoryCardDto request);
+
+        public void EditActivityThemeCat(CreateThemeCategoryDto request);
+        public void EditActivityInfo(CreateActivityInfoDto request);
+        public CreateThemeCategoryDto GetActivityThemeCat(int? id);
+        public CreateActivityInfoDto GetActivityInfo(int? id);
     }
 }
