@@ -70,7 +70,7 @@
     </div>
             
 </div>
-<input type="hidden" id="TicketJson" name="TicketList"/>
+@*<input type="hidden" id="TicketJson" name="TicketList"/>*@
 
 @section endJS {
     <script>
@@ -78,7 +78,7 @@
         var addNoFree = document.getElementById('noFree')
         var hour = document.getElementById('hour')
 
-        var TicketJson = document.getElementById('TicketJson')
+        //var TicketJson = document.getElementById('TicketJson')
 
         
 
@@ -97,19 +97,19 @@
                     CheckStartTime: ``,
                     CheckEndTime: ``,
                     IsSell: false,
-                    IsCheckEqualActivityTime: ``,
+                    IsCheckEqualActivityTime: false,
                     IsFree: true,
                     BuyLimitLeast: 0,
                     BuyLimitMost: 0
                 }
 
             dataArray.push(data)
-            TicketJson.setAttribute('value',JSON.stringify(dataArray))
+            //TicketJson.setAttribute('value',JSON.stringify(dataArray))
 
-            var jsonArray = {
-                TicketList : dataArray
+            var json = {
+                TicketList : JSON.stringify(dataArray)
             }
-            console.log(dataArray)
+             
             console.log(JSON.stringify(dataArray))
 
             fetch("/CreateActivity/FetchTicket", {
@@ -118,11 +118,7 @@
                     'Content-Type': 'application/json;charset=UTF-8'
                 },
                 method: 'POST',
-                body: JSON.stringify(jsonArray)
-            })
-            .then(response => {
-                console.log(response.json())
-
+                body: JSON.stringify(dataArray)
             })
 
         }
@@ -139,7 +135,7 @@
                     CheckStartTime: ``,
                     CheckEndTime: ``,
                     IsSell: false,
-                    IsCheckEqualActivityTime: ``,
+                    IsCheckEqualActivityTime: false,
                     IsFree: false,
                     BuyLimitLeast: 0,
                     BuyLimitMost: 0

@@ -200,8 +200,10 @@ namespace Bccupass_CoreMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult FetchTicket([FromBody] TicketInputViewModel request)
+        public IActionResult FetchTicket([FromBody] List<CreateTicketViewModel> request)
         {
+            //var test = request.Select(x => x.TicketList.Select(y => new CreateTicketViewModel() { IsSell = y.IsSell }));
+
             return new JsonResult(request);
         }
 
