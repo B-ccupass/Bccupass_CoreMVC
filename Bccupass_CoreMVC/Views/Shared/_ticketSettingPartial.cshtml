@@ -1,22 +1,35 @@
 ﻿@using Bccupass_CoreMVC.Models.ViewModel.CreateActivity
 @model CreateTicketViewModel
 
+
 <tr>
     <td class="lh-lg" colspan="2">
         <div class="border col-12 col-md-9 p-1">
-            <input type="text" class="border-0"/>
+            <input type="text" class="border-0 col-12"  value="@Model.TicketName"/>
         </div>
     </td>
     <td class="lh-lg">
         <div class="border col-12 col-md-9 p-1">
-            <input class="col-10 border-0 d-inline-block" type="number"/>
+            <input class="col-10 border-0 d-inline-block" type="number" value="@Model.Quantity"/>
         </div>
     </td>
     <td class="lh-lg" colspan="2" class="m-1" >
-        <div class="border w-75 p-md-1 p-0 flex-nowrap">
-            <div class="d-inline col-4 me-2">NT$</div>
-            <input type="number" class="border-0 d-inline col-7" step="1" maxlength="50" value="200">
-        </div>
+        
+            @if (Model.IsFree)
+            {
+                <div class="text-center w-75 p-md-1 p-0 flex-nowrap" style="font-size: 15px;">
+                    免費票
+                </div>
+            }
+            else
+            {
+                <div class="border w-75 p-md-1 p-0 flex-nowrap">
+                    <div class="d-inline col-4 me-2">NT$</div>
+                    <input type="number" class="border-0 d-inline text-center col-7" step="1" maxlength="50" value="@Model.Price">
+                </div>
+            }
+            
+        
     </td>
     <td class="accordion-header"  colspan="2"id="flush-headingOne">
         <button class="btn btn-outline-light rounded-circle border-0 text-primary collapsed" 
@@ -38,18 +51,35 @@
         <div class="collapse" id="collapse-1">
             <div class="card card-body border-0 backcolor card-pad">
                 <p>票卷說明</p>
-                    <textarea class="resize" id="" cols="30" rows="10"></textarea>
+                    <textarea class="resize" id="" cols="30" rows="10">@Model.Description</textarea>
 
                 <p>售票時間</p>
                     @await Html.PartialAsync("_ticketSelectTimePartial")
                 <p>有效時間(可驗票時間)</p>
                     <span>有效時間為可驗票入場的時間，系統自動提前兩小時開放給主辦方現場測試。</span>
                     <label class="d-flex check-ticket ">
-                        <input type="checkbox" class="" checked="">
+                        <input type="checkbox" class="" checked="@Model.IsCheckEqualActivityTime">
                         <span class="">有效時間建議設定為活動時間</span>
                     </label>
                     @await Html.PartialAsync("_ticketSelectTimePartial")
                 <p>是否開賣？</p>
+                @if (Model.IsSell)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="flexRadioDefault1" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            發售，活動上架後立即開賣
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"  id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            停售，該票券暫停對外銷售，並從購票頁中隱藏
+                        </label>
+                    </div>
+                }
+                else
+                {
                     <div class="form-check">
                         <input class="form-check-input" type="radio" id="flexRadioDefault1">
                         <label class="form-check-label" for="flexRadioDefault1">
@@ -62,6 +92,26 @@
                             停售，該票券暫停對外銷售，並從購票頁中隱藏
                         </label>
                     </div>
+                }
+
+                @if (!Model.IsFree)
+                {
+                   <div class="mt-4 d-flex flex-wrap">
+                    <div class="flex-wrap col-12">單次購買數量限制</div>
+                    <div class="col-5 mt-1">
+                        最少
+                        <input type="number" class="border p-2 text-center" maxlength="50" value="1">
+                        張
+                    </div>
+                    <div class="col-5 mt-1">
+                        最多
+                        <input type="number" class="border p-2 text-center" maxlength="50" value="1">
+                        張
+                    </div>
+                </div> 
+                }
+                
+
             </div>
             <div class="text-center border-0 text-primary collapsed bg-opacity-10 bg-secondary" 
             type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1">

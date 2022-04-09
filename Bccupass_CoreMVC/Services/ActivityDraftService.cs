@@ -97,7 +97,7 @@ namespace Bccupass_CoreMVC.Services
         public void EditActivityTicket(CreateTicketDto request)
         {
             var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.ActivityDraftId);
-            target.ActivityQa = request.ActivityTicket;
+            target.ActivityTicket = request.ActivityTicket;
             _activityDraft.Update(target);
             _activityDraft.Save();
         }

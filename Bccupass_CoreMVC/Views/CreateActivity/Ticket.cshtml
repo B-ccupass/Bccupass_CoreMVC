@@ -23,15 +23,17 @@
                             <th scope="col" colspan="2" class="col-md-3">操作</th>
                         </tr>
                         </thead>
-                        <tbody>
-
+                        <tbody id="TicketInfoArea">
+                        
                             @foreach(var item in Model)
                             {
                                 @await Html.PartialAsync("_ticketSettingPartial",item)
                                 
                             }
-
-                        <tr>
+                        
+                        </tbody>
+                        <tfoot class="border-top-0">
+                            <tr>
                             <td colspan="7" class="p-0">
                                 <div class="backcolor justify-content-center align-content-center d-flex pt-4 pb-4">
                                     <button id="free" type="button" class="btn bg-white btn-add-ticket me-2"><i class="fas fa-plus icon-btn"></i>免費票</button>
@@ -39,7 +41,7 @@
                                 </div>
                             </td>
                         </tr>
-                        </tbody>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -70,7 +72,7 @@
     </div>
             
 </div>
-@*<input type="hidden" id="TicketJson" name="TicketList"/>*@
+
 
 @section endJS {
     <script>
@@ -78,8 +80,7 @@
         var addNoFree = document.getElementById('noFree')
         var hour = document.getElementById('hour')
 
-        //var TicketJson = document.getElementById('TicketJson')
-
+        var TicketInfoArea = document.getElementById('TicketInfoArea')
         
 
         var dataArray = []
@@ -104,22 +105,10 @@
                 }
 
             dataArray.push(data)
-            //TicketJson.setAttribute('value',JSON.stringify(dataArray))
 
-            var json = {
-                TicketList : JSON.stringify(dataArray)
-            }
-             
             console.log(JSON.stringify(dataArray))
 
-            fetch("/CreateActivity/FetchTicket", {
-                headers: {
-                    'Accept': 'application/json, text/plain',
-                    'Content-Type': 'application/json;charset=UTF-8'
-                },
-                method: 'POST',
-                body: JSON.stringify(dataArray)
-            })
+            addTicketFetch()
 
         }
 
@@ -142,8 +131,24 @@
                 }
 
             dataArray.push(data)
+
+            addTicketFetch()
         }
 
+        function addTicketFetch(){
+            fetch("/CreateActivity/FetchTicket", {
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                method: 'POST',
+                body: JSON.stringify(dataArray)
+            })
+            .then(response => {
+                response.json()
+                window.location.reload()
+            })
+        }
 
     </script>
    

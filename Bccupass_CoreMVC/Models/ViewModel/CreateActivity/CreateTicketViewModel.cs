@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bccupass_CoreMVC.Models.ViewModel.CreateActivity
 {
@@ -7,7 +8,7 @@ namespace Bccupass_CoreMVC.Models.ViewModel.CreateActivity
         public int ActivityDraftId { get; set; }
         public string TicketName { get; set; }
         public int Quantity { get; set; }
-        public decimal Price { get; set; }
+        public int Price { get; set; }
         public string Description { get; set; } //票卷說明
         public string SellStartTime { get; set; }
         public string SellEndTime { get; set; }

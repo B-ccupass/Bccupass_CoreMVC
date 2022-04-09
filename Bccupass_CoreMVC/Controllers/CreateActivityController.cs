@@ -202,7 +202,12 @@ namespace Bccupass_CoreMVC.Controllers
         [HttpPost]
         public IActionResult FetchTicket([FromBody] List<CreateTicketViewModel> request)
         {
-            //var test = request.Select(x => x.TicketList.Select(y => new CreateTicketViewModel() { IsSell = y.IsSell }));
+            var inputDto = new CreateTicketDto()
+            {
+                ActivityDraftId = request[0].ActivityDraftId,
+                ActivityTicket = JsonConvert.SerializeObject(request)
+            };
+            _activityDraftservice.EditActivityTicket(inputDto);
 
             return new JsonResult(request);
         }
