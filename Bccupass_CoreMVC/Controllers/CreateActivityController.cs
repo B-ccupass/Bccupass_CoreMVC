@@ -183,6 +183,7 @@ namespace Bccupass_CoreMVC.Controllers
                     CheckEndTime = "20200102",
                     IsSell = false,
                     IsCheckEqualActivityTime = false,
+                    IsFree = true,
                     BuyLimitLeast = 0,
                     BuyLimitMost = 0
                 });

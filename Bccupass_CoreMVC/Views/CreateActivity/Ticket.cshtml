@@ -34,8 +34,8 @@
                         <tr>
                             <td colspan="7" class="p-0">
                                 <div class="backcolor justify-content-center align-content-center d-flex pt-4 pb-4">
-                                    <button id="free" class="btn bg-white btn-add-ticket me-2"><i class="fas fa-plus icon-btn"></i>免費票</button>
-                                    <button id="noFree" class="btn bg-white btn-add-ticket"><i class="fas fa-plus icon-btn"></i>付費票</button>
+                                    <button id="free" type="button" class="btn bg-white btn-add-ticket me-2"><i class="fas fa-plus icon-btn"></i>免費票</button>
+                                    <button id="noFree" type="button" class="btn bg-white btn-add-ticket"><i class="fas fa-plus icon-btn"></i>付費票</button>
                                 </div>
                             </td>
                         </tr>
@@ -75,13 +75,54 @@
 @section endJS {
     <script>
         var addFree = document.getElementById('free')
+        var addNoFree = document.getElementById('noFree')
         var hour = document.getElementById('hour')
 
         var dataArray = []
 
 
         addFree.onclick = function(){
+           var  data = {
+                    ActivityDraftId:  @ViewData["ActivityDraftId"],
+                    TicketName: ``,
+                    Quantity: 0,
+                    Price: 0,
+                    Description: ``,
+                    SellStartTime: ``,
+                    SellEndTime: ``,
+                    CheckStartTime: ``,
+                    CheckEndTime: ``,
+                    IsSell: false,
+                    IsCheckEqualActivityTime: ``,
+                    IsFree: true,
+                    BuyLimitLeast: 0,
+                    BuyLimitMost: 0
+                }
 
+            dataArray.push(data)
+
+            fetch()
+        }
+
+        addNoFree.onclick = function(){
+           var  data = {
+                    ActivityDraftId:  @ViewData["ActivityDraftId"],
+                    TicketName: ``,
+                    Quantity: 0,
+                    Price: 0,
+                    Description: ``,
+                    SellStartTime: ``,
+                    SellEndTime: ``,
+                    CheckStartTime: ``,
+                    CheckEndTime: ``,
+                    IsSell: false,
+                    IsCheckEqualActivityTime: ``,
+                    IsFree: false,
+                    BuyLimitLeast: 0,
+                    BuyLimitMost: 0
+                }
+
+            dataArray.push(data)
         }
 
 
@@ -91,7 +132,7 @@
 
      @foreach(var item in Model){
             <script type="text/javascript">
-                data = {
+               var  data = {
                     ActivityDraftId: @item.ActivityDraftId,
                     TicketName: `@item.TicketName`,
                     Quantity: @item.Quantity,
@@ -101,8 +142,9 @@
                     SellEndTime: `@item.SellEndTime`,
                     CheckStartTime: `@item.CheckStartTime`,
                     CheckEndTime: `@item.CheckEndTime`,
-                    IsSell: `@item.IsSell`,
-                    IsCheckEqualActivityTime: `@item.IsCheckEqualActivityTime`,
+                    IsSell: @Json.Serialize(item.IsSell),
+                    IsCheckEqualActivityTime: @Json.Serialize(item.IsCheckEqualActivityTime),
+                    IsFree: @Json.Serialize(item.IsFree),
                     BuyLimitLeast: @item.BuyLimitLeast,
                     BuyLimitMost: @item.BuyLimitMost
                 }

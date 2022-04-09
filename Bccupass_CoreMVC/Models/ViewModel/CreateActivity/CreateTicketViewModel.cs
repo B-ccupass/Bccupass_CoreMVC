@@ -15,6 +15,7 @@ namespace Bccupass_CoreMVC.Models.ViewModel.CreateActivity
         public string CheckEndTime { get; set; }
         public bool IsSell { get; set; }
         public bool IsCheckEqualActivityTime { get; set; } //有效時間建議設定為活動時間
+        public bool IsFree { get; set; }//是否免費
         public int BuyLimitLeast { get; set; }
         public int BuyLimitMost { get; set; }
     }
