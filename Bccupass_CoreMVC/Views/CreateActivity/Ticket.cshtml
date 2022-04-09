@@ -101,7 +101,18 @@
 
             dataArray.push(data)
 
-            fetch()
+            fetch("/CreateActivity/FetchTicket", {
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                method: 'POST',
+                body: JSON.stringify(dataArray)
+            })
+            .then(response => {
+                console.log(response.json())
+
+            })
         }
 
         addNoFree.onclick = function(){

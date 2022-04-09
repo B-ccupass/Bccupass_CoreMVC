@@ -199,6 +199,11 @@ namespace Bccupass_CoreMVC.Controllers
             return View(resultVM);
         }
 
+        public IActionResult FetchTicket([FromBody] List<CreateTicketViewModel> request)
+        {
+            return new JsonResult(request);
+        }
+
         #endregion
 
 
