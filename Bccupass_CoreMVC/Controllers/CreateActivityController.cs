@@ -172,42 +172,20 @@ namespace Bccupass_CoreMVC.Controllers
             };
             return View(result);
         }
-        [HttpGet]
+
         public IActionResult Category(int id)
         {
-            var target = _organizerService.GetOrganizer(id);
-            var _themeList = _activityDraftservice.GetAllActivityThemeForCategory().Select(x => new ActivityCategoryCardViewModel.CardData()
-            {
-                Id = x.Id,
-                Title = x.Title,
-                Icon = x.Icon,
-            });
-            var _typeList = _activityDraftservice.GetActivityType().Select(x => new ActivityCategoryCardViewModel.CardData()
-            {
-                Id = x.Id,
-                Title = x.Title,
-                Icon = x.Icon,
-            });
-            var result = new ActivityCategoryCardViewModel()
-            {
-                Theme = _themeList,
-                Type = _typeList,
-                OrganizerId = target.OrganizerId,
-                OrganizerName = target.Name
-            };
 
-            return View(result);
+            return View();
         }
-        [HttpPost]
-        public IActionResult Category(ActivityCategoryCardDto request)
+
+
+        public IActionResult Category()
         {
-            var inputDto = new ActivityCategoryCardDto
-            {
-                ThemeCategory = request.ThemeCategory,
-            };
-            _activityDraftservice.CreateThemeCategory(inputDto);
-            return RedirectToAction(nameof(Info));
+
+            return View();
         }
+
         public IActionResult Info()
         {
             return View();
