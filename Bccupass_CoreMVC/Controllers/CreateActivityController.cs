@@ -199,7 +199,8 @@ namespace Bccupass_CoreMVC.Controllers
             return View(resultVM);
         }
 
-        public IActionResult FetchTicket([FromBody] List<CreateTicketViewModel> request)
+        [HttpPost]
+        public IActionResult FetchTicket([FromBody] TicketInputViewModel request)
         {
             return new JsonResult(request);
         }

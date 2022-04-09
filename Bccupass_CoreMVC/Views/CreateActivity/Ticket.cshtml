@@ -7,7 +7,7 @@
 
 <div class="container-md m-auto bg-white container-style">
     <div class="ticket m-auto p-5">
-        <form>
+        
             <div class="col-12 border-bottom pb-5 flex-wrap">
                 <p class="mb-4">修改活動時間</p>
                 @await Html.PartialAsync("_ticketSelectTimePartial")
@@ -64,19 +64,23 @@
                     </div>
                 </div>
             </div>
-        </form>
             
         
         
     </div>
             
 </div>
+<input type="hidden" id="TicketJson" name="TicketList"/>
 
 @section endJS {
     <script>
         var addFree = document.getElementById('free')
         var addNoFree = document.getElementById('noFree')
         var hour = document.getElementById('hour')
+
+        var TicketJson = document.getElementById('TicketJson')
+
+        
 
         var dataArray = []
 
@@ -100,6 +104,13 @@
                 }
 
             dataArray.push(data)
+            TicketJson.setAttribute('value',JSON.stringify(dataArray))
+
+            var jsonArray = {
+                TicketList : dataArray
+            }
+            console.log(dataArray)
+            console.log(JSON.stringify(dataArray))
 
             fetch("/CreateActivity/FetchTicket", {
                 headers: {
@@ -107,12 +118,13 @@
                     'Content-Type': 'application/json;charset=UTF-8'
                 },
                 method: 'POST',
-                body: JSON.stringify(dataArray)
+                body: JSON.stringify(jsonArray)
             })
             .then(response => {
                 console.log(response.json())
 
             })
+
         }
 
         addNoFree.onclick = function(){
