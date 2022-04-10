@@ -238,6 +238,14 @@ namespace Bccupass_CoreMVC.Controllers
         #endregion
 
 
+        #region 票卷分組
+        public IActionResult TicketGroup()
+        {
+            return View();
+        }
+
+        #endregion
+
         public IActionResult Policy(int id)
         {
             var target = _organizerService.GetOrganizer(id);
