@@ -152,11 +152,11 @@ namespace Bccupass_CoreMVC.Controllers
             var inputDto = new CreateQADto()
             {
                 ActivityDraftId = request.ActivityDraftId,
-                ActivityQA = request.GuestDataJson
+                ActivityQA = request.QuestDataJson
             };
             _activityDraftservice.EditActivityQA(inputDto);
 
-            return RedirectToAction("Question", new { id = request.ActivityDraftId });
+            return RedirectToAction("Ticket", new { id = request.ActivityDraftId });
         }
         #endregion
 
@@ -178,14 +178,24 @@ namespace Bccupass_CoreMVC.Controllers
                     Price = 0,
                     Description = "",
                     SellStartTime = "20200102",
+                    SellStartHour = "1",
+                    SellStartMin = "0",
                     SellEndTime = "20200102",
+                    SellEndHour = "1",
+                    SellEndMin = "0",
                     CheckStartTime = "20200102",
+                    CheckStartHour = "1",
+                    CheckStartMin = "0",
                     CheckEndTime = "20200102",
+                    CheckEndHour = "1",
+                    CheckEndMin = "0",
                     IsSell = false,
                     IsCheckEqualActivityTime = false,
                     IsFree = true,
                     BuyLimitLeast = 0,
-                    BuyLimitMost = 0
+                    BuyLimitMost = 0,
+                    TicketGroup = "",
+                    Sort = 0
                 });
             }
             else
@@ -198,6 +208,19 @@ namespace Bccupass_CoreMVC.Controllers
             ViewData["ActivityDraftId"] = id;
             return View(resultVM);
         }
+        [HttpPost]
+        public IActionResult Ticket(TicketInputViewModel request)
+        {
+            var inputDto = new CreateTicketDto()
+            {
+                ActivityDraftId = request.ActivityDraftId,
+                ActivityTicket = request.TicketDataJson
+            };
+            _activityDraftservice.EditActivityTicket(inputDto);
+
+            return RedirectToAction("Ticket", new { id = request.ActivityDraftId });
+        }
+
 
         [HttpPost]
         public IActionResult FetchTicket([FromBody] List<CreateTicketViewModel> request)
