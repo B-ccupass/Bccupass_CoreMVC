@@ -89,7 +89,7 @@ namespace Bccupass_CoreMVC.Controllers
                     Response = new LoginViewModel.SignUpResponse()
                     {
                         IsSuccess = true,
-                        Message = "Success"
+                        Message = "登入成功"
                     }
                 };
                 return new JsonResult(loginVM);
