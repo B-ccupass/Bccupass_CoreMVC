@@ -82,17 +82,17 @@
                     )
                 <p>是否開賣？</p>
                 <div class="form-check">
-                        <input class="form-check-input" name="IsSell"  type="radio" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            發售，活動上架後立即開賣
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="IsSell" type="radio"  id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            停售，該票券暫停對外銷售，並從購票頁中隱藏
-                        </label>
-                    </div>
+                    <input class="form-check-input" name="IsSell@(Model.Sort)"  type="radio" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        發售，活動上架後立即開賣
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="IsSell@(Model.Sort)" type="radio"  id="flexRadioDefault2">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        停售，該票券暫停對外銷售，並從購票頁中隱藏
+                    </label>
+                </div>
 
                 @if (!Model.IsFree)
                 {
