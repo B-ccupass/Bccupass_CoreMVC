@@ -109,5 +109,16 @@ namespace Bccupass_CoreMVC.Controllers
             _accountService.LogoutAccount();
             return Redirect("/");
         }
+
+        public IActionResult ResetPassword(string email)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RestPassword([FromBody] dynamic viewModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
