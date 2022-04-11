@@ -23,3 +23,7 @@ $font-color-light: #B2B2B2;
 .container{
     max-width: 1080px;
 }
+
+button:focus, .btn-primary:focus, .btn:focus {
+    box-shadow: none;
+}

@@ -2,6 +2,10 @@
   max-width: 1080px;
 }
 
+button:focus, .btn-primary:focus, .btn:focus {
+  box-shadow: none;
+}
+
 .search-key-wrap li.active .btn {
   background-color: #5995DD;
   color: #fff;
