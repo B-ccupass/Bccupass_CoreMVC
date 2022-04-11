@@ -49,7 +49,9 @@ namespace Bccupass_CoreMVC.Controllers
                 SellEndTime = x.SellEndTime,
                 CheckStartTime = x.CheckStartTime,
                 CheckEndTime = x.CheckEndTime,
-                GroupName = x.GroupName
+                GroupName = x.GroupName,
+                BuyMostCount = x.BuyMostCount,
+                BuyLeastCount = x.BuyLeastCount,
             });
 
             var result = new TicketPurchaseViewModel()

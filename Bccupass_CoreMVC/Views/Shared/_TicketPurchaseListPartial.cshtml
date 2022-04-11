@@ -2,19 +2,40 @@
 @model TicketPurchaseViewModel.TicketData
 @{
     var ticketId = $"panelsStayOpen-collapse{Model.TicketId}";
+
+    DateTime now = DateTime.Now;
+    var IsTimeToSell = (@Model.SellStartTime < now && @Model.SellEndTime >= now) ? true : false;
+    var IsNotYetToSell = (@Model.SellStartTime > now) ? true : false;
+    var IsEndToSell = (@Model.SellEndTime < now) ? true : false;
+    var IsSoldOut = false;
 }
 
-<div class="accordion-item border border-1 my-2 p-2">
+<div class="accordion-item border border-1 my-2 p-2 @(IsTimeToSell ? "" : "ticket-close")">
     <div class="accordion-header" id="panelsStayOpen-headingOne">
-        <div class="activity-buying d-flex my-1 ">
+        <div class="activity-buying d-flex my-1" data-least="@Model.BuyLeastCount" data-most="@Model.BuyMostCount">
             <div class="buyinfo col-10">
-                @*<div class="fs-3 my-3">@Model.TicketName : @Model.Quantity 張</div>*@
                 <div class="fs-4">@Model.TicketName</div>
-                <div class="fs-5 fw-bold">NT$ @Model.Price<span class="small text-primary ps-2">X 1</span></div>
+                <div class="fs-5 fw-bold d-inline">NT$ @Model.Price</div><span class="small text-primary ps-2 ticket-count d-none">0</span>
             </div>
-            <div class="buy-btn col-2 d-flex  ">
-                <button  class=" buy-button btn btn-primary border rounded-circle m-auto d-flex align-items-center justify-content-center fs-3  ">+</button>
-                <button  class=" buy-button btn btn-primary border rounded-circle m-auto d-flex align-items-center justify-content-center fs-3  ">-</button>
+            <div class="buy-btn col-2 d-flex">
+                @if (IsSoldOut)
+                {
+                    <span>已售完</span>
+                }
+                else if(IsNotYetToSell)
+                {
+                    <span>尚未開放售票</span>
+                }
+                else if (IsEndToSell)
+                {
+                    <span>售票時間已結束</span>
+                }
+                else
+                {
+                    <button class="add-btn buy-button btn btn-primary border rounded-circle m-auto d-flex align-items-center justify-content-center fs-3">+</button>
+                    <button class="reduce-btn buy-button btn btn-primary border rounded-circle m-auto d-flex align-items-center justify-content-center fs-3" disabled>-</button>
+                }
+
             </div>
 
         </div>

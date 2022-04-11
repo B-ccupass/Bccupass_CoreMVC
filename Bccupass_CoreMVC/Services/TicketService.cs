@@ -18,7 +18,7 @@ namespace Bccupass_CoreMVC.Services
 
         public IEnumerable<TicketPurchaseDto> GetTicketInfoAtPurchase(int activityId)
         {
-            var target = _context.GetAll<TicketDatail>().Where(x => x.ActivityId == activityId);
+            var target = _context.GetAll<TicketDatail>().Where(x => x.ActivityId == activityId && x.IsSell == true);
 
             var result = target.Select(x => new TicketPurchaseDto() {
                 TicketId = x.TicketDatailId,
@@ -30,7 +30,9 @@ namespace Bccupass_CoreMVC.Services
                 SellEndTime = x.SellEndTime,
                 CheckStartTime = x.CheckStartTime,
                 CheckEndTime = x.CheckEndTime,
-                GroupName = x.TicketGroup
+                GroupName = x.TicketGroup,
+                BuyLeastCount = x.BuyLimitLeast,
+                BuyMostCount = x.BuyLimitMost
             });
 
             return result;
@@ -69,7 +71,6 @@ namespace Bccupass_CoreMVC.Services
             _context.Save();
         }
 
-
         public CreateTicketDto GetTicket(int orderDetailId)
         {
             return new CreateTicketDto()
@@ -85,7 +86,6 @@ namespace Bccupass_CoreMVC.Services
         public int TicketCount(int orderDetailId)
         {
             var num = _context.GetAll<TicketDetailOrderDetail>().Where(x => x.OrderDetailId == orderDetailId).Count();
-
             return num;
         }
 
@@ -155,7 +155,5 @@ namespace Bccupass_CoreMVC.Services
                 OrgPhone = org.Telphone
             };
         }
-
-
     }
 }

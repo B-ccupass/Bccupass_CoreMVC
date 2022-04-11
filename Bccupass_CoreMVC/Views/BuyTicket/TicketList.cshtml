@@ -18,11 +18,9 @@
             </div>
         </div>
         <div class="ticket-group col-12 col-lg-8" id="ticketList">
-            <h2 class="fs-5 mt-2 mb-4">{{name}}</h2>
             <div class="ticket-group-select mb-3">
                 <div class="">請選擇票種</div>
                 <select name="" id="" class="d-block w-100 p-1">
-                    <option value="">展覽門票</option>
                     @{
                         List<string> group = new List<string>();
                         foreach (var item in @Model.TicketList.Select(x => x.GroupName))
@@ -39,12 +37,11 @@
             <div class="accordion accordion-flush " id="accordionPanelsStayOpenExample">
                  @foreach(var item in Model.TicketList){
                     @await Html.PartialAsync("_TicketPurchaseListPartial", item)
-                }
-            
+                 }
             </div>
         </div>
     </div>
-    <button class="w-100 p-2 btn btn-outline-primary mt-5">下一步: 填寫報名資訊</button>
+    <button class="w-100 p-2 btn btn-outline-primary mt-5 submit-ticketBuy-btn">下一步: 填寫報名資訊</button>
 </div>
 
 @section Topcss{
@@ -53,11 +50,54 @@
 
 @section EndJs{
     <script>
-        const ticketListApp = new Vue({
-            el: '#ticketList',
-            data: {
-                name: 'Annie'
-            }
-        })
+       const ticketWrap = document.querySelectorAll(".activity-buying");
+        
+       ticketWrap.forEach(wrap => {
+           console.dir(wrap)
+           let addBtn = wrap.querySelector(".add-btn")
+           let reduceBtn = wrap.querySelector(".reduce-btn")
+           let buyCount = wrap.querySelector(".ticket-count")
+           let leastCount = wrap.dataset.least
+           let mostCount = wrap.dataset.most
+
+           addBtn.onclick = function(){
+               let number = 0
+               number = parseInt(buyCount.innerHTML) + 1
+               buyCount.innerText = number
+               if(number == mostCount){
+                   addBtn.setAttribute("disabled", "")
+               }else{
+                   if(reduceBtn.hasAttribute("disabled")){
+                       reduceBtn.removeAttribute("disabled");
+                   }
+               }
+               isBuyCountZero(number, buyCount)
+           }
+           reduceBtn.onclick = function(){
+               let number = 0
+               number = parseInt(buyCount.innerHTML) - 1
+               buyCount.innerText = number
+               if(number == 0){
+                   reduceBtn.setAttribute("disabled", "")
+               }else{
+                   if(addBtn.hasAttribute("disabled")){
+                       addBtn.removeAttribute("disabled");
+                   }
+               }
+               isBuyCountZero(number, buyCount)
+           }
+       })
+
+       function isBuyCountZero(number, buyCount){
+           if(number == 0){
+               if(!buyCount.classList.contains('d-none')){
+                   buyCount.classList.add('d-none')
+               }
+           }else{
+               if(buyCount.classList.contains('d-none')){
+                   buyCount.classList.remove('d-none')
+               }
+           }
+       }
     </script>
 }
