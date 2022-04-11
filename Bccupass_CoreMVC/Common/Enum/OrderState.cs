@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel;
 
-namespace Bccupass_CoreMVC.Common.Enums
+namespace Bccupass_CoreMVC.Common.Enum
 {
-    public class Order
-    {
         public enum OrderState
         {
             [Description("未付款")]
@@ -15,5 +13,4 @@ namespace Bccupass_CoreMVC.Common.Enums
             [Description("已退票")]
             Refund
         }
-    }
 }
