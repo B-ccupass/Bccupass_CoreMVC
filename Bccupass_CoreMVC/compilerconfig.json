@@ -78,5 +78,9 @@
   {
     "outputFile": "wwwroot/css/Activity/SearchWindow.css",
     "inputFile": "wwwroot/css/Activity/SearchWindow.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/buyTicket/buyTicket.css",
+    "inputFile": "wwwroot/css/buyTicket/buyTicket.scss"
   }
 ]
