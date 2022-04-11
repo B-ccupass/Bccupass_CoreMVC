@@ -1,9 +1,19 @@
-﻿using Bccupass_CoreMVC.Models.ViewModel;
+﻿using Bccupass_CoreMVC.Common.Enums;
+using Bccupass_CoreMVC.Common.Helpers;
+using Bccupass_CoreMVC.Models.DTO.Activity;
+using Bccupass_CoreMVC.Models.ViewModel;
 using Bccupass_CoreMVC.Models.ViewModel.Activity;
+using Bccupass_CoreMVC.Models.ViewModel.Activity.Data;
 using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
 using Bccupass_CoreMVC.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using static Bccupass_CoreMVC.Models.ViewModel.Activity.SearchKeysViewModel;
 
 namespace Bccupass_CoreMVC.Controllers
 {
@@ -11,14 +21,84 @@ namespace Bccupass_CoreMVC.Controllers
     {
         private readonly IActivityService _activityService;
         private readonly IOrganizerService _organizerService;
+        private IEnumerable<ActivityCardDto> activityList;
         public ActivityController(IActivityService activityService, IOrganizerService organizerService)
         {
             _activityService = activityService;
             _organizerService = organizerService;
         }
-        public IActionResult Index()
+
+        [Route("Activity/Index", Name = "ActivityFilter")]
+        public IActionResult Index(
+            int page = 1,
+            string activityStateByTime = "0",
+            string sortOrder = "0"
+        )
         {
-            var activityList = _activityService.GetAllActivity().Select(x => new ActivityCardViewModel.ActivityCardData()
+            var pageObj = new Pagination
+            {
+                ActivePage = page,
+                ActionUrl = $"activityStateByTime={activityStateByTime}&sortOrder={sortOrder}",
+            };
+            var allActivity = new ActivityCardGroupByTimeDto();
+            var res = new ActivityIndexViewModel();
+            if (TempData["SearchResultCardList"] != null)
+            {
+                string json = (string)TempData["SearchResultCardList"];
+                var searchInput = JsonConvert.DeserializeObject<SearchKeysDataModel>(json);
+                var inputDto = new SearchKeysInputDto
+                {
+                    ThemesInput = searchInput.ThemesList,
+                    TypesInput = searchInput.TypesList,
+                    StartTimeInput = (StartTime)searchInput.StartTimeEnumValue,
+                    TicketPriceInput = (TicketPrice)searchInput.TicketPriceEnumValue,
+                };
+
+                var outputDto = _activityService.ActivityFilter(inputDto);
+                allActivity = outputDto.SearchResultCards;
+                res.searchInput = searchInput;
+                TempData.Keep();
+            }
+            else
+            {
+                allActivity = _activityService.GetAllActivityGroupByTime();
+            }
+
+            // 依活動狀態(進行中、尚未開始、已結束)篩選
+            switch (int.Parse(activityStateByTime))
+            {
+                case (int)ActivityStateByTime.NotStart:
+                    pageObj.Total = allActivity.NotStart.Count();
+                    activityList = allActivity.NotStart.Skip(pageObj.StartRow).Take(pageObj.PageRows);
+                    res.ActivityStateByTime = (int)ActivityStateByTime.NotStart;
+                    break;
+                case (int)ActivityStateByTime.End:
+                    pageObj.Total = allActivity.End.Count();
+                    activityList = allActivity.End.Skip(pageObj.StartRow).Take(pageObj.PageRows);
+                    res.ActivityStateByTime = (int)ActivityStateByTime.End;
+                    break;
+                default:
+                    pageObj.Total = allActivity.InProgress.Count();
+                    activityList = allActivity.InProgress.Skip(pageObj.StartRow).Take(pageObj.PageRows);
+                    res.ActivityStateByTime = (int)ActivityStateByTime.Inprogress;
+                    break;
+            }
+
+            // 排序(開始時間、票價、收藏人數)
+            switch (int.Parse(sortOrder))
+            {
+                case (int)ActivitySortOrder.Price:
+                    activityList = activityList.OrderByDescending(x => x.IsFree).ThenBy(x => x.StartTime);
+                    break;
+                case (int)ActivitySortOrder.LikeCount:
+                    activityList = activityList.OrderBy(x => x.Favorite);
+                    break;
+                default:
+                    activityList = activityList.OrderBy(x => x.StartTime);
+                    break;
+            }
+
+            var activityListByTime = activityList.Select(x => new ActivityCardViewModel.ActivityCardData()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -31,10 +111,23 @@ namespace Bccupass_CoreMVC.Controllers
                 Favorite = x.Favorite
             });
 
-            var res = new ActivityIndexViewModel()
+            var themesList = _activityService.GetAllActivityTheme().Select(x => new ActivityIndexViewModel.ThemeData
             {
-                ActivityList = activityList
-            };
+                Id = x.Id,
+                Name = x.Name
+            });
+            var typeList = _activityService.GetAllActivityType().Select(x => new ActivityIndexViewModel.TypeData
+            {
+                Id = x.Id,
+                Name = x.Name
+            });
+
+            res.ActivityList = activityListByTime;
+            res.pageInfo = pageObj;
+            res.ActivitySortOrder = int.Parse(sortOrder);
+            res.ThemeList = themesList;
+            res.TypeList = typeList;
+
             return View(res);
         }
         public IActionResult Detail(int id)
@@ -112,5 +205,25 @@ namespace Bccupass_CoreMVC.Controllers
             };
             return View(activityDetailVM);
         }
+
+        [HttpPost]
+        public IActionResult FetchSearch([FromBody] SearchKeysDataModel request)
+        {
+            TempData["SearchResultCardList"] = JsonConvert.SerializeObject(request);
+
+            return new JsonResult(new { isSuccess = true });
+        }
+
+        //public IActionResult FetchSearchResult()
+        //{
+        //    return RedirectToAction("Index");
+        //}
+
+        public IActionResult ClearSearchOptions()
+        {
+            TempData.Remove("SearchResultCardList");
+            return new JsonResult(new { isSuccess = true });
+        }
+
     }
 }

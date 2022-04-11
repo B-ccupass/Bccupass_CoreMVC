@@ -4,42 +4,45 @@
 @{
     ViewData["Title"] = "TicketList";
 }
-<div class="countainer d-flex flex-wrap p-3">
-    <div class="activity-info mb-3 col-12 col-lg-4">
-        <img src="https://static.accupass.com/eventbanner/1912261025314213385400_P520x260.jpg" alt="活動圖片" class="col-10">
-        <h2>@Model.ActivityList.ActivityName</h2>
-        <p>@Model.ActivityList.StartTime ~ @Model.ActivityList.EndTime</p>
-        <p>@Model.ActivityList.City @Model.ActivityList.District @Model.ActivityList.Address</p>
-        <div class="must-know text-primary fs-6 pe-lg-5">
-            <div class=" my-1 fs-5">購票須知：</div>
-            ＊請注意，您應該先完成一筆訂購後再進行下一筆購買。為保障消費者權益及杜絕非法囤票，同一使用者同時間只能進行一筆訂購，透過多開視窗同時購買將造成訂單無效，敬請理解與配合。
+<div class="container d-flex flex-wrap p-3 m-auto">
+    <div class="row">
+        <div class="activity-info mb-3 col-12 col-lg-5 pe-2">
+            <img src="https://static.accupass.com/eventbanner/1912261025314213385400_P520x260.jpg" alt="活動圖片" class="col-12">
+            <h2 class="fs-4 my-2">@Model.ActivityList.ActivityName</h2>
+            <p class="m-0">@Model.ActivityList.StartTime ~ @Model.ActivityList.EndTime</p>
+            <p>@Model.ActivityList.City @Model.ActivityList.District @Model.ActivityList.Address</p>
+            <div class="must-know text-primary fs-6 pe-lg-5">
+                <div class=" my-1 fs-5">購票須知：</div>
+                ＊請注意，您應該先完成一筆訂購後再進行下一筆購買。為保障消費者權益及杜絕非法囤票，同一使用者同時間只能進行一筆訂購，透過多開視窗同時購買將造成訂單無效，敬請理解與配合。
+            </div>
         </div>
-    </div>
-    <div class="ticket-group col-12 col-lg-8">
-        <div class="ticket-group-select mb-3">
-            <div class="">請選擇票種</div>
-            <select name="" id="">
-                <option value="">展覽門票</option>
-                @{
-                    List<string> group = new List<string>();
-                    foreach (var item in @Model.TicketList.Select(x => x.GroupName))
-                    {
-                        if (!group.Contains(item))
+        <div class="ticket-group col-12 col-lg-7">
+            <div class="ticket-group-select mb-3">
+                <div class="">請選擇票種</div>
+                <select name="" id="" class="d-block w-100 p-1">
+                    <option value="">展覽門票</option>
+                    @{
+                        List<string> group = new List<string>();
+                        foreach (var item in @Model.TicketList.Select(x => x.GroupName))
                         {
-                            group.Add(item);
-                            <option value="">@item</option>
-                        }
-                   }
+                            if (!group.Contains(item))
+                            {
+                                group.Add(item);
+                                <option value="">@item</option>
+                            }
+                       }
+                    }
+                </select>
+            </div>
+            <div class="accordion accordion-flush " id="accordionPanelsStayOpenExample">
+                 @foreach(var item in Model.TicketList){
+                    @await Html.PartialAsync("_TicketPurchaseListPartial", item)
                 }
-            </select>
-        </div>
-        <div class="accordion accordion-flush " id="accordionPanelsStayOpenExample">
-             @foreach(var item in Model.TicketList){
-                @await Html.PartialAsync("_TicketPurchaseListPartial", item)
-            }
             
+            </div>
         </div>
     </div>
+    <button class="w-100 p-1">下一步: 填寫報名資訊</button>
 </div>
 
 @section Topcss{

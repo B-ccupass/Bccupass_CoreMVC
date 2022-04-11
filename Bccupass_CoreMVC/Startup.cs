@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace Bccupass_CoreMVC
@@ -35,18 +37,21 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IOrganizerRepository, OrganizerRepository>();
             services.AddTransient<ITicketRepository, TicketRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IActivityDraftRepository, ActivityDraftRepository>();
+
 
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IOrganizerService, OrganizerService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IAccountService, AccountService>();
-
-
+            services.AddTransient<IActivityDraftService, ActivityDraftService>();
+            services.AddTransient<IUserService, UserService>();
 
             //註冊Service要用的HttpContext
             services.AddHttpContextAccessor();
 
-            //設定驗證方式
+            //�]�w���Ҥ覡
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 
@@ -55,7 +60,20 @@ namespace Bccupass_CoreMVC
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Bccupass"));
             });
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(120);
+            });
+
             services.AddControllersWithViews();
+
+            //�קKNet Core Razor View ����Q�۰ʽs�X https://www.gss.com.tw/blog/aspnetcore-chinese-encoding
+            services.AddSingleton<HtmlEncoder>(
+                 HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
+                                                           UnicodeRanges.CjkUnifiedIdeographs }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,10 +93,12 @@ namespace Bccupass_CoreMVC
             app.UseStaticFiles();
 
             app.UseRouting();
-            
-            app.UseAuthentication();//驗證
+
+            app.UseAuthentication();//����
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

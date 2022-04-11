@@ -31,6 +31,9 @@ namespace Bccupass_CoreMVC.Models.DTO.Ticket
         {
             public int TicketId { get; set; }
             public string TicketName { get; set; }
+            public decimal Price { get; set; }
+            public DateTime CheckStart { get; set; }
+            public DateTime CheckEnd { get; set; }
 
         }
 
@@ -54,6 +57,9 @@ namespace Bccupass_CoreMVC.Models.DTO.Ticket
         public class OrderData
         {
             public int OrderId { get; set; }
+            public DateTime OrderTime { get; set; }
+
+            public int OrderState { get; set; }
         }
     }
 }

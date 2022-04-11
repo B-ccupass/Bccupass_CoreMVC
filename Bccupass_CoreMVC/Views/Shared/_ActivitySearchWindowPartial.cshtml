@@ -1,0 +1,104 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.Activity
+@model SearchKeysViewModel
+@*<form method="post" action="Index">*@
+    <div class="container">
+        <div class="mb-3">
+            <input type="text" class="form-control search-input" id=" search-input" placeholder="@(Model.SearchInput == "" ? "請輸入搜尋關鍵字" : Model.SearchInput)">
+        </div>
+        <div class="search-key-wrap">
+            @*<div class="row city-wrap">
+                <span class="col-12 col-lg-1 pt-2 fw-bold text-dark">地區</span>
+                <ul class="d-flex col-12 col-lg-11 flex-wrap list-unstyled p-0 seach-class-wrap">
+                    <li class="m-2 all-option mx-lg-1">
+                        <input type="checkbox" class="btn-check" checked id="city-all" autocomplete="off">
+                        <label class="btn btn-light btn-lg-sm" for="city-all">全部</label>
+                    </li>
+                    <li class="m-2 search-key mx-lg-1" data-id="1234567890">
+                        <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off">
+                        <label class="btn btn-light btn-lg-sm" for="btn-check-2">台北市</label>
+                    </li>
+                    <li class="m-2 search-key mx-lg-1" data-id="1234567890">
+                        <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off">
+                        <label class="btn btn-light btn-lg-sm" for="btn-check-3">台北市</label>
+                    </li>
+                </ul>
+            </div>*@
+            <div class="row theme-wrap">
+                <span class="col-12 col-lg-1 pt-2 fw-bold text-dark">活動主題</span>
+                <ul class="d-flex col-12 col-lg-11 flex-wrap list-unstyled p-0 seach-class-wrap">
+                    <li class="m-2 all-option mx-lg-1 @(Model.SelectedThemeIds.Count() == 0 ? "active" : "")">
+                        <input type="checkbox" class="btn-check" checked id="theme-all" autocomplete="off" @(Model.SelectedThemeIds.Count() == 0 ? "checked" : "")>
+                        <label class="btn btn-light btn-lg-sm" for="theme-all">全部</label>
+                    </li>
+                    @foreach (var item in @Model.ThemesList)
+                    {
+                        <li class="m-2 search-key mx-lg-1 @(Model.SelectedThemeIds.Any(x => x == @item.Id) ? "active" : "")" data-id="@item.Id">
+                            <input type="checkbox" class="btn-check" id="theme-@item.Id" autocomplete="off" @(Model.SelectedThemeIds.Any(x => x == @item.Id) ? "checked" : "")>
+                            <label class="btn btn-light btn-lg-sm" for="theme-@item.Id">@item.Name</label>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="row type-wrap">
+                <span class="col-12 col-lg-1 pt-2 fw-bold text-dark">活動類型</span>
+                <ul class="d-flex col-12 col-lg-11 flex-wrap list-unstyled p-0 seach-class-wrap">
+                    <li class="m-2 all-option mx-lg-1 @(Model.SelectedTypeIds.Count() == 0 ? "active" : "")">
+                        <input type="checkbox" class="btn-check" checked id="type-all" autocomplete="off" @(Model.SelectedTypeIds.Count() == 0 ? "checked" : "")>
+                        <label class="btn btn-light btn-lg-sm" for="type-all">全部</label>
+                    </li>
+                    @foreach (var item in @Model.TypesList)
+                    {
+                        <li class="m-2 search-key mx-lg-1 @(Model.SelectedThemeIds.Any(x => x == @item.Id) ? "active" : "")" data-id="@item.Id">
+                            <input type="checkbox" class="btn-check" id="type-@item.Id" autocomplete="off" @(Model.SelectedThemeIds.Any(x => x == @item.Id) ? "checked" : "")>
+                            <label class="btn btn-light btn-lg-sm" for="type-@item.Id">@item.Name</label>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="row time-wrap">
+                <span class="col-12 col-lg-1 pt-2 fw-bold text-dark">開始時間</span>
+                <ul class="d-flex col-12 col-lg-11 flex-wrap list-unstyled p-0 seach-class-wrap">
+                    @foreach (var item in @Model.StartTimeList)
+                    {
+                        if(@item.EnumValue == 0)
+                        {
+                            <li class="m-2 all-option mx-lg-1 @(item.Selected ? "active": "")" data-id="@item.EnumValue">
+                                <input type="checkbox" class="btn-check" checked id="time-all" autocomplete="off" @(item.Selected ? "checked": "")>
+                                <label class="btn btn-light btn-lg-sm" for="time-all">全部</label>
+                            </li>
+                        }else{
+                            <li class="m-2 search-key mx-lg-1 @(item.Selected ? "active": "")" data-id="@item.EnumValue">
+                                <input type="checkbox" class="btn-check" id="time-@item.EnumValue" autocomplete="off" @(item.Selected ? "checked": "")>
+                                <label class="btn btn-light btn-lg-sm" for="time-@item.EnumValue">@item.Description</label>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="row price-wrap">
+                <span class="col-12 col-lg-1 pt-2 fw-bold text-dark">票價</span>
+                <ul class="d-flex col-12 col-lg-11 flex-wrap list-unstyled p-0 seach-class-wrap">
+                    @foreach (var item in @Model.TicketPriceList)
+                   {
+                       if(@item.EnumValue == 0)
+                        {
+                            <li class="m-2 all-option mx-lg-1 @(item.Selected ? "active": "")" data-id="@item.EnumValue">
+                                <input type="checkbox" class="btn-check" checked id="time-all" autocomplete="off" @(item.Selected ? "checked": "")>
+                                <label class="btn btn-light btn-lg-sm" for="time-all">全部</label>
+                            </li>
+                        }else{
+                            <li class="m-2 search-key mx-lg-1 @(item.Selected ? "active": "")" data-id="@item.EnumValue">
+                               <input type="checkbox" class="btn-check" id="price-@item.EnumValue" autocomplete="off" @(item.Selected ? "checked": "")>
+                               <label class="btn btn-light btn-lg-sm" for="price-@item.EnumValue">@item.Description</label>
+                           </li>
+                        }
+                   }
+                </ul>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mb-3 mb-lg-5">
+            <button id="submit" class="btn px-5 me-3">搜尋活動</button>
+            <button id="clear" class="btn btn-light px-5">清空條件</button>
+        </div>
+    </div>
+@*</form>*@

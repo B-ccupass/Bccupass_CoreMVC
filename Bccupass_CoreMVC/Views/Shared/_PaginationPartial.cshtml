@@ -1,0 +1,32 @@
+﻿@using Bccupass_CoreMVC.Common.Helpers
+@model Pagination
+@{
+    int activePages = @Model.ActivePage;
+    int pages = @Model.Pages;
+    string query = @Model.ActionUrl;
+}
+
+
+    <div class="pagination m-auto d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination mt-5">
+                <li class="page-item @(activePages == 1 ? "disabled" : "")">
+                    <a class="page-link" href="/Activity/Index?page=@(activePages - 1)&@query" aria-label="Previous">
+                        <span aria-hidden="true">上一頁</span>
+                    </a>
+                </li>
+                @for(int i = 1; i <= pages; i++)
+                {
+                    <li class="page-item @(i == activePages ? "active" : "")">
+                        <a class="page-link" href="/Activity/Index?page=@i&@query">@i</a>
+                    </li>
+                }
+                <li class="page-item @(activePages == pages ? "disabled" : "")">
+                    <a class="page-link" href="/Activity/Index?page=@(activePages + 1)&@query" aria-label="Next">
+                        <span aria-hidden="true">下一頁</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+

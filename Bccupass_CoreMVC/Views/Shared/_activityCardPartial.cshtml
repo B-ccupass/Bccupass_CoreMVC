@@ -4,14 +4,14 @@
 
 <div class="card">
     <div class="row g-0">
-        <a asp-controller="Activity" asp-action="Detail" asp-route-id="@Model.Id" class="img-link-wrap col col-4 col-md-12">
+        <a href="/Activity/Detail/@Model.Id" class="img-link-wrap col col-4 col-md-12">
             <div class="w-100 h-100">
                 <div class="activity-img" style="background-image:url(@Model.Image);"></div>
             </div>
         </a>
         <div class="col col-8 col-md-12">
             <div class="card-body p-3 d-flex flex-column h-100">
-                <a asp-controller="Activity" asp-action="Detail" asp-route-id="@Model.Id" class="card-title text-decoration-none text-dark fs-6">@Model.Name</a>
+                <a href="/Activity/Detail/@Model.Id" class="card-title text-decoration-none text-dark fs-6">@Model.Name</a>
                 <p class="card-text mb-2"><small class="text-muted">@Model.StartTime ~ @Model.EndTime</small></p>
                 <div class="tags mt-auto">
                     <span class="card-icon icon-location">@Model.City</span>

@@ -1,0 +1,70 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel
+@model CreateTicketViewModel
+
+
+<div class="ticket-info-content-template">
+    <div class="ticket accordion accordion-flush ticket px-2 my-2" id=" accordionPanelsStayOpenExample">
+        <div class="accordion-item ">
+            <div class="accordion-header" id="panelsStayOpen-headingOne">
+                <div class="ticket-main py-3 px-2 d-flex flex-wrap">
+                    <div class="ticket-info col-12 col-md-8">
+                        <h2 class="title fs-5 my-2">@Model.Activity.ActName</h2>
+                        <p class="date fs-6 my-2">@Model.Order.OrderTime</p>
+                        <p class="id fs-6 my-2 text-secondary">@Model.Order.OrderId</p>
+                    </div>
+                    <div class="ticket-operate col-12 col-md-4 d-flex align-items-center ">
+                        <a class="get btn btn-primary border me-3  ms-auto d-flex align-items-center justify-content-center p-0 py-3" href="/CreateTicket/@Model.Order.OrderId">快速取票</a>
+                        <div class="price  btn-white border  me-3  d-flex align-items-center align-content-center flex-wrap justify-content-center p-0 py-3">
+                            @Model.TicketDetail.Sum(x=>x.Price)
+                            <div class=" text-secondary col-12 text-center">訂單金額</div>
+                        </div>
+                        <div class="info  btn-white border d-flex align-items-center align-content-center flex-wrap justify-content-center py-3">
+                            <div class="">
+                                <button class="info-btn accordion-button btn p-0 text-center" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                        aria-controls="panelsStayOpen-collapseOne">
+                                    @Model.TicketNum
+                                </button>
+                            </div>
+                            <div class=" text-secondary col-12 text-center">訂單資訊</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                     aria-labelledby="panelsStayOpen-headingOne">
+                    <table class="table fs-6">
+                        <thead>
+                            <tr>
+                                <th scope="col">票號</th>
+                                <th scope="col">票種</th>
+                                <th scope="col" class="d-none d-md-table-cell">單價</th>
+                                <th scope="col" class="d-none d-md-table-cell">有效期限</th>
+                                <th scope="col" class="d-none d-md-table-cell">狀態</th>
+                                <th scope="col">選項</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var t in @Model.TicketDetail)
+                            {
+                                <tr>
+                                    <th scope="row" class="col-4 col-md-3">@t.TicketId</th>
+                                    <td class="col-5 col-md-4">@t.TicketName</td>
+                                    <td class="d-none d-md-table-cell col-md-1">@t.Price</td>
+                                    <td class="d-none d-md-table-cell col-md-2">@t.CheckStart-<br>@t.CheckEnd</td>
+                                    <td class="d-none d-md-table-cell col-md-1">@Model.Order.OrderState</td>
+                                    <td class="col-3 col-md-1">
+                                        <div class="ps-2">
+                                            <i class="fas fa-times"></i>
+                                            <i class="fas fa-arrow-circle-down"></i>
+                                            <i class="far fa-file-alt"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,3 +10,7 @@
 .accordion-button::after {
     margin-left: 10px;
 }
+
+.accordion-button:focus {
+    box-shadow: none !important;
+}

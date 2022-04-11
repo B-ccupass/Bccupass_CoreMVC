@@ -45,7 +45,31 @@ namespace Bccupass_CoreMVC.Controllers
                 Description = organizerDto.Description,
                 FacebookWebsite = organizerDto.FacebookWebsite
             };
-            var activityCardViewModel = _activityService.GetOrganizerActivity(id).Select(x => new ActivityCardViewModel.ActivityCardData()
+            var inProgress = _activityService.GetOrganizerActivity(id).InProgress.Select(x => new ActivityCardViewModel.ActivityCardData()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Image = x.Image,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                City = x.City,
+                ActivityTheme = x.ActivityTheme,
+                IsFree = x.IsFree,
+                Favorite = x.Favorite,
+            });
+            var notStart = _activityService.GetOrganizerActivity(id).NotStart.Select(x => new ActivityCardViewModel.ActivityCardData()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Image = x.Image,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                City = x.City,
+                ActivityTheme = x.ActivityTheme,
+                IsFree = x.IsFree,
+                Favorite = x.Favorite,
+            });
+            var end = _activityService.GetOrganizerActivity(id).End.Select(x => new ActivityCardViewModel.ActivityCardData()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -61,7 +85,9 @@ namespace Bccupass_CoreMVC.Controllers
 
             var result = new OrganizerAboutViewModel()
             {
-                ActivityList = activityCardViewModel,
+                ActivityInProgressList = inProgress,
+                ActivityNotStartList = notStart,
+                ActivityEndList = end,
                 organizer = org
             };
 
