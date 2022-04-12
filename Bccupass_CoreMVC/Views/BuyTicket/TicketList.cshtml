@@ -118,6 +118,7 @@
                         alert('免費票券不可與付費票券同時購買')
                     }else{
                         let cartData = {
+                            isFreeTicket: (this.isBuyFreeTicket && !this.isBuyPaidTicket) ? true : false, 
                             activityId: @Model.ActivityList.ActivityId,
                             cartList: this.ticketList.map(x => ({
                                           ticketId: x.ticketId,

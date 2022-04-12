@@ -1,0 +1,58 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.Ticket
+@using Newtonsoft.Json
+@model FormViewModel
+
+<div class="container d-flex flex-wrap p-3 m-auto" id="buyer-form">
+    <div class="row">
+        <div v-if="cartData.isFreeTicket" class="container">
+            <ul>
+                <li><span>1</span>選擇票券</li>
+                <li><span>2</span>填寫資料</li>
+                <li><span>3</span>取得票券</li>
+            </ul>
+        </div>
+        <div v-else class="container">
+            <ul>
+                <li><span>1</span>選擇票券</li>
+                <li><span>2</span>填寫資料</li>
+                <li><span>3</span>選擇付款</li>
+                <li><span>4</span>前往付款</li>
+                <li><span>5</span>取得票券</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="activity-info mb-3 col-12 col-lg-4 pe-2">
+            <img src="@Model.ActivityList.Image" alt="活動圖片" class="col-12">
+            <h2 class="fs-5 mt-2 mb-4">@Model.ActivityList.ActivityName</h2>
+            <p class="m-0 small">@Model.ActivityList.StartTime ~ @Model.ActivityList.EndTime</p>
+            <p class="small">@Model.ActivityList.City @Model.ActivityList.District @Model.ActivityList.Address</p>
+            <div class="must-know text-primary fs-6 pe-lg-5">
+                <div class=" my-1 fs-6">
+                <p class="small">購票須知：<br />請注意，您應該先完成一筆訂購後再進行下一筆購買。為保障消費者權益及杜絕非法囤票，同一使用者同時間只能進行一筆訂購，透過多開視窗同時購買將造成訂單無效，敬請理解與配合。</p>
+                </div>
+            </div>
+        </div>
+        <div class="ticket-group col-12 col-lg-8">
+            <p>{{formBool}}</p>
+            <p>{{cartData}}</p>
+        </div>
+    </div>
+    <button class="w-100 p-2 btn btn-outline-primary mt-5 submit-ticketBuy-btn" v-on:click="">下一步</button>
+</div>
+
+@section Topcss{
+    <link rel="stylesheet" href="~/css/buyTicket/buyTicket.css" />
+    <link rel="stylesheet" href="~/css/buyTicket/buyForm.css" />
+}
+@section EndJs{
+    <script>
+        let buyerFormApp = new Vue({
+            el: '#buyer-form',
+            data: {
+                formBool: JSON.parse('@Html.Raw(Json.Serialize(Model.FormBool))'),
+                cartData: JSON.parse('@Html.Raw(Json.Serialize(Model.CartData))'),
+            }
+        })
+    </script>
+}
