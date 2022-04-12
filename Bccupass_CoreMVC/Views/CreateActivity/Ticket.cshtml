@@ -98,6 +98,7 @@
 
 
         addFree.onclick = function(){
+            setData()
            var  data = {
                     ActivityDraftId:  @ViewData["ActivityDraftId"],
                     TicketName: ``,
@@ -133,6 +134,7 @@
         }
 
         addNoFree.onclick = function(){
+            setData()
            var  data = {
                     ActivityDraftId:  @ViewData["ActivityDraftId"],
                     TicketName: ``,
