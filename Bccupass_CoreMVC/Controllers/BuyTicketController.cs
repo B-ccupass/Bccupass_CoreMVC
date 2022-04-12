@@ -52,6 +52,7 @@ namespace Bccupass_CoreMVC.Controllers
                 GroupName = x.GroupName,
                 BuyMostCount = x.BuyMostCount,
                 BuyLeastCount = x.BuyLeastCount,
+                BuyCount = 0
             });
 
             var result = new TicketPurchaseViewModel()

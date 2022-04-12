@@ -34,6 +34,7 @@ namespace Bccupass_CoreMVC.Models.ViewModel.Ticket
             public string GroupName { get; set; }
             public int BuyLeastCount { get; set; }
             public int BuyMostCount { get; set; }
+            public int BuyCount { get; set; }
         }
 
         
