@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "TicketList";
 }
-<div class="container d-flex flex-wrap p-3 m-auto" id="app">
+<div class="container d-flex flex-wrap p-3 m-auto" id="ticket-list">
     <div class="row">
         <div class="activity-info mb-3 col-12 col-lg-4 pe-2">
             <img src="@Model.ActivityList.Image" alt="活動圖片" class="col-12">
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <div class="ticket-group col-12 col-lg-8" id="ticketList">
+        <div class="ticket-group col-12 col-lg-8">
             <div class="ticket-group-select mb-3" v-if="ticketGroupList.length > 0">
                 <div class="">請選擇票種</div>
                 <select v-model="selectticketGroup" name="" id="" class="d-block w-100 p-1">
@@ -67,7 +67,7 @@
     </div>
     <div class="d-flex flex-column w-100">
         <p v-if="ticketCount != 0" class="m-0 text-end">已選購 {{ticketCount}} 張票，共 {{sumPrice}} 元</p>
-        <button :disabled='!isAbleToNext' class="w-100 p-2 btn btn-outline-primary mt-2 submit-ticketBuy-btn" v-on:click="fetchCart">下一步: 填寫報名資訊</button>
+        <button :disabled='!isAbleToNext' class="w-100 p-2 btn btn-outline-primary mt-2 submit-ticketBuy-btn" v-on:click="submitCart">下一步: 填寫報名資訊</button>
     </div>
 </div>
 
@@ -77,66 +77,17 @@
 
 @section EndJs{
     <script>
-       //const ticketWrap = document.querySelectorAll(".activity-buying");
-        
-       //ticketWrap.forEach(wrap => {
-       //    console.dir(wrap)
-       //    let addBtn = wrap.querySelector(".add-btn")
-       //    let reduceBtn = wrap.querySelector(".reduce-btn")
-       //    let buyCount = wrap.querySelector(".ticket-count")
-       //    let leastCount = wrap.dataset.least
-       //    let mostCount = wrap.dataset.most
-
-       //    addBtn.onclick = function(){
-       //        let number = 0
-       //        number = parseInt(buyCount.innerHTML) + 1
-       //        buyCount.innerText = number
-       //        if(number == mostCount){
-       //            addBtn.setAttribute("disabled", "")
-       //        }else{
-       //            if(reduceBtn.hasAttribute("disabled")){
-       //                reduceBtn.removeAttribute("disabled");
-       //            }
-       //        }
-       //        isBuyCountZero(number, buyCount)
-       //    }
-       //    reduceBtn.onclick = function(){
-       //        let number = 0
-       //        number = parseInt(buyCount.innerHTML) - 1
-       //        buyCount.innerText = number
-       //        if(number == 0){
-       //            reduceBtn.setAttribute("disabled", "")
-       //        }else{
-       //            if(addBtn.hasAttribute("disabled")){
-       //                addBtn.removeAttribute("disabled");
-       //            }
-       //        }
-       //        isBuyCountZero(number, buyCount)
-       //    }
-       //})
-
-       //function isBuyCountZero(number, buyCount){
-       //    if(number == 0){
-       //        if(!buyCount.classList.contains('d-none')){
-       //            buyCount.classList.add('d-none')
-       //        }
-       //    }else{
-       //        if(buyCount.classList.contains('d-none')){
-       //            buyCount.classList.remove('d-none')
-       //        }
-       //    }
-       //}
-    </script>
-    <script>
-        let app = new Vue({
-            el: '#app',
+        let ticketListApp = new Vue({
+            el: '#ticket-list',
             data: {
                 ticketList: JSON.parse('@Html.Raw(Json.Serialize(Model.TicketList))'),
                 ticketGroupList: [...new Set(JSON.parse('@Html.Raw(Json.Serialize(Model.TicketList))').map(x => x.groupName))],
                 selectticketGroup: '',
                 ticketCount: 0,
                 sumPrice: 0,
-                isAbleToNext: false
+                isAbleToNext: false,
+                isBuyFreeTicket: false,
+                isBuyPaidTicket: false,
             },
             methods: {
                 addCount(ticket){
@@ -160,12 +111,37 @@
                         this.isAbleToNext = false
                     }
                 },
-                fetchCart(){
-                    let cartList = this.ticketList.map(x => ({
-                        ticketId: x.ticketId,
-                        buyCount: x.buyCount,
-                    }))
-                    console.log(cartList)
+                submitCart(){
+                    this.isBuyFreeTicket = this.ticketList.some(x => x.buyCount != 0 && x.price == 0)
+                    this.isBuyPaidTicket = this.ticketList.some(x => x.buyCount != 0 && x.price != 0)
+                    if(this.isBuyFreeTicket && this.isBuyPaidTicket){
+                        alert('免費票券不可與付費票券同時購買')
+                    }else{
+                        let cartData = {
+                            activityId: @Model.ActivityList.ActivityId,
+                            cartList: this.ticketList.map(x => ({
+                                          ticketId: x.ticketId,
+                                          buyCount: x.buyCount,
+                                          ticketName: x.ticketName
+                                      }))
+                        }
+                        fetch("/BuyTicket/submitCart", {
+                            headers: {
+                                'Accept': 'application/json, text/plain',
+                                'Content-Type': 'application/json;charset=UTF-8'
+                            },
+                            method: 'POST',
+                            body: JSON.stringify(cartData)
+                        })
+                        .then(response => {
+                            if(response.ok){
+                                window.location.href = "/BuyTicket/BuyerForm"
+                            }else{
+                    
+                            }
+
+                        })
+                    }
                 }
             },
             watch: {
