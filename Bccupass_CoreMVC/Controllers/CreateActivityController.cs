@@ -218,7 +218,7 @@ namespace Bccupass_CoreMVC.Controllers
             };
             _activityDraftservice.EditActivityTicket(inputDto);
 
-            return RedirectToAction("Ticket", new { id = request.ActivityDraftId });
+            return RedirectToAction("TicketGroup", new { id = request.ActivityDraftId });
         }
 
 
@@ -239,9 +239,38 @@ namespace Bccupass_CoreMVC.Controllers
 
 
         #region 票卷分組
-        public IActionResult TicketGroup()
+        public IActionResult TicketGroup(int id)
         {
-            return View();
+
+            var inputDto = _activityDraftservice.GetActivityDraftTicket(id);
+
+            List<CreateTicketViewModel> resultVM = new List<CreateTicketViewModel>();
+            if (inputDto.ActivityTicket == null)
+            {
+                return RedirectToAction("Ticket",new { id = id });
+            }
+            else
+            {
+                var json = JsonConvert.DeserializeObject<CreateTicketViewModel[]>(inputDto.ActivityTicket);
+
+                resultVM = json.ToList();
+            }
+
+            ViewData["ActivityDraftId"] = id;
+            return View(resultVM);
+        }
+
+        [HttpPost]
+        public IActionResult FetchTicketGroup([FromBody] List<CreateTicketViewModel> request)
+        {
+            var inputDto = new CreateTicketDto()
+            {
+                ActivityDraftId = request[0].ActivityDraftId,
+                ActivityTicket = JsonConvert.SerializeObject(request)
+            };
+            _activityDraftservice.EditActivityTicket(inputDto);
+
+            return RedirectToAction("TicketGroup", new { id = request[0].ActivityDraftId });
         }
 
         #endregion
