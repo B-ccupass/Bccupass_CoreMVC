@@ -1,0 +1,11 @@
+﻿@import "../Global.scss";
+
+.cart-step {
+    span {
+        background-color: $theme-color;
+        color: #fff;
+        border-radius: 6px;
+        padding: 2px 7px;
+        margin-right: 5px;
+    }
+}

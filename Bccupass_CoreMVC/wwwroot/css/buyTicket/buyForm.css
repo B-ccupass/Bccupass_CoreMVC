@@ -1,0 +1,15 @@
+﻿.container {
+  max-width: 1080px;
+}
+
+button:focus, .btn-primary:focus, .btn:focus {
+  box-shadow: none;
+}
+
+.cart-step span {
+  background-color: #2C5E9E;
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px 7px;
+  margin-right: 5px;
+}
