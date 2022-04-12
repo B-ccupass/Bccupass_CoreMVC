@@ -1,12 +1,37 @@
-﻿.buy-button {
+﻿.container {
+  max-width: 1080px;
+}
+
+button:focus, .btn-primary:focus, .btn:focus {
+  box-shadow: none;
+}
+
+.buy-button {
   width: 50px;
-  height: 50px; }
+  height: 50px;
+}
 
 .accordion-body {
-  background-color: #DEF2FF; }
+  background-color: #DEF2FF;
+}
 
 .accordion-button::after {
-  margin-left: 10px; }
+  margin-left: 10px;
+}
 
 .accordion-button:focus {
-  box-shadow: none !important; }
+  box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: transparent;
+}
+
+.ticket-count::before {
+  content: "x";
+  margin-right: 3px;
+}
+
+.ticket-close {
+  color: #B2B2B2;
+}

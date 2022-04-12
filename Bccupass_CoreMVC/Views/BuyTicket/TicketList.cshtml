@@ -6,21 +6,21 @@
 }
 <div class="container d-flex flex-wrap p-3 m-auto">
     <div class="row">
-        <div class="activity-info mb-3 col-12 col-lg-5 pe-2">
-            <img src="https://static.accupass.com/eventbanner/1912261025314213385400_P520x260.jpg" alt="活動圖片" class="col-12">
-            <h2 class="fs-4 my-2">@Model.ActivityList.ActivityName</h2>
-            <p class="m-0">@Model.ActivityList.StartTime ~ @Model.ActivityList.EndTime</p>
-            <p>@Model.ActivityList.City @Model.ActivityList.District @Model.ActivityList.Address</p>
+        <div class="activity-info mb-3 col-12 col-lg-4 pe-2">
+            <img src="@Model.ActivityList.Image" alt="活動圖片" class="col-12">
+            <h2 class="fs-5 mt-2 mb-4">@Model.ActivityList.ActivityName</h2>
+            <p class="m-0 small">@Model.ActivityList.StartTime ~ @Model.ActivityList.EndTime</p>
+            <p class="small">@Model.ActivityList.City @Model.ActivityList.District @Model.ActivityList.Address</p>
             <div class="must-know text-primary fs-6 pe-lg-5">
-                <div class=" my-1 fs-5">購票須知：</div>
-                ＊請注意，您應該先完成一筆訂購後再進行下一筆購買。為保障消費者權益及杜絕非法囤票，同一使用者同時間只能進行一筆訂購，透過多開視窗同時購買將造成訂單無效，敬請理解與配合。
+                <div class=" my-1 fs-6">
+                <p class="small">購票須知：<br />請注意，您應該先完成一筆訂購後再進行下一筆購買。為保障消費者權益及杜絕非法囤票，同一使用者同時間只能進行一筆訂購，透過多開視窗同時購買將造成訂單無效，敬請理解與配合。</p>
+                </div>
             </div>
         </div>
-        <div class="ticket-group col-12 col-lg-7">
+        <div class="ticket-group col-12 col-lg-8" id="ticketList">
             <div class="ticket-group-select mb-3">
                 <div class="">請選擇票種</div>
                 <select name="" id="" class="d-block w-100 p-1">
-                    <option value="">展覽門票</option>
                     @{
                         List<string> group = new List<string>();
                         foreach (var item in @Model.TicketList.Select(x => x.GroupName))
@@ -37,15 +37,67 @@
             <div class="accordion accordion-flush " id="accordionPanelsStayOpenExample">
                  @foreach(var item in Model.TicketList){
                     @await Html.PartialAsync("_TicketPurchaseListPartial", item)
-                }
-            
+                 }
             </div>
         </div>
     </div>
-    <button class="w-100 p-1">下一步: 填寫報名資訊</button>
+    <button class="w-100 p-2 btn btn-outline-primary mt-5 submit-ticketBuy-btn">下一步: 填寫報名資訊</button>
 </div>
 
 @section Topcss{
     <link rel="stylesheet" href="~/css/buyTicket/buyTicket.css" />
 }
 
+@section EndJs{
+    <script>
+       const ticketWrap = document.querySelectorAll(".activity-buying");
+        
+       ticketWrap.forEach(wrap => {
+           console.dir(wrap)
+           let addBtn = wrap.querySelector(".add-btn")
+           let reduceBtn = wrap.querySelector(".reduce-btn")
+           let buyCount = wrap.querySelector(".ticket-count")
+           let leastCount = wrap.dataset.least
+           let mostCount = wrap.dataset.most
+
+           addBtn.onclick = function(){
+               let number = 0
+               number = parseInt(buyCount.innerHTML) + 1
+               buyCount.innerText = number
+               if(number == mostCount){
+                   addBtn.setAttribute("disabled", "")
+               }else{
+                   if(reduceBtn.hasAttribute("disabled")){
+                       reduceBtn.removeAttribute("disabled");
+                   }
+               }
+               isBuyCountZero(number, buyCount)
+           }
+           reduceBtn.onclick = function(){
+               let number = 0
+               number = parseInt(buyCount.innerHTML) - 1
+               buyCount.innerText = number
+               if(number == 0){
+                   reduceBtn.setAttribute("disabled", "")
+               }else{
+                   if(addBtn.hasAttribute("disabled")){
+                       addBtn.removeAttribute("disabled");
+                   }
+               }
+               isBuyCountZero(number, buyCount)
+           }
+       })
+
+       function isBuyCountZero(number, buyCount){
+           if(number == 0){
+               if(!buyCount.classList.contains('d-none')){
+                   buyCount.classList.add('d-none')
+               }
+           }else{
+               if(buyCount.classList.contains('d-none')){
+                   buyCount.classList.remove('d-none')
+               }
+           }
+       }
+    </script>
+}

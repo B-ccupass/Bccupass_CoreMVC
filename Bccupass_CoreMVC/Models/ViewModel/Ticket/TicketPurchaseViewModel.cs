@@ -32,6 +32,8 @@ namespace Bccupass_CoreMVC.Models.ViewModel.Ticket
             public DateTime CheckStartTime { get; set; }
             public DateTime CheckEndTime { get; set; }
             public string GroupName { get; set; }
+            public int BuyLeastCount { get; set; }
+            public int BuyMostCount { get; set; }
         }
 
         
