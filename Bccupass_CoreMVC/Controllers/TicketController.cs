@@ -19,7 +19,6 @@ namespace Bccupass_CoreMVC.Controllers
 
         public IActionResult CreateTicket(int id)
         {
-            id = 3;
             var createTicketDto = _ticketService.GetTicket(id);
             var createTicketVM = new CreateTicketViewModel()
             {
