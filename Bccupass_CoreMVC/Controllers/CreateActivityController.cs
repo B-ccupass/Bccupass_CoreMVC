@@ -8,6 +8,7 @@ using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -172,23 +173,108 @@ namespace Bccupass_CoreMVC.Controllers
             };
             return View(result);
         }
-
+        [HttpGet]
         public IActionResult Category(int id)
         {
+            var inputDto = _activityDraftservice.GetActivityThemeCat(id);
+            var _themeList = _activityDraftservice.GetAllActivityThemeForCategory().Select(x => new CreateThemeCategoryVM.CardData()
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Icon = x.Icon,
+            });
+            var _typeList = _activityDraftservice.GetAllActivityTypeForCategory().Select(x => new CreateThemeCategoryVM.CardData()
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Icon = x.Icon,
+            });
+            var _DataThemeCategory = new CreateThemeCategoryVM()
+            {
+                Theme = _themeList,
+                Type = _typeList,
+            };
+            List<CreateThemeCategoryVM> _resultVM = new();
+            if (inputDto.ThemeCategory == null)
+            {
+                _resultVM.Add(new CreateThemeCategoryVM()
+                {
+                    ActivityDraftId = inputDto.ActivityDraftId,
+                    ActivityPrimaryThemeId = 0,
+                    ActivitySecondThemeId = 0,
+                    ActivityTypeId = 0,
+                    Theme = _themeList,
+                    Type = _typeList,
+                });
+            }
+            else
+            {
+                var json = JsonConvert.DeserializeObject<CreateThemeCategoryVM[]>(inputDto.ThemeCategory);
 
-            return View();
+                _resultVM = json.ToList();
+            }
+            var result = new CreateThemeCategoryVM()
+            {
+                DataThemeCategory = _DataThemeCategory,
+                DataJSON = _resultVM,
+            };
+
+            ViewData["ActivityDraftId"] = id;
+            return View(result);
         }
-
-
-        public IActionResult Category()
+        [HttpPost]
+        public IActionResult Category(ThemeCategoryInputVM request)
         {
 
             return View();
         }
-
-        public IActionResult Info()
+        [HttpGet]
+        public IActionResult Info(int id)
         {
-            return View();
+            var inputDto = _activityDraftservice.GetActivityInfo(id);
+            CreateActivityInfoVM resultVM = new();
+            if (inputDto.ActivityInfo == null)
+            {
+                resultVM = new CreateActivityInfoVM()
+                {
+                    ActivityDraftId = inputDto.ActivityDraftId,
+                    Image = "https://i.imgur.com/GSjcP32.png",
+                    ActivityName = "",
+                    StartTime = default,
+                    EndTime = default,
+                    ActivityRefWebUrl = "",
+                    RefWebDescription = "",
+                    City = "",
+                    District = "",
+                    CitySelectIndex = 0,
+                    DistrictSelectIndex = 0,
+                    Address = "",
+                    AddressDetail = "",
+                    StreamingWeb = ""
+                };
+            }
+            else
+            {
+                var json = JsonConvert.DeserializeObject<CreateActivityInfoVM>(inputDto.ActivityInfo);
+
+                resultVM = json;
+            }
+            ViewData["ActivityDraftId"] = id;
+            return View(resultVM);
+        }
+        [HttpPost]
+        public IActionResult Info([FromBody] CreateActivityInfoVM request)
+        {
+            var inputDto = new CreateInfoDto()
+            {
+                ActivityDraftId = request.ActivityDraftId,
+                ActivityInfo = JsonConvert.SerializeObject(request)
+
+            };
+            _activityDraftservice.EditActivityInfo(inputDto);
+
+            return RedirectToAction("Info", new { id = request.ActivityDraftId });
+
         }
     }
 }

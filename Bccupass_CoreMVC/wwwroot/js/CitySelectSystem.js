@@ -2,21 +2,11 @@ const TaiwanUrl = 'https://raw.githubusercontent.com/LunAhEric/FileStorage/main/
 let cityArray = []
 let districtArray = []
 
-//DOM
-const citySelect = document.querySelector('#city')
-const districtSelect = document.querySelector('#district')
-const submitBtn = document.querySelector('input')
-
-window.onload = function () {
-    getFetchData()
-    citySelect.onchange = function () {
-        const slectedCity = citySelect.value		// console.log(slectedCity)
-        districtArray = [''].concat(cityArray.find(x => x.CityName == slectedCity).AreaList.map(x => `${x.ZipCode}-${x.AreaName}`))
-        setDistrictSelect()
-        checkUI()
-    }
-    districtSelect.onchange = function () {
-        checkUI()
+function checkUI() {
+    if (citySelect.value == '') {
+        districtSelect.setAttribute('disabled', 'true')
+    } else {
+        districtSelect.removeAttribute('disabled')
     }
 }
 function getFetchData() {
@@ -25,14 +15,12 @@ function getFetchData() {
         .then(data => {
             cityArray = [{ CityName: '', AreaList: [] }].concat(data)
             districtArray = ['']
-            //citySelect
             setCitySelect()
             setDistrictSelect()
             checkUI()
         })
         .catch(ex => { console.log(ex) })
 }
-
 function setCitySelect() {
     citySelect.innerHTML = ''
     cityArray.forEach(city => {
@@ -40,7 +28,6 @@ function setCitySelect() {
         option.innerText = city.CityName == '' ? '--請選擇城市--' : city.CityName
         option.value = city.CityName
         citySelect.appendChild(option)
-        //districtSelect
     })
 }
 function setDistrictSelect() {
@@ -53,18 +40,3 @@ function setDistrictSelect() {
     })
 }
 
-function checkUI() {
-    if (citySelect.value == '') {
-        districtSelect.setAttribute('disabled', 'true')
-        submitBtn.setAttribute('disabled', 'true')
-
-    } else {
-        districtSelect.removeAttribute('disabled')
-    }
-
-    if (districtSelect.value == '') {
-        submitBtn.setAttribute('disabled', 'true')
-    } else {
-        submitBtn.removeAttribute('disabled')
-    }
-}

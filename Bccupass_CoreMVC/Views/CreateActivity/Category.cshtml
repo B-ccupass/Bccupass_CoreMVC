@@ -1,7 +1,7 @@
-﻿@using Bccupass_CoreMVC.Models.ViewModel.Activity
-@model ActivityCategoryCardViewModel
+﻿@using Bccupass_CoreMVC.Models.ViewModel.CreateActivity
+@model List<CreateThemeCategoryVM>
 @{
-    ViewData["Title"] = "ActivityCategory";
+    ViewData["Title"] = "活動類型與主題";
 }
 @section Topcss{
 @*<link rel="stylesheet" href="~/css/Global.scss/">*@
@@ -19,15 +19,18 @@
     <div class="row justify-content-center">
         <div class="col-12 col-lg-6">
             <div class="row themeShow justify-content-start ">
-                @foreach (var item in Model.Theme)
+                @foreach (var mo in Model)
                 {
-                    <div class="col-4 col-lg-3 text-center py-2">
-                        <input type="checkbox" class="btn-check themeInput" id="Theme-@item.Id" name="@item.Id">
-                        <label class="btn btn-outline-primary w-100 themeLab" for="Theme-@item.Id">
-                            <i class="bi d-block iconBig @item.Icon"></i>
-                            <div class="m-0 ">@item.Title</div>
-                        </label>
-                    </div>
+                    @foreach (var theme in mo.DataThemeCategory.Theme)
+                    {
+                        <div class="col-4 col-lg-3 text-center py-2">
+                            <input type="checkbox" class="btn-check themeInput" id="Theme-@theme.Id" name="@theme.Id">
+                            <label class="btn btn-outline-primary w-100 themeLab" for="Theme-@theme.Id">
+                                <i class="bi d-block iconBig @theme.Icon"></i>
+                                <div class="m-0 ">@theme.Title</div>
+                            </label>
+                        </div>
+                    }
                 }
             </div>
         </div>
@@ -40,14 +43,16 @@
     <div class="row justify-content-center">
         <div class="col-12 col-lg-6">
             <div class="row categoryShow justify-content-start">
-
-                @foreach (var item in Model.Type)
+               @* @foreach (var mo in Model)
                 {
-                    <div class="col-4 col-lg-3 text-center py-2">
-                        <input type="radio" class="btn-check categoryInput" id="@item.Id" name="typeRadio">
-                        <label class="btn btn-lg btn-outline-primary w-100 p-2 categorylabel" for="@item.Id">@item.Title</label>
-                    </div>
-                }
+                    @foreach (var type in mo.Type)
+                    {
+                        <div class="col-4 col-lg-3 text-center py-2">
+                            <input type="radio" class="btn-check categoryInput" id="@type.Id" name="typeRadio">
+                            <label class="btn btn-lg btn-outline-primary w-100 p-2 categorylabel" for="@type.Id">@type.Title</label>
+                        </div>
+                    }
+                }*@
             </div>
             <div class="row justify-content-center justify-content-lg-between text-center">
                 <div class="col-6">
@@ -62,4 +67,5 @@
 </div>
 @section endJS{
 <script src="~/js/Category.js"></script>
+
 }

@@ -113,10 +113,10 @@ namespace Bccupass_CoreMVC.Services
             return result;
         }
 
-        public CreateActivityInfoDto GetActivityInfo(int? id)
+        public CreateInfoDto GetActivityInfo(int? id)
         {
             var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
-            var result = new CreateActivityInfoDto()
+            var result = new CreateInfoDto()
             {
                 ActivityDraftId = target.ActivityDraftId,
                 ActivityInfo = target.ActivityInfo
@@ -132,13 +132,36 @@ namespace Bccupass_CoreMVC.Services
             _activityDraft.Save();
         }
 
-        public void EditActivityInfo(CreateActivityInfoDto request)
+        public void EditActivityInfo(CreateInfoDto request)
         {
             var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.ActivityDraftId);
             target.ActivityInfo = request.ActivityInfo;
             _activityDraft.Update(target);
             _activityDraft.Save();
         }
-        
+
+        public IEnumerable<ActivityCategoryCardDto> GetAllActivityThemeForCategory()
+        {
+            var themes = _activityDraft.GetAll<ActivityTheme>();
+            var result = themes.Select(x => new ActivityCategoryCardDto()
+            {
+                Id = x.ActivityThemeId,
+                Title = x.ActivityThemeName,
+                Icon = x.ActivityThemeImage,
+            });
+            return result;
+        }
+
+        public IEnumerable<ActivityCategoryCardDto> GetAllActivityTypeForCategory()
+        {
+            var type = _activityDraft.GetAll<ActivityType>();
+            var result = type.Select(x => new ActivityCategoryCardDto()
+            {
+                Id = x.ActivityTypeId,
+                Title = x.TypeName,
+                Icon = x.TypeImg,
+            });
+            return result;
+        }
     }
 }
