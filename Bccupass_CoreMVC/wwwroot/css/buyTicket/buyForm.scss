@@ -1,11 +1,21 @@
 ﻿@import "../Global.scss";
 
 .cart-step {
+    color: #adadad;
+
     span {
-        background-color: $theme-color;
         color: #fff;
+        background-color: #a1a2a3;
         border-radius: 6px;
         padding: 2px 7px;
         margin-right: 5px;
+    }
+
+    .active {
+        color: $font-color;
+
+        span {
+            background-color: $theme-color;
+        }
     }
 }

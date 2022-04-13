@@ -1,1 +1,1 @@
-﻿.container{max-width:1080px;}button:focus,.btn-primary:focus,.btn:focus{box-shadow:none;}.cart-step span{background-color:#2c5e9e;color:#fff;border-radius:6px;padding:2px 7px;margin-right:5px;}
+﻿.container{max-width:1080px;}button:focus,.btn-primary:focus,.btn:focus{box-shadow:none;}.cart-step{color:#adadad;}.cart-step span{color:#fff;background-color:#a1a2a3;border-radius:6px;padding:2px 7px;margin-right:5px;}.cart-step .active{color:#333;}.cart-step .active span{background-color:#2c5e9e;}
