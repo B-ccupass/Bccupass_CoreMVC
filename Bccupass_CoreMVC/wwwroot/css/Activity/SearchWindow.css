@@ -1,17 +1,13 @@
 ﻿.container {
-  max-width: 1080px;
-}
+  max-width: 1080px; }
 
 button:focus, .btn-primary:focus, .btn:focus {
-  box-shadow: none;
-}
+  box-shadow: none; }
 
 .search-key-wrap li.active .btn {
   background-color: #5995DD;
-  color: #fff;
-}
+  color: #fff; }
 
 #submit {
   background-color: #5995DD;
-  color: #fff;
-}
+  color: #fff; }
