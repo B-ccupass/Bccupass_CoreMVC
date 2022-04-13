@@ -53,7 +53,6 @@ namespace Bccupass_CoreMVC.Services
                 Name = input.Name,
                 Phone = input.Phone,
                 Password = Encryption.SHA256Encrypt(input.Password),
-                //Password = input.Password,
                 IsAdmin = false,
                 Verification = false,
             };

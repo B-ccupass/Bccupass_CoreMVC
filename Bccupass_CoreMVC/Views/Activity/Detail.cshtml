@@ -24,7 +24,7 @@
             <li class="info-item info-icon icon-location py-1">@Model.Activity.City@Model.Activity.District@Model.Activity.Address<span class="address-description mx-2">@Model.Activity.AddressDescription</span></li>
             <li class="info-item info-icon icon-web py-1"><a href=@Model.Activity.ActivityRefWebUrl>@RefWebDescription</a></li>
             <li class="info-item info-icon icon-tag tag-list py-1">
-                @foreach(var tag in Model.Tags)
+                @foreach (var tag in Model.Tags)
                 {
                     <a class="tag" href="#">@tag.TagName</a>
                 }
@@ -36,7 +36,7 @@
 <div class="announce-wrap py-4 container-md container">
     <p class="page-title container">活動公告</p>
     <ul class="announce-list list-unstyled container">
-        @foreach(var item in @Model.AnnounceList)
+        @foreach (var item in @Model.AnnounceList)
         {
             <li class="announce-item">
                 <span class="announce-time">@item.CreateTime.ToString("yyyy/MM/dd")</span><br />
@@ -55,8 +55,8 @@
         <div class="col-8 col-md-9 col-lg-10">
             <div class="organizer-title">
                 <a class="text-decoration-none organizer-link fs-5 text-dark" asp-controller="Organizer" asp-action="About" asp-route-id="@Model.Organizer.OrganizerId">@Model.Organizer.Name</a>
-                <div  class="cta-btns my-2">
-                    <button class="p-1">關注</button>
+                <div class="cta-btns my-2">
+                    <button class="p-1 focus" data-OrganizerId="@Model.Organizer.OrganizerId">關注</button>
                     <a class="p-1" href="mailto:@Model.Organizer.Email">聯絡主辦</a>
                 </div>
             </div>
@@ -73,7 +73,8 @@
     <div class="guests">
         <p class="page-title">活動嘉賓</p>
         <ul class="guest-list list-unstyled d-flex flex-wrap justify-content-around justify-content-md-start">
-            @foreach(var guest in @Model.GuestList){
+            @foreach (var guest in @Model.GuestList)
+            {
                 <li class="guest me-md-5" data-bs-toggle="modal" data-bs-target="#guestModal-@guest.Id">
                     <div class="img-wrap mb-3" style="background-image:url(@guest.Photo);">
                     </div>
@@ -118,7 +119,8 @@
 <div class="comment container pb-5">
     <p class="page-title">活動評論</p>
     <div class="comment-list">
-        @foreach(var item in @Model.CommentList){
+        @foreach (var item in @Model.CommentList)
+        {
             <div class="comment-item">
                 <div class="user d-flex align-items-center mb-3">
                     <div class="img-wrap me-3" style="background-image:url(@item.UserImage);">
@@ -127,8 +129,8 @@
                         <p class="m-0 user-name">@item.UserName</p>
                         <p class="m-0 comment-time">@item.BuildTime.ToString("yyyy/MM/dd")</p>
                         <div class="ratings">
-                          <div class="empty_star">★★★★★</div>
-                          <div class="full_star" style="width: @(item.StarRank * 20)%">★★★★★</div>
+                            <div class="empty_star">★★★★★</div>
+                            <div class="full_star" style="width: @(item.StarRank * 20)%">★★★★★</div>
                         </div>
                     </div>
                 </div>
@@ -140,3 +142,32 @@
 <div class="position-fixed buy-cta d-flex justify-content-center p-1 align-items-center">
     <a class="buy-link" asp-controller="BuyTicket" asp-action="TicketList" asp-route-id="@Model.Activity.Id">立即<br />報名</a>
 </div>
+
+<script>
+    const focusbtn = document.querySelector(".focus");
+    focusbtn.onclick = function () {
+        const id = focusbtn.getAttribute("data-OrganizerId");
+        focus(id);
+    }
+
+    function focus(id) {
+        fetch(`/Account/Likefor?likeUserId=${id}`, {
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            method: 'GET'
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.isSuccess == false) {
+                    alert(data.message);
+                    $('#loginModal').modal('show');
+
+                } else {
+
+                }
+            })
+    }
+</script>

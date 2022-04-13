@@ -27,7 +27,7 @@ namespace Bccupass_CoreMVC.Services
 
             //Mail
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("Bccupass@gmail.com", "BBccupass");
+            mail.From = new MailAddress("Bccupass@gmail.com", "Bccupass");
             mail.To.Add(mailTo);
             mail.Priority = MailPriority.Normal;
             mail.Subject = "Bccupass 重設密碼";

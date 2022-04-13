@@ -45,6 +45,7 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IOrganizerService, OrganizerService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IMailService, MailService>();
             services.AddTransient<IActivityDraftService, ActivityDraftService>();
             services.AddTransient<IUserService, UserService>();
 

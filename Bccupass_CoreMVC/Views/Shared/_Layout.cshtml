@@ -39,6 +39,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">活動地圖</a>
                         </li>
+                        <li class="nav-tem" id="user-Login">
+                            <partial name="_UserLoginPartial" />
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">辦活動</a>
                         </li>
@@ -247,6 +250,11 @@
                 password: registerPassword.value
             };
 
+            if (!request.email || !request.name || !request.phone || !request.password) {
+                alert("請填寫完畢");
+                return;
+            }
+
             fetch("/Account/Signup", {
                 headers: {
                     'Accept': 'application/json, text/plain',
@@ -289,6 +297,11 @@
 
             if (answer.search(/^\w+@@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/) == -1) {
                 tip.innerHTML = "電子郵件格式錯誤";
+                return;
+            }
+
+            if (this.IsExistAccount(answer)) {
+                tip.innerHTML = "此郵件已被註冊";
                 return;
             }
         };
@@ -337,6 +350,35 @@
         };
     </script>
 
+    @*功能驗證-跳登入JS*@
+    @*<script>
+        const focusbtn = document.querySelector(".focus");
+        focusbtn.onclick = function () {
+            focus();
+        }
+        console.log(123);
+        function focus() {
+            fetch("/Account/Likefor", {
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                method: 'GET'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.isSuccess == false) {
+                        alert(data.message);
+                        $('#loginModal').modal('show');
+
+                    } else {
+
+                    }
+                })
+        }
+    </script>*@
+
     @*登入JS*@
     <script>
         const loginBtn = document.getElementById("loginBtn");
@@ -357,6 +399,15 @@
                 password: loginPassword.value
             };
 
+            if (!request.account || !request.password) {
+                alert("請填寫完畢");
+                return;
+            }
+            fetchLoginStatus();
+            
+        };
+
+        function fetchLoginStatus() {
             fetch("/Account/Login", {
                 headers: {
                     'Accept': 'application/json, text/plain',
@@ -381,8 +432,7 @@
                         alert(data.response.message);
                     }
                 })
-        };
-
+        }
 
         loginAccount.onblur = function () {
             let answer = loginAccount.value;
