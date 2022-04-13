@@ -158,6 +158,19 @@ namespace Bccupass_CoreMVC.Controllers
 
             return RedirectToAction("Ticket", new { id = request.ActivityDraftId });
         }
+
+        [HttpPost]
+        public IActionResult FetchQuestion([FromBody] List<CreateQAViewModel> request)
+        {
+            var inputDto = new CreateQADto()
+            {
+                ActivityDraftId = request[0].ActivityDraftId,
+                ActivityQA = JsonConvert.SerializeObject(request)
+            };
+            _activityDraftservice.EditActivityQA(inputDto);
+
+            return RedirectToAction("Question", new { id = request[0].ActivityDraftId });
+        }
         #endregion
 
 
