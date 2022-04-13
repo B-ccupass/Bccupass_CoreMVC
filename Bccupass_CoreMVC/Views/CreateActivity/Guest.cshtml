@@ -17,7 +17,8 @@
                 <p class="d-inline activity_p">
                     快來介紹你的來賓有多厲害！ <div class="btn-dark rounded-circle d-inline-block icon-div"><i class="far fa-lightbulb"></i></div>
                 </p>    
-                <div class="mt-5 guest">
+                <div class="mt-5 guest justify-content-center justify-content-md-start">
+                    
                     @if(Model.Any(x =>x.GuestName != null))
                     {
                         foreach(var item in Model)
@@ -150,7 +151,7 @@
                 outputJson.setAttribute('value',JSON.stringify(dataArray))
             
                 bootstrap.Modal.getOrCreateInstance(myModal).hide();
-
+                GuestFetch()
                 return;
             }
 
@@ -173,7 +174,7 @@
 
 
             bootstrap.Modal.getOrCreateInstance(myModal2).hide();
-            
+            GuestFetch()
             
         }
 
@@ -191,10 +192,24 @@
              outputJson.setAttribute('value',JSON.stringify(dataArray))
             
             bootstrap.Modal.getOrCreateInstance(myModal).hide();
-
+            GuestFetch()
             return;
         }
      
+        function GuestFetch(){
+            fetch("/CreateActivity/FetchGuest", {
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                method: 'POST',
+                body: JSON.stringify(dataArray)
+            })
+            .then(response => {
+                response.json()
+                window.location.reload()
+            })
+        }
         
     </script>
 

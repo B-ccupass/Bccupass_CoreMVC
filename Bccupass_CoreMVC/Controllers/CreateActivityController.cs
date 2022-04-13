@@ -116,6 +116,19 @@ namespace Bccupass_CoreMVC.Controllers
 
             return RedirectToAction("Question", new { id = request.ActivityDraftId });
         }
+
+        [HttpPost]
+        public IActionResult FetchGuest([FromBody] List<CreateGuestViewModel> request)
+        {
+            var inputDto = new CreateGuestDto()
+            {
+                ActivityDraftId = request[0].ActivityDraftId,
+                ActivityGuests = JsonConvert.SerializeObject(request)
+            };
+            _activityDraftservice.EditActivityGuest(inputDto);
+
+            return RedirectToAction("Guest", new { id = request[0].ActivityDraftId });
+        }
         #endregion
 
 
