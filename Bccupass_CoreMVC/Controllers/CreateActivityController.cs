@@ -313,42 +313,105 @@ namespace Bccupass_CoreMVC.Controllers
         [HttpGet]
         public IActionResult Category(int id)
         {
-            var target = _organizerService.GetOrganizer(id);
-            var _themeList = _activityDraftservice.GetAllActivityThemeForCategory().Select(x => new ActivityCategoryCardViewModel.CardData()
+            var inputDto = _activityDraftservice.GetActivityThemeCat(id);
+            var _themeList = _activityDraftservice.GetAllActivityThemeForCategory().Select(x => new CreateThemeCategoryVM.CardData()
             {
                 Id = x.Id,
                 Title = x.Title,
                 Icon = x.Icon,
             });
-            var _typeList = _activityDraftservice.GetActivityType().Select(x => new ActivityCategoryCardViewModel.CardData()
+            var _typeList = _activityDraftservice.GetAllActivityTypeForCategory().Select(x => new CreateThemeCategoryVM.CardData()
             {
                 Id = x.Id,
                 Title = x.Title,
                 Icon = x.Icon,
             });
-            var result = new ActivityCategoryCardViewModel()
+            var _DataThemeCategory = new CreateThemeCategoryVM()
             {
                 Theme = _themeList,
                 Type = _typeList,
-                OrganizerId = target.OrganizerId,
-                OrganizerName = target.Name
+            };
+            List<CreateThemeCategoryVM> _resultVM = new();
+            if (inputDto.ThemeCategory == null)
+            {
+                _resultVM.Add(new CreateThemeCategoryVM()
+                {
+                    ActivityDraftId = inputDto.ActivityDraftId,
+                    ActivityPrimaryThemeId = 0,
+                    ActivitySecondThemeId = 0,
+                    ActivityTypeId = 0,
+                    Theme = _themeList,
+                    Type = _typeList,
+                });
+            }
+            else
+            {
+                var json = JsonConvert.DeserializeObject<CreateThemeCategoryVM[]>(inputDto.ThemeCategory);
+
+                _resultVM = json.ToList();
+            }
+            var result = new CreateThemeCategoryVM()
+            {
+                DataThemeCategory = _DataThemeCategory,
+                DataJSON = _resultVM,
             };
 
+            ViewData["ActivityDraftId"] = id;
             return View(result);
         }
         [HttpPost]
-        public IActionResult Category(ActivityCategoryCardDto request)
+        public IActionResult Category(ThemeCategoryInputVM request)
         {
-            var inputDto = new ActivityCategoryCardDto
-            {
-                ThemeCategory = request.ThemeCategory,
-            };
-            _activityDraftservice.CreateThemeCategory(inputDto);
-            return RedirectToAction(nameof(Info));
-        }
-        public IActionResult Info()
-        {
+
             return View();
+        }
+        [HttpGet]
+        public IActionResult Info(int id)
+        {
+            var inputDto = _activityDraftservice.GetActivityInfo(id);
+            CreateActivityInfoVM resultVM = new();
+            if (inputDto.ActivityInfo == null)
+            {
+                resultVM = new CreateActivityInfoVM()
+                {
+                    ActivityDraftId = inputDto.ActivityDraftId,
+                    Image = "https://i.imgur.com/GSjcP32.png",
+                    ActivityName = "",
+                    StartTime = default,
+                    EndTime = default,
+                    ActivityRefWebUrl = "",
+                    RefWebDescription = "",
+                    City = "",
+                    District = "",
+                    CitySelectIndex = 0,
+                    DistrictSelectIndex = 0,
+                    Address = "",
+                    AddressDetail = "",
+                    StreamingWeb = ""
+                };
+            }
+            else
+            {
+                var json = JsonConvert.DeserializeObject<CreateActivityInfoVM>(inputDto.ActivityInfo);
+
+                resultVM = json;
+            }
+            ViewData["ActivityDraftId"] = id;
+            return View(resultVM);
+        }
+        [HttpPost]
+        public IActionResult Info([FromBody] CreateActivityInfoVM request)
+        {
+            var inputDto = new CreateInfoDto()
+            {
+                ActivityDraftId = request.ActivityDraftId,
+                ActivityInfo = JsonConvert.SerializeObject(request)
+
+            };
+            _activityDraftservice.EditActivityInfo(inputDto);
+
+            return RedirectToAction("Info", new { id = request.ActivityDraftId });
+
         }
     }
 }

@@ -60,7 +60,6 @@ namespace Bccupass_CoreMVC.Services
         }
         #endregion
 
-
         #region 新增問答RU
         public CreateQADto GetActivityDraftQA(int? id)
         {
@@ -103,6 +102,44 @@ namespace Bccupass_CoreMVC.Services
         }
         #endregion
 
+        public CreateThemeCategoryDto GetActivityThemeCat(int? id)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
+            var result = new CreateThemeCategoryDto()
+            {
+                ActivityDraftId = target.ActivityDraftId,
+                ThemeCategory = target.ThemeCategory,
+            };
+            return result;
+        }
+
+        public CreateInfoDto GetActivityInfo(int? id)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().FirstOrDefault(x => x.ActivityDraftId == id);
+            var result = new CreateInfoDto()
+            {
+                ActivityDraftId = target.ActivityDraftId,
+                ActivityInfo = target.ActivityInfo
+            };
+            return result;
+        }
+
+        public void EditActivityThemeCat(CreateThemeCategoryDto request)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.ActivityDraftId);
+            target.ThemeCategory = request.ThemeCategory;
+            _activityDraft.Update(target);
+            _activityDraft.Save();
+        }
+
+        public void EditActivityInfo(CreateInfoDto request)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().First(x => x.ActivityDraftId == request.ActivityDraftId);
+            target.ActivityInfo = request.ActivityInfo;
+            _activityDraft.Update(target);
+            _activityDraft.Save();
+        }
+
         public IEnumerable<ActivityCategoryCardDto> GetAllActivityThemeForCategory()
         {
             var themes = _activityDraft.GetAll<ActivityTheme>();
@@ -115,7 +152,7 @@ namespace Bccupass_CoreMVC.Services
             return result;
         }
 
-        public IEnumerable<ActivityCategoryCardDto> GetActivityType()
+        public IEnumerable<ActivityCategoryCardDto> GetAllActivityTypeForCategory()
         {
             var type = _activityDraft.GetAll<ActivityType>();
             var result = type.Select(x => new ActivityCategoryCardDto()
@@ -126,17 +163,5 @@ namespace Bccupass_CoreMVC.Services
             });
             return result;
         }
-
-        public void CreateThemeCategory(ActivityCategoryCardDto request)
-        {
-            var activityDraft = new ActivityDraft
-            {
-                ActivityDraftId = request.Id,
-                ThemeCategory = request.ThemeCategory,
-            };
-            _activityDraft.Create(activityDraft);
-            _activityDraft.Save();
-        }
-
     }
 }

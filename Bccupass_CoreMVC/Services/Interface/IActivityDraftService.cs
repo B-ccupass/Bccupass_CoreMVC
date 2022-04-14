@@ -17,5 +17,6 @@ namespace Bccupass_CoreMVC.Services.Interface
         public void CreateThemeCategory(ActivityCategoryCardDto request);
         public CreateTicketDto GetActivityDraftTicket(int? id);
         public void EditActivityTicket(CreateTicketDto request);
+        public IEnumerable<ActivityCategoryCardDto> GetAllActivityTypeForCategory();
     }
 }

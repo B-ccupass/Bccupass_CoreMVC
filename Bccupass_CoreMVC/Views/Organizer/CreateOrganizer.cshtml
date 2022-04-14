@@ -2,8 +2,8 @@
 @model CreateOrganizerViewModel
 
 @section Topcss{
-    <link rel="stylesheet" href="~/css/Global.scss/>
-    <link rel="stylesheet" href="~/css/Organizer/CreateOrganizer.css" />
+<link rel="stylesheet" href="~/css/Global.scss />
+<link rel="stylesheet" href="~/css/Organizer/CreateOrganizer.css" />
 }
 
 
@@ -31,16 +31,11 @@
                     <input asp-for="Email" type="email" class="form-control" id="orgEmail" placeholder="請填寫 Email" required>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <label asp-for="Telphone" for="orgPhone" class="col-sm form-label star">主辦單位電話號碼</label>
-                <div class=" form-text">活動參加人可於票券上查看此聯繫電話。</div>
-                <div class="row">
-                    <div class="col-sm-6 mb-2">
-                        <input asp-for="Telphone" type="tel" class="orgphone form-control" id="orgPhone" placeholder="請填寫電話" required>
-                        <span asp-validation-for="Telphone" class="text-danger"></span>
-                    </div>
-                    @*     <div class="col-sm-6 mb-2">
-                        <input type="tel" class="orgphone form-control" id="orgPhoneEx" placeholder="分機號碼(選填)">
-                        </div>*@
+                <div class="mb-3">
+                    <label asp-for="Telphone" for="orgPhone" class="col-sm form-label star">主辦單位電話號碼</label>
+                    <div class=" form-text">活動參加人可於票券上查看此聯繫電話。</div>
+                    <input asp-for="Telphone" type="tel" class="orgphone form-control" id="orgPhone" placeholder="請填寫電話" required>
+                    <span asp-validation-for="Telphone" class="text-danger"></span>
                 </div>
                 <label asp-for="Description" class="form-label star">主辦單位簡介</label>
                 <textarea asp-for="Description" id="introduction" class="form-control" aria-label="With textarea" rows="6" placeholder="請填寫主辦單位簡介"
@@ -56,5 +51,5 @@
 </div>
 
 @section endJS{
-    <script src="~/js/CreateOrganizerJS.js"></script>
+<script src="~/js/CreateOrganizerJS.js"></script>
 }
