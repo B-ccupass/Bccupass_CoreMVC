@@ -163,5 +163,15 @@ namespace Bccupass_CoreMVC.Services
             });
             return result;
         }
+
+        public IEnumerable<ActivityCategoryCardDto> GetActivityType()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void CreateThemeCategory(ActivityCategoryCardDto request)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
