@@ -1,36 +1,94 @@
-﻿<div>
+﻿
+<div>
     <label for="startTime" class="d-block m-md-2">開始時間:</label>
-    <input class="time-select d-inline col-11 col-md-5 m-md-2 m-0" type="date" id="startTime" name="startTime">
-    <select class="time-select d-inline col-5 col-md-3 m-md-2 me-2" aria-label="Default select example">
+    <input class="time-select d-inline col-11 col-md-5 m-md-2 m-0" type="date" id="startTime" value="@Model.Start">
+    <select id="hour"class="time-select d-inline col-5 col-md-3 m-md-2 me-2" aria-label="Default select example" value="@Model.SHour">
         <option selected></option>
-        <option value="1">00</option>
-        <option value="2">01</option>
-        <option value="3">02</option>
-        <!-- 選項用JS -->
+        <option value="1">01</option>
+        <option value="2">02</option>
+        <option value="3">03</option>
+        <option value="4">04</option>
+        <option value="5">05</option>
+        <option value="6">06</option>
+        <option value="7">07</option>
+        <option value="8">08</option>
+        <option value="9">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
     </select>
-    <select class="time-select d-inline col-5 col-md-3 m-md-2 m-2" aria-label="Default select example">
+    <select id="min" class="time-select d-inline col-5 col-md-3 m-md-2 m-2" aria-label="Default select example" value="@Model.SMin">
         <option selected></option>
-        <option value="1">00</option>
-        <option value="2">05</option>
-        <option value="3">10</option>
-        <!-- 選項用JS -->
+        <option value="0">00</option>
+        <option value="5">05</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        <option value="55">55</option>
     </select>
 </div>
 <div class="mb-4">
     <label for="startTime" class="d-block m-md-2">結束時間:</label>
-    <input class="time-select d-inline col-11 col-md-5 m-md-2 m-0" type="date" id="startTime" name="startTime">
-    <select class="time-select d-inline col-5 col-md-3 m-md-2 me-2" aria-label="Default select example">
+    <input class="time-select d-inline col-11 col-md-5 m-md-2 m-0" type="date" value="@Model.End" >
+    <select id="hourE" class="time-select d-inline col-5 col-md-3 m-md-2 me-2" aria-label="Default select example" value="@Model.EHour">
         <option selected></option>
-        <option value="1">00</option>
-        <option value="2">01</option>
-        <option value="3">02</option>
-        <!-- 選項用JS -->
+        <option value="1">01</option>
+        <option value="2">02</option>
+        <option value="3">03</option>
+        <option value="4">04</option>
+        <option value="5">05</option>
+        <option value="6">06</option>
+        <option value="7">07</option>
+        <option value="8">08</option>
+        <option value="9">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
     </select>
-    <select class="time-select d-inline col-5 col-md-3 m-md-2 m-2" aria-label="Default select example">
+    <select id="minE" class="time-select d-inline col-5 col-md-3 m-md-2 m-2" aria-label="Default select example" value="@Model.EMin">
         <option selected></option>
-        <option value="1">00</option>
-        <option value="2">05</option>
-        <option value="3">10</option>
-        <!-- 選項用JS -->
+        <option value="0">00</option>
+        <option value="5">05</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        <option value="55">55</option>
     </select>
 </div>
+

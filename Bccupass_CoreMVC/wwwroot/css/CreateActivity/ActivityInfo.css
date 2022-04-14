@@ -1,22 +1,40 @@
-﻿.star::after {
+.star::after {
   content: " *";
   font-size: 1rem;
-  color: red;
-}
+  color: red; }
 
-#actImg[type=file]::file-selector-button {
+#actImg[type="file"]::file-selector-button {
   color: transparent;
   background-color: transparent;
-  border-color: transparent;
-}
+  border-color: transparent; }
 
-#actImg[type=file] {
+#actImg[type="file"] {
   background-color: transparent;
   border-color: transparent;
-  color: transparent;
-}
+  color: transparent; }
 
 .googleMap {
   width: 100%;
-  height: 30em;
+  height: 30em; }
+
+#activityTag {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  width: 5rem;
+  height: 2.5rem;
+  text-align: center; }
+
+#tagInput {
+  padding: 0 10px;
+  height: 100%; }
+
+#spanInput {
+  border-color: cadetblue;
+  color: white;
 }
+
+#sumBtn :hover {
+  background-color: cadetblue;
+}
+/*# sourceMappingURL=ActivityInfo.css.map */

@@ -57,7 +57,7 @@
                         </div>
                         <div class="modal-footer p-0 flex-nowrap">
                             <button class="btn border-0 p-1 col-6 m-0 border-end" data-bs-dismiss="modal">取消</button>
-                            <button class="btn border-0 p-1 col-6 m-0 lh-lg">確認</button>
+                            <button type="button"  id="delete" class="btn border-0 p-1 col-6 m-0 lh-lg">確認</button>
                         </div>
                     </div>
                 </div>
@@ -86,20 +86,21 @@
                 <div class="modal-dialog m-0 m-auto modal-dialog-centered">
                     <div class="modal-content question-model m-auto">
                         <div class="modal-body lh-lg m-3">
+                            <input type="hidden" id="sort"/>
                             <p>問題:</p>
-                            <input type="text" class="col-md-11 col-10 bg-secondary mb-4 input-text">
+                            <input id="quest" type="text" class="col-md-11 col-10  mb-4 input-text">
                             <p>回答:</p>
                             <textarea name="" id="" cols="30" rows="10" class="col-md-11 col-10" style="resize:none;"></textarea>
                         </div>
                         <div class="modal-footer p-0 flex-nowrap">
                             <button class="btn border-0 p-1 col-6 m-0 border-end" data-bs-dismiss="modal">取消</button>
-                            <button class="btn border-0 p-1 col-6 m-0 lh-lg">確認修改</button>
+                            <button type="button" class="btn border-0 p-1 col-6 m-0 lh-lg" id="edit">確認修改</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <input type="hidden" id="QAJson" name="GuestDataJson"/>
+            <input type="hidden" id="QAJson" name="QuestDataJson"/>
         </form>
     </div>
             
@@ -112,6 +113,8 @@
         var newQuestion = document.getElementById('newQ')
         var newAnswer = document.getElementById('newA')
         var createBtn = document.getElementById('createCon')
+        var editBtn = document.getElementById('edit')
+        var deleteBtn = document.getElementById('delete')
 
         const outputJson = document.getElementById('QAJson')
 
@@ -121,10 +124,12 @@
         function getQAData(sort){
             var question = document.getElementById(`Quest${sort}`)
             var answer = document.getElementById(`Answer${sort}`)
+            var sortItem = document.getElementById(`sort${sort}`)
 
             let model = document.getElementById(`EditModal`)
 
-            model.querySelector('input').value = question.textContent
+            model.querySelector('#sort').value = sortItem.value
+            model.querySelector('#quest').value = question.textContent
             model.querySelector('textarea').value = answer.textContent
         }
        
@@ -134,7 +139,7 @@
                 ActivityDraftId: @ViewData["ActivityDraftId"],
                 ActivityQuest: newQuestion.value,
                 ActivityAnswer: newAnswer.value,
-                Sort: (dataArray.length + 1)
+                Sort: dataArray.length
             }
 
             dataArray.push(data)
@@ -142,8 +147,62 @@
             outputJson.setAttribute('value',JSON.stringify(dataArray))    
             var myModal = document.querySelector(`#groupModal`)
             bootstrap.Modal.getOrCreateInstance(myModal).hide();
+
+            QuestionFetch()
+        }
+
+        editBtn.onclick = function(){
+            let model = document.getElementById(`EditModal`)
+
+            var sort = model.querySelector('#sort').value 
+            var question = model.querySelector('#quest').value 
+            var answer = model.querySelector('textarea').value 
+
+            dataArray.forEach(data =>{
+                if(data.Sort == sort){
+                    data.ActivityQuest = question
+                    data.ActivityAnswer = answer
+                }
+            })
+
+            outputJson.setAttribute('value',JSON.stringify(dataArray))    
+            var myModal = document.querySelector(`#EditModal`)
+            bootstrap.Modal.getOrCreateInstance(myModal).hide();
+            QuestionFetch()
+        }
+
+        deleteBtn.onclick = function(){
+            var target = document.querySelectorAll('.checked')
+            for(var i = 0; i < target.length; i++){
+                if(target[i].checked){
+                    
+                    dataArray.splice(dataArray.findIndex(x => x.Sort == target[i].Value),1)
+                }
+            }
+             for(var i = 0; i < dataArray.length;i++){
+                dataArray[i].Sort = i
+            }
+
+            outputJson.setAttribute('value',JSON.stringify(dataArray))    
+            var myModal = document.querySelector(`#DeleteModal`)
+            bootstrap.Modal.getOrCreateInstance(myModal).hide();
+            QuestionFetch()
         }
         
+        function QuestionFetch(){
+            fetch("/CreateActivity/FetchQuestion", {
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                method: 'POST',
+                body: JSON.stringify(dataArray)
+            })
+            .then(response => {
+                response.json()
+                window.location.reload()
+            })
+        }
 
     </script>
 
@@ -163,3 +222,5 @@
         </script>
     }
 }
+
+

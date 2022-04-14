@@ -15,7 +15,7 @@
 }
 
 .guest {
-    max-width: 600px;
+    
     min-height: 300px;
     display: flex;
     flex-wrap: wrap;
@@ -53,7 +53,7 @@
     }
 
     .guest {
-        width: 600px;
+        
         min-height: 500px;
     }
 
@@ -68,7 +68,7 @@
     }
 
     .guest {
-        width: 600px;
+        
         min-height: 500px;
     }
 

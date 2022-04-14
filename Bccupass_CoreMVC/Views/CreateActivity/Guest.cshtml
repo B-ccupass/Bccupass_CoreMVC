@@ -17,8 +17,9 @@
                 <p class="d-inline activity_p">
                     快來介紹你的來賓有多厲害！ <div class="btn-dark rounded-circle d-inline-block icon-div"><i class="far fa-lightbulb"></i></div>
                 </p>    
-                <div class="mt-5 guest">
-                    @if(Model.Any(x =>x.GuestName != ""))
+                <div class="mt-5 guest justify-content-center justify-content-md-start">
+                    
+                    @if(Model.Any(x =>x.GuestName != null))
                     {
                         foreach(var item in Model)
                         {
@@ -44,7 +45,7 @@
         
 
             <!-- Modal -->
-            @if(Model.Any(x =>x.GuestName != ""))
+            @if(Model.Any(x =>x.GuestName != null))
                     {
                         foreach(var item in Model)
                         {
@@ -126,18 +127,19 @@
 
         function makeJson(id){
 
-            const guest_img = document.getElementById(`guest-img${id}`)
+            //const guest_img = document.getElementById(`guest-img${id}`)
             const guest_name = document.getElementById(`guest-name${id}`)
             const guest_job = document.getElementById(`guest-job${id}`)
             const guest_company = document.getElementById(`guest-company${id}`)
             const guest_info = document.getElementById(`guest-info${id}`)
             const guest_web = document.getElementById(`guest-web${id}`)
 
-            var myModal = document.querySelector(`#${id}`)
+            var myModal = document.querySelector(`#model${id}`)
+            var myModal2 = document.querySelector(`#GuestModal`)
             
             if(id != "GuestModal"){
                 dataArray.forEach(item => {
-                    if(item.GuestName == id){
+                    if(item.ItemId == id){
                         item.GuestName = guest_name.value,
                         item.GuestJob = guest_job.value,
                         item.GuestCompany = guest_company.value,
@@ -149,7 +151,7 @@
                 outputJson.setAttribute('value',JSON.stringify(dataArray))
             
                 bootstrap.Modal.getOrCreateInstance(myModal).hide();
-
+                GuestFetch()
                 return;
             }
 
@@ -158,41 +160,77 @@
 
             data = {
                 ActivityDraftId: @ViewData["ActivityDraftId"],
-                //GuestImage: guest_img.src,
+                GuestImage: "123",
                 GuestName: guest_name.value,
                 GuestJob: guest_job.value,
                 GuestCompany: guest_company.value,
                 GuestInfo: guest_info.value,
-                GuestWeb: guest_web.value
+                GuestWeb: guest_web.value,
+                ItemId: dataArray.length
             }
-
             dataArray.push(data)
             
             outputJson.setAttribute('value',JSON.stringify(dataArray))
 
-            
-            bootstrap.Modal.getOrCreateInstance(myModal).hide();
+
+            bootstrap.Modal.getOrCreateInstance(myModal2).hide();
+            GuestFetch()
             
         }
+
+        function deleteGuest(id){
+            var myModal = document.querySelector(`#model${id}`)
+            dataArray.forEach(item => {
+                    if(item.ItemId == id){
+                        dataArray.splice(dataArray.findIndex(index => index == item),1)
+                    }
+                })
+            for(var i = 0; i < dataArray.length;i++){
+                dataArray[i].ItemId = i
+            }
+
+             outputJson.setAttribute('value',JSON.stringify(dataArray))
+            
+            bootstrap.Modal.getOrCreateInstance(myModal).hide();
+            GuestFetch()
+            return;
+        }
      
+        function GuestFetch(){
+            fetch("/CreateActivity/FetchGuest", {
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                method: 'POST',
+                body: JSON.stringify(dataArray)
+            })
+            .then(response => {
+                response.json()
+                window.location.reload()
+            })
+        }
         
     </script>
 
-    @foreach(var item in Model){
-        <script type="text/javascript">
-            data = {
-                ActivityDraftId: @item.ActivityDraftId,
-                GuestImage: "" @*@item.GuestImg*@,
-                GuestName: `@item.GuestName`,
-                GuestJob: `@item.GuestJob`,
-                GuestCompany: `@item.GuestCompany`,
-                GuestInfo: `@item.GuestInfo`,
-                GuestWeb: `@item.GuestWeb`
-            }
+    @if(Model.Any(x => x.GuestName != null)){
+        foreach(var item in Model){
+            <script type="text/javascript">
+                data = {
+                    ActivityDraftId: @item.ActivityDraftId,
+                    GuestImage: "" @*@item.GuestImg*@,
+                    GuestName: `@item.GuestName`,
+                    GuestJob: `@item.GuestJob`,
+                    GuestCompany: `@item.GuestCompany`,
+                    GuestInfo: `@item.GuestInfo`,
+                    GuestWeb: `@item.GuestWeb`,
+                    ItemId: dataArray.length
+                }
 
-            dataArray.push(data)
+                dataArray.push(data)
 
-            outputJson.setAttribute('value',JSON.stringify(dataArray))   
-        </script>
+                outputJson.setAttribute('value',JSON.stringify(dataArray))   
+            </script>
+    }
     }
 }

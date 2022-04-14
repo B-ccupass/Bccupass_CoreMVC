@@ -1,0 +1,10 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.CreateActivity
+@model ThemeAndTypeDataVM.CardData
+
+<div class="col text-center py-3">
+    <input class="btn-check themeInput" type="checkbox" id="@Model.Id">
+    <label class="btn btn-lg btn-outline-info w-100 p-2" for="@Model.Id">
+        <i class="bi  d-block iconBig @Model.Img"></i>
+        <span class="m-0">@Model.Name</span>
+    </label>
+</div>

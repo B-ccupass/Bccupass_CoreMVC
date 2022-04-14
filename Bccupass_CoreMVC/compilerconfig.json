@@ -86,5 +86,9 @@
   {
     "outputFile": "wwwroot/css/buyTicket/buyForm.css",
     "inputFile": "wwwroot/css/buyTicket/buyForm.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/CreateActivity/ActivityInfo.css",
+    "inputFile": "wwwroot/css/CreateActivity/ActivityInfo.scss"
   }
 ]

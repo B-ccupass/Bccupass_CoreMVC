@@ -1,21 +1,45 @@
-﻿window.onload = function () {
-    selectArray = []
-    checkInput()
-}
-let categoryInput = document.querySelectorAll('.categoryInput'),
-    themeInput = document.querySelectorAll('.themeInput');
-let sumBtn = document.querySelector('#sumBtn')
+﻿let ThemeCategory = {}
 let selectArray = []
-let ThemeCategory = {
-    "ActivityDraftId": 1,
-    "ActivityPrimaryThemeId": 0,
-    "ActivitySecondThemeId": 0,
-    "ActivityTypeId": 0
+let GetActivityDraftId = 1
+let sumBtn = document.querySelector('#sumBtn')
+let themeShow = document.querySelector('.themeShow')
+let typeShow = document.querySelector('.typeShow')
+let themeInput = document.querySelectorAll('.themeInput')
+let typeInput = document.querySelectorAll('.typeInput')
+let typeid
+
+window.onload = function () {
+    sumBtn.disabled = true
+    GetUserData()
+    ThemeCategory = GatObject()
+    checkOK()
 }
-
-
-document.getElementById("sumBtn").addEventListener("click", function () {
-    let data = ThemeCategory
+var forEach = function (array, callback, scope) {
+    for (var i = 0; i < array.length; i++) {
+        callback.call(scope, i, array[i]);
+    }
+}
+forEach(themeInput, function (index, value) {
+    value.addEventListener("click", function () {
+        if (this.checked) {
+            if (selectArray.length < 2) {
+                selectArray.push(parseInt(this.id))
+            }
+            else { this.checked = false }
+        } else { selectArray.splice(this.value, 1) }
+        ThemeCategory = GatObject()
+        checkOK()
+    })
+})
+forEach(typeInput, function (index, value) {
+    value.addEventListener("click", function () {
+        typeid = parseInt(this.value)
+        ThemeCategory = GatObject()
+        checkOK()
+    })
+})
+sumBtn.addEventListener('click', function () {
+    ThemeCategory = GatObject()
     try {
         fetch('/CreateActivity/Category', {
             headers: {
@@ -23,64 +47,58 @@ document.getElementById("sumBtn").addEventListener("click", function () {
                 'Content-Type': 'application/json;charset=UTF-8'
             },
             method: 'POST',
-            body: JSON.stringify(data)
-        }).then(response => response.json())
-            .then(jsonData => {
-                console.log(jsonData)
-                //成功
-                alert('下一步')
-            })
-    } catch (e) {
-        console.log(e)
+            body: JSON.stringify(ThemeCategory)
+        })
+        fetch(`/CreateActivity/Info/${ThemeCategory.ActivityDraftId}`, { method: 'GET' })
+            .then(res => location.assign(res.url))
     }
-
+    catch (e) {
+        console.warn(e)
+    }
 })
+function GetUserData() {
+    var UserPK = parseInt(document.querySelector('#UserPK').innerText)
+    var UserSK = parseInt(document.querySelector('#UserSK').innerText)
+    var UserTP = parseInt(document.querySelector('#UserTP').innerText)
+    var themeInput = document.querySelectorAll('.themeInput')
+    var typeInput = document.querySelectorAll('.typeInput')
+    if (UserPK != 0 && UserSK != 0) {
+        selectArray.push(UserPK)
+        selectArray.push(UserPK)
+        themeInput[UserPK - 1].checked = true
+        themeInput[UserSK - 1].checked = true
+    } else if (UserPK != 0) {
+        selectArray.push(UserPK)
+        themeInput[UserPK - 1].checked = true
+    }
+    if (UserTP != 0) {
+        typeid = UserTP
+        typeInput[typeid - 1].checked = true
+    }
+}
+function GatObject() {
+    let PrimaryThemeId = selectArray[0]
+    let SecondThemeId = selectArray[1]
+    return {
+        "ActivityDraftId": GetActivityDraftId,
+        'ActivityPrimaryThemeId': PrimaryThemeId,
+        'ActivitySecondThemeId': SecondThemeId,
+        'ActivityTypeId': typeid,
+        'ActivityArray': selectArray,
+    }
+}
 
+
+function checkOK() {
+    if (!isNaN(ThemeCategory.ActivityPrimaryThemeId) && ThemeCategory.ActivityTypeId !== -1 && !!ThemeCategory.ActivityTypeId) {
+        sumBtn.disabled = false
+        return true
+    }
+    else {
+        sumBtn.disabled = true
+        return false
+    }
+}
 document.getElementById("backPageBtn").addEventListener("click", function () {
     history.go(-1)
 })
-
-// forEach method, could be shipped as part of an Object Literal/Module
-var forEach = function (array, callback, scope) {
-    for (var i = 0; i < array.length; i++) {
-        callback.call(scope, i, array[i]); // passes back stuff we need
-    }
-};
-
-
-
-forEach(categoryInput, function (index, value) {
-    value.addEventListener("click", function () {
-        ThemeCategory.ActivityTypeId = parseInt(value.id)
-        checkInput()
-    })
-});
-
-forEach(themeInput, function (index, value) {
-    value.addEventListener("click", function () {
-        if (value.checked) {
-            if (selectArray.length < 2) {
-                selectArray.push(parseInt(value.name))
-                getArray()
-                checkInput()
-            } else {
-                value.checked = false
-            }
-        } else {
-            selectArray.splice(selectArray.indexOf(value.name), 1)
-            checkInput()
-        }
-    })
-})
-
-function getArray() {
-    ThemeCategory.ActivityPrimaryThemeId = selectArray[0]
-    ThemeCategory.ActivitySecondThemeId = selectArray[1]
-}
-function checkInput() {
-    if (ThemeCategory.ActivityPrimaryThemeId !== 0 && ThemeCategory.ActivitySecondThemeId !== 0 && ThemeCategory.ActivityTypeId !== 0) {
-        sumBtn.disabled = false
-    } else {
-        sumBtn.disabled = true
-    }
-}

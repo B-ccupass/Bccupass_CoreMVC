@@ -1,5 +1,8 @@
-﻿@section Topcss{
-<link rel="stylesheet" href="~/css/Global.scss" />
+﻿@using Bccupass_CoreMVC.Models.ViewModel.CreateActivity
+@model CreateActivityInfoVM
+
+@section Topcss{
+@*<link rel="stylesheet" href="~/css/Global.scss" />*@
 <link rel="stylesheet" href="~/css/CreateActivity/ActivityInfo.css" />
 }
 
@@ -10,119 +13,168 @@
         </div>
     </div>
 </div>
-<form id="activityInfo" action="#">
-    <div class="container-fluid mb-3">
-        <div class="row justify-content-center">
-            <div class="col-6 col-lg-3">
-                <div class="mb-3 text-center ">
-                    <div class="card bg-dark imgBtn">
-                        <img src="" class="card-img showImg">
-                        <div class="card-img-overlay p-0">
-                            <input id="actImg" type='file' class="h-100 w-100">
-                        </div>
-                    </div>
-                    <div class="form-text m-0 mt-2">上傳活動照片</div>
+<div id="ActivityInfo" class="container align-content-center">
+    <input type="hidden" name="ActivityDraftId" value="@ViewData["ActivityDraftId"]" />
+    <div class="row justify-content-center">
+        <div class="col-6 col-lg-3 mb-3 text-center">
+            <div class="card bg-dark imgBtn">
+                <img class="card-img showImg" src="@Model.Image">
+                <div class="card-img-overlay p-0">
+                    <input id="actImg" type='file' class="h-100 w-100" accept="image/png, image/jpeg">
                 </div>
+            </div>
+            <div class=" form-text m-0 mt-2">
+                上傳活動照片
             </div>
         </div>
     </div>
-    <div class="container align-content-center">
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-6">
-                <div class="mb-3 text-center">
-                    <label for="orgName" class="form-label d-block">主辦單位名稱</label>
-                    <label id="orgName">userName</label>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6">
+            <div class="mb-3 text-center">
+                <label for="orgName" class="form-label d-block">主辦單位名稱</label>
+                <label id="orgName">userName</label>
+            </div>
+
+            <div class="mb-3">
+                <label for="activityName" class="form-label star">活動名稱</label>
+                <input type="text" class="form-control" id="activityName" name="activityName" value="@Model.ActivityName" required>
+            </div>
+
+            <div class="mb-3">
+                <div class="row">
+                    <label class="form-label star">活動時間</label>
+                    <label for="activityStartDate" class="form-text">開始時間</label>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <input type="date" class="form-control" id="activityStartDate" name="activityStartDate" value="@Model.StartDate" required>
+                    </div>
+                    <div class="col-sm">
+                        <input type="time" class="form-control" id="activityStartTime" name="activityStartTime" value="@Model.StartTime" required>
+                    </div>
+                    <label for="activityEndDate" class="form-text">結束時間</label>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm ">
+                        <input type="date" class="form-control" id="activityEndDate" name="activityEndDate" value="@Model.EndDate" required>
+                    </div>
+                    <div class="col-sm ">
+                        <input type="time" class="form-control" id="activityEndTime" name="activityEndTime" value="@Model.EndTime" required>
+                    </div>
+                </div>
+                <div class="mb-3 ">
+                    <label for="activityTag" class="form-label">活動標籤</label>
+                    <div class="form-text m-0">為活動設定標籤讓使用者更容易找到你，上限五個。</div>
+                    <label class=" w-100 p-2 align-items-center border border-1 border-secondary" for="activityTag">
+                        <span class="align-items-center justify-content-between">
+                            <span id="tagInput" class="row">
+                                @foreach (var tag in Model.Tag)
+                                {
+                                    <span class="visually-hidden" id="hiddenSpan">@tag</span>
+                                }
+                                <input type="text" class=" border-0 col-2" id="activityTag" name="activityTag" maxlength="20">
+                            </span>
+                        </span>
+                    </label>
                 </div>
                 <div class="mb-3">
-                    <label for="activityName" class="form-label star">活動名稱</label>
-                    <input type="text" class="form-control" id="activityName" required>
+                    <label for="ActivityRefWebUrl" class="form-label">參考網站</label>
+                    <input type="url" class="form-control" id="ActivityRefWebUrl"
+                           placeholder="https://www.google.com.tw/" name="ActivityRefWebUrl" value="@Model.ActivityRefWebUrl">
+                    <div class="form-text m-0">加上參考網站如 Facebook 或 Instagram，讓使用者更認識你</div>
+                    <input type="text" class="form-control mb-2" id="RefWebDescription"
+                           placeholder="參考網站描述，20字內" maxlength="20" name="RefWebDescription" value="@Model.RefWebDescription">
                 </div>
                 <div class="mb-3">
-                    <div class="row">
-                        <label for="activityStartdate" class="form-label star">活動時間</label>
-                        <div class="form-text">開始時間</div>
+                    <label for="activityform" class="form-label star">活動形式</label>
+                    <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check form-control" id="online" autocomplete="off"
+                               data-bs-toggle="collapse" data-bs-target="#online" aria-controls="online">
+                        <label class="btn btn-outline-primary onlineLab" for="online">線上活動</label>
+                        <input type="radio" class="btn-check form-control" id="offline" autocomplete="off"
+                               data-bs-toggle="collapse" data-bs-target="#offline" aria-controls="offline">
+                        <label class="btn btn-outline-primary offlineLab" for="offline">線下活動</label>
                     </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <input type="date" class="form-control" id="activityStartdate" required>
-                        </div>
-                        <div class="col-sm">
-                            <input type="time" class="form-control" id="activityStartTime" required>
-                        </div>
-                        <div class="form-text">結束時間</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm ">
-                            <input type="date" class="form-control" id="activityEnddate" required>
-                        </div>
-                        <div class="col-sm ">
-                            <input type="time" class="form-control" id="activityEnddate" required>
+                </div>
+                <div class="col-12">
+                    <div class="collapse onlineCard" id="online">
+                        <div class="card card-body">
+                            <div class="mb-3">
+                                <label for="StreamingWeb" class="form-label">嵌入 Youtube 影片連結</label>
+                                <input type="url" class="form-control mb-2" id="StreamingWeb" placeholder="請輸入 Youtube 直播網址" name="StreamingWeb" value="@Model.StreamingWeb">
+                            </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="activityTag" class="form-label">活動標籤</label>
-                        <div class="form-text m-0">為活動設定標籤讓使用者更容易找到你，上限五個</div>
-                        <input type="text" class="form-control" id="activityTag">
-                    </div>
-                    <div class="mb-3">
-                        <label for="activityShortURL" class="form-label">活動短網址</label>
-                        <div class="form-text m-0">為活動取一個簡單好記的短網址 </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="shortURL">https://www.bccupass.com/</span>
-                            <input type="text" class="form-control" id="activityShortURL"
-                                   aria-describedby="shortURL">
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="activityRefSite" class="form-label">參考網站</label>
-                        <div class="form-text m-0">加上參考網站如 Facebook 或 Instagram，讓使用者更認識你</div>
-                        <input type="text" class="form-control mb-2" id="activityRefSite"
-                               placeholder="參考網站描述，20字內" maxlength="20">
-                        <input type="url" class="form-control" id="RefSiteUrl"
-                               placeholder="https://www.google.com.tw/">
-                    </div>
-                    <div class="mb-3">
-                        <label for="activityform" class="form-label star">活動形式</label>
-                        <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check form-control" id="online" autocomplete="off"
-                                   data-bs-toggle="collapse" data-bs-target="#online" aria-controls="online">
-                            <label class="btn btn-outline-primary onlineLab" for="online">線上活動</label>
-                            <input type="radio" class="btn-check form-control" id="offline" autocomplete="off"
-                                   data-bs-toggle="collapse" data-bs-target="#offline" aria-controls="offline">
-                            <label class="btn btn-outline-primary offlineLab" for="offline">線下活動</label>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="collapse onlineCard " id="online">
-                            <div class="card card-body">
-                                <div class="mb-3">
-                                    <label for="youtubeUrl" class="form-label">嵌入 Youtube 影片連結</label>
-                                    <input type="url" class="form-control mb-2" id="youtubeUrl"
-                                           placeholder="請輸入 Youtube 直播網址">
+                </div>
+                <div class="col-12">
+                    <div class="collapse offlineCard" id="offline">
+                        <div class="card card-body">
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <span id="spanCity" class="visually-hidden">@Model.City</span>
+                                    <select id="citySelect" class="form-select" aria-label="Default select example" name="citySelect"></select>
+                                </div>
+                                <div class="col-6">
+                                    <span id="spanDistrict" class="visually-hidden">@Model.District</span>
+                                    <select id="districtSelect" class="form-select" aria-label="Default select example" name="districtSelect"></select>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="collapse offlineCard" id="offline">
-                            <div class="card card-body">
-                                <div class="form-text m-0">詳細地址 </div>
-                                <input type="text" class="form-control mb-2" id="actAddress">
-                                <div class="form-text m-0">補充說明 </div>
-                                <input type="text" class="form-control mb-2" id="SuppNote">
-                            </div>
-                            <div class="mb-3 text-center">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3747434.6462288443!2d117.84084813038893!3d23.474739268021157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346ed5cb2b61c3a5%3A0xcf20ddb042be7fa0!2z6Ie654Gj!5e0!3m2!1szh-TW!2stw!4v1647353658259!5m2!1szh-TW!2stw"
-                                        class="googleMap" loading="lazy"></iframe>
-                            </div>
+                            <div class="form-text m-0">詳細地址 </div>
+                            <input type="text" class="form-control mb-2" id="Address" name="Address" value="@Model.Address">
+                            <div class="form-text m-0">補充說明 </div>
+                            <input type="text" class="form-control mb-2" id="AddressDetail" name="AddressDetail" value="@Model.AddressDetail">
                         </div>
                     </div>
                 </div>
-                <button id="sumBtn" type="submit" class="btn btn-primary w-100">送出</button>
             </div>
+            <button id="sumBtn" type="submit" class="btn bg-light w-100">下一步</button>
         </div>
     </div>
-</form>
+</div>
+
 @section endJS{
-<script src="~/js/ActivityInfo.js"></script>
+<script src="~/js/imgSystem.js"></script>
+<script src="~/js/CitySelectSystem.js"></script>
+<script src="~/js/ObjectSystem.js"></script>
+
+<script>
+    sumBtn.addEventListener('click', function () {
+        ActivityInfo = GatObject()
+        try {
+            fetch('/CreateActivity/Info', {
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                method: 'POST',
+                body: JSON.stringify(ActivityInfo)
+            })
+            fetch(`/CreateActivity/Description/${@Model.ActivityDraftId}`, { method: 'GET' })
+            .then(res=> location.assign(res.url))
+        }
+        catch (e) {
+            console.log(e)
+        }
+    })
+
+    window.onload = function () {
+        getFetchData()
+        citySelect.onchange = function () {
+            const selectCity = citySelect.value
+            districtArray = [''].concat(cityArray.find(x => x.CityName == selectCity).AreaList.map(x => `${x.ZipCode}-${x.AreaName}`))
+            setDistrictSelect()
+            checkUI()
+        }
+        districtSelect.onchange = function () {
+            checkUI()
+        }
+        if (@Model.CitySelectIndex != 0) {
+            citySelect.selectedIndex = @Model.CitySelectIndex
+        }
+        if (@Model.DistrictSelectIndex != 0) {
+            districtSelect.selectedIndex = @Model.DistrictSelectIndex
+        }
+    }
+
+</script>
 }

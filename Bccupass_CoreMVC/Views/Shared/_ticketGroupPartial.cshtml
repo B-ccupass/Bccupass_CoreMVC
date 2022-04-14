@@ -1,0 +1,42 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.CreateActivity
+@model CreateTicketViewModel
+
+
+<tr>
+    <th scope="row"  class="lh-lg"><i class="fas fa-grip-vertical"></i></th>
+    <td class="lh-lg"><input type="checkbox" name="c" value="@Model.Sort" class="checked"/></td>
+    <td class="lh-lg">{{dataArray[@Model.Sort].TicketGroup}}</td>
+    <td class="lh-lg">@Model.TicketName</td>
+    <td class="lh-lg">@Model.Quantity</td>
+    <td class="lh-lg">@(Model.Price==0?"免費票":$"NT: {Model.Price}")</td>
+    <td class="accordion-header" id="flush-headingOne">
+        <button class="btn btn-outline-light rounded-circle border-0 text-primary collapsed" 
+        type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@(Model.Sort)" aria-expanded="false" aria-controls="collapse-@(Model.Sort)">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </td>
+                                    
+</tr>  
+<tr>
+    <td class="p-0" colspan="7">
+        <div class="collapse" id="collapse-@(Model.Sort)">
+            <div class="card card-body border-0 backcolor card-pad">
+                <p>票卷說明</p>
+
+                <p>是否開賣?</p>
+                <span>@(Model.IsSell==true?"已開賣":"未開賣")</span>
+
+                <p>售票時間</p>
+                <span>@($"{Model.SellStartTime} {Model.SellStartHour}:{Model.SellStartMin} ~ {Model.SellEndTime} {Model.SellEndHour}:{Model.SellEndMin}")</span>
+
+                <p>有效時間(可驗票時間)</p>
+                <span>@($"{Model.CheckStartTime}  {Model.CheckStartHour}:{Model.CheckStartMin} ~ {Model.CheckEndTime} {Model.CheckEndHour}:{@Model.CheckEndMin}")</span>
+                @*@Html.Raw(DateTime.Parse(Model.SellEndTime))*@
+            </div>
+            <div class="text-center border-0 text-primary collapsed bg-opacity-10 bg-secondary" 
+            type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@(Model.Sort)" aria-expanded="false" aria-controls="collapse-@(Model.Sort)">
+                收和資訊
+            </div>
+        </div>
+    </td>
+</tr>  

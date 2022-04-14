@@ -1,0 +1,122 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.CreateActivity
+@model CreateTicketViewModel
+
+
+<tr>
+    <td class="lh-lg" colspan="2">
+        <div class="border col-12 col-md-9 p-1">
+            <input id="name@(Model.Sort)" type="text" class="border-0 col-12"  value="@Model.TicketName"/>
+        </div>
+    </td>
+    <td class="lh-lg">
+        <div class="border col-12 col-md-9 p-1">
+            <input id="quantity@(Model.Sort)" class="col-10 border-0 d-inline-block" type="number" value="@Model.Quantity"/>
+        </div>
+    </td>
+    <td class="lh-lg" colspan="2" class="m-1" >
+        
+            @if (Model.IsFree)
+            {
+                <div class="text-center w-75 p-md-1 p-0 flex-nowrap" style="font-size: 15px;">
+                    免費票
+                </div>
+            }
+            else
+            {
+                <div class="border w-75 p-md-1 p-0 flex-nowrap">
+                    <div class="d-inline col-4 me-2">NT$</div>
+                    <input id="price@(Model.Sort)" type="number" class="border-0 d-inline text-center col-7" step="1" maxlength="50" value="@Model.Price">
+                </div>
+            }
+            
+        
+    </td>
+    <td class="accordion-header"  colspan="2"id="flush-headingOne">
+        <button class="btn btn-outline-light rounded-circle border-0 text-primary collapsed" 
+        type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@(Model.Sort)" aria-expanded="false" aria-controls="collapse-@(Model.Sort)">
+            <i class="fas fa-cog"></i>
+        </button>
+        <button class="btn btn-outline-light rounded-circle border-0 text-primary collapsed" type="button" onclick="cloneTicket(@(Model.Sort))" >
+            <i class="far fa-clone"></i>
+        </button>
+        <button class="btn btn-outline-light rounded-circle border-0 text-primary collapsed" 
+        type="button"  data-bs-toggle="modal" data-bs-target="#DeleteModal" onclick="deleteModel(@(Model.Sort))">
+            <i class="far fa-trash-alt"></i>
+        </button>
+    </td>                                    
+</tr>    
+<!-- 票卷設定-延伸區塊   -->
+<tr>
+    <td class="p-0" colspan="7">
+        <div class="collapse" id="collapse-@(Model.Sort)">
+            <div class="card card-body border-0 backcolor card-pad" id="time@(Model.Sort)">
+                <p>票卷說明</p>
+                    <textarea class="resize" id="des@(Model.Sort)" cols="30" rows="10">@Model.Description</textarea>
+
+                <p>售票時間</p>
+                    @await Html.PartialAsync("_ticketSelectTimePartial",
+                        new {
+                            Start = Model.SellStartTime, 
+                            End = Model.SellEndTime, 
+                            SHour = Model.SellStartHour, 
+                            SMin = Model.SellStartMin,
+                            EHour = Model.SellEndHour,
+                            EMin = Model.SellEndMin
+                        }
+                    )
+                <p>有效時間(可驗票時間)</p>
+                    <span>有效時間為可驗票入場的時間，系統自動提前兩小時開放給主辦方現場測試。</span>
+                    <label class="d-flex check-ticket ">
+                        <input id="iCA@(Model.Sort)" type="checkbox" class="" checked="@Model.IsCheckEqualActivityTime">
+                        <span class="">有效時間建議設定為活動時間</span>
+                    </label>
+                    @await Html.PartialAsync("_ticketSelectTimePartial",
+                        new {
+                            Start = Model.CheckStartTime, 
+                            End = Model.CheckEndTime, 
+                            SHour = Model.CheckStartHour, 
+                            SMin = Model.CheckStartMin,
+                            EHour = Model.CheckEndHour,
+                            EMin = Model.CheckEndMin
+                        }
+                    )
+                <p>是否開賣？</p>
+                <div class="form-check">
+                    <input class="form-check-input" name="IsSell@(Model.Sort)"  type="radio" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        發售，活動上架後立即開賣
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="IsSell@(Model.Sort)" type="radio"  id="flexRadioDefault2">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        停售，該票券暫停對外銷售，並從購票頁中隱藏
+                    </label>
+                </div>
+
+                @if (!Model.IsFree)
+                {
+                   <div class="mt-4 d-flex flex-wrap">
+                    <div class="flex-wrap col-12">單次購買數量限制</div>
+                    <div class="col-5 mt-1">
+                        最少
+                        <input id="least@(Model.Sort)" type="number" class="border p-2 text-center" maxlength="50" value="@Model.BuyLimitLeast">
+                        張
+                    </div>
+                    <div class="col-5 mt-1">
+                        最多
+                        <input id="most@(Model.Sort)" type="number" class="border p-2 text-center" maxlength="50" value="@Model.BuyLimitMost">
+                        張
+                    </div>
+                </div> 
+                }
+                
+
+            </div>
+            <div class="text-center border-0 text-primary collapsed bg-opacity-10 bg-secondary" 
+            type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@(Model.Sort)" aria-expanded="false" aria-controls="collapse-@(Model.Sort)">
+                收和資訊
+            </div>
+        </div>
+    </td>
+</tr>
