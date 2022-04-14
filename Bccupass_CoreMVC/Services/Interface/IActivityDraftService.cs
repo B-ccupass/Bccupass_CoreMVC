@@ -22,5 +22,8 @@ namespace Bccupass_CoreMVC.Services.Interface
 
         public CreateTicketDto GetActivityDraftTicket(int? id);
         public void EditActivityTicket(CreateTicketDto request);
+
+        //Demo用
+        public DemoActivityDraftDto GetAllActivityDraft(int id);
     }
 }

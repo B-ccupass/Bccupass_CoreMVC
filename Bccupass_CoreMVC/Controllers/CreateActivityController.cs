@@ -298,7 +298,7 @@ namespace Bccupass_CoreMVC.Controllers
             };
             _activityDraftservice.EditActivityTicket(inputDto);
 
-            return RedirectToAction("TicketGroup", new { id = request[0].ActivityDraftId });
+            return RedirectToAction("DemoDraftJson", new { id = request[0].ActivityDraftId });
         }
 
         #endregion
@@ -426,6 +426,26 @@ namespace Bccupass_CoreMVC.Controllers
 
             return RedirectToAction("Info", new { id = request.ActivityDraftId });
 
+        }
+
+
+        public IActionResult DemoDraftJson(int id)
+        {
+            var target = _activityDraftservice.GetAllActivityDraft(id);
+
+            var result = new DemoActivityDraftViewModel()
+            {
+                ActivityDraftId = target.ActivityDraftId,
+                ThemeCategory = target.ThemeCategory,
+                ActivityInfo = target.ActivityInfo,
+                ActivityContent = target.ActivityContent,
+                ActivityGuests = target.ActivityGuests,
+                ActivityQa = target.ActivityQa,
+                ActivityTicket = target.ActivityTicket
+
+            };
+
+            return View(result);
         }
     }
 }
