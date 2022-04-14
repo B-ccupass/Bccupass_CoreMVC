@@ -39,7 +39,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">活動地圖</a>
                         </li>
-                        <li class="nav-tem" id="user-Login">
+                        <li class="nav-tem d-flex" id="user-Login">
                             <partial name="_UserLoginPartial" />
                         </li>
                         <li class="nav-item">
@@ -350,35 +350,6 @@
         };
     </script>
 
-    @*功能驗證-跳登入JS*@
-    @*<script>
-        const focusbtn = document.querySelector(".focus");
-        focusbtn.onclick = function () {
-            focus();
-        }
-        console.log(123);
-        function focus() {
-            fetch("/Account/Likefor", {
-                headers: {
-                    'Accept': 'application/json, text/plain',
-                    'Content-Type': 'application/json;charset=UTF-8'
-                },
-                method: 'GET'
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.isSuccess == false) {
-                        alert(data.message);
-                        $('#loginModal').modal('show');
-
-                    } else {
-
-                    }
-                })
-        }
-    </script>*@
-
     @*登入JS*@
     <script>
         const loginBtn = document.getElementById("loginBtn");
@@ -403,11 +374,8 @@
                 alert("請填寫完畢");
                 return;
             }
-            fetchLoginStatus();
-            
-        };
 
-        function fetchLoginStatus() {
+
             fetch("/Account/Login", {
                 headers: {
                     'Accept': 'application/json, text/plain',
@@ -432,7 +400,8 @@
                         alert(data.response.message);
                     }
                 })
-        }
+            
+        };
 
         loginAccount.onblur = function () {
             let answer = loginAccount.value;
