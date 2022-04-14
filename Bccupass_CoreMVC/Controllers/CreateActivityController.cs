@@ -444,7 +444,7 @@ namespace Bccupass_CoreMVC.Controllers
                 ActivityTicket = target.ActivityTicket
 
             };
-
+            ViewData["ActivityDraftId"] = id;
             return View(result);
         }
     }
