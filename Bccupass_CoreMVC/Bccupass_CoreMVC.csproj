@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>2a99b5fb-ab42-4bde-b112-9a4ba5b77031</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +30,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\ViewModel\Account\" />
   </ItemGroup>
 
   <ItemGroup>

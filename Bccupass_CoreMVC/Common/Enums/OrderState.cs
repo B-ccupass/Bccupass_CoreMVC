@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Bccupass_CoreMVC.Common.Enum
+namespace Bccupass_CoreMVC.Common.Enums
 {
     public enum OrderState
     {

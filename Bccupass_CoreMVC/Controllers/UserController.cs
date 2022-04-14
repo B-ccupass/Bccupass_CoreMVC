@@ -1,4 +1,4 @@
-﻿using Bccupass_CoreMVC.Common.Enum;
+﻿using Bccupass_CoreMVC.Common.Enums;
 using Bccupass_CoreMVC.Models.DTO.Ticket;
 using Bccupass_CoreMVC.Models.ViewModel;
 using Bccupass_CoreMVC.Models.ViewModel.User;

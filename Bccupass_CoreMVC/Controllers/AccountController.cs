@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Bccupass_CoreMVC.Controllers
@@ -12,9 +13,11 @@ namespace Bccupass_CoreMVC.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        public AccountController(IAccountService accountService)
+        private readonly IMailService _mailService;
+        public AccountController(IAccountService accountService, IMailService mailService)
         {
             _accountService = accountService;
+            _mailService = mailService;
         }
 
         public IActionResult Signup()
@@ -48,9 +51,9 @@ namespace Bccupass_CoreMVC.Controllers
 
             if (outputDto.IsSuccess)
             {
-                return new JsonResult(new SignupViewModel.SignUpResponse() { IsSuccess = true, Message = "Success" });
+                return new JsonResult(new SignupViewModel.SignUpResponse() { IsSuccess = true, Message = "註冊成功" });
             }
-            return new JsonResult(new SignupViewModel.SignUpResponse() { IsSuccess = false, Message = "Fail" });
+            return new JsonResult(new SignupViewModel.SignUpResponse() { IsSuccess = false, Message = outputDto.Message });
         }
 
 
@@ -89,7 +92,7 @@ namespace Bccupass_CoreMVC.Controllers
                     Response = new LoginViewModel.SignUpResponse()
                     {
                         IsSuccess = true,
-                        Message = "Success"
+                        Message = "登入成功"
                     }
                 };
                 return new JsonResult(loginVM);
@@ -98,16 +101,52 @@ namespace Bccupass_CoreMVC.Controllers
             {
                 return new JsonResult(new LoginViewModel()
                 {
-                    Response = new LoginViewModel.SignUpResponse() { IsSuccess = false, Message = "Fail" }
+                    Response = new LoginViewModel.SignUpResponse() { IsSuccess = false, Message = outputDto.Message }
                 });
             }
-
         }
 
         public IActionResult Logout()
         {
             _accountService.LogoutAccount();
             return Redirect("/");
+        }
+
+        
+        //可收到郵件，連結點不下去，html格式待改
+        public IActionResult SendForgetPasswordEmail(string mailTo)
+        {
+            _mailService.SendForgetPasswordEmail(mailTo);
+            return new JsonResult(new { isSuccess = true });
+        }
+
+        public IActionResult ResetPassword(string email)
+        {
+            return View();
+        }
+
+        //儲存JS未完成
+        [HttpPost]
+        public IActionResult RestPassword([FromBody] dynamic viewModel)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        //關注
+        [HttpGet]
+        public IActionResult LikeFor(string likeUserId)
+        {
+            var claims = HttpContext.User.Claims;
+            var userId = claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name)?.Value;
+
+
+            if (userId == null)
+            {
+                return new JsonResult(new { isSuccess = false, message = "請先登入" });
+            }
+            return new JsonResult(new { isSuccess = true });
         }
     }
 }

@@ -1,2 +1,12 @@
 ﻿@import "../Global.scss";
 
+.search-key-wrap {
+    li.active .btn {
+        background-color: $theme-color-light;
+        color: #fff;
+    }
+}
+#submit {
+    background-color: $theme-color-light;
+    color: #fff;
+}

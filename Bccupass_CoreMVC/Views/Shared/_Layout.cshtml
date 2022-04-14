@@ -39,11 +39,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">活動地圖</a>
                         </li>
+                        <li class="nav-tem d-flex" id="user-Login">
+                            <partial name="_UserLoginPartial" />
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">辦活動</a>
-                        </li>
-                        <li class="nav-item d-flex d-sm-block d-lg-inline-flex" id="user-Login">
-                            <partial name="_UserLoginPartial" />
                         </li>
                     </ul>
                 </div>
@@ -51,7 +51,7 @@
         </nav>
     </header>
 
-     @*登入*@ 
+    @*登入*@
 
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered login-modal-dialog">
@@ -63,19 +63,22 @@
                 <p class="description text-center">開啟有趣生活的任意門，就從登入開始！</p>
                 <div class="modal-body mb-0">
                     <div class="inner">
-                        <input name="account" id="loginAccount" class="input account d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="電子郵件" value="">
+                        <input name="account" id="loginAccount" class="input account d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="電子郵件" required value="">
                         <span class="icon d-flex justify-content-center  align-items-center">
                             <i class="fas fa-envelope d-inline-block">
                             </i>
                         </span>
+                        <span id="tip-login-account" class="text-danger"></span>
                     </div>
                     <div class="inner">
-                        <input name="password" id="loginPassword" class="input password d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="密碼" value="">
+                        <input name="password" id="loginPassword" class="input password d-inline-flex justify-content-start align-items-center mb-2" type="password" placeholder="密碼" required value="">
                         <span class="icon d-flex justify-content-center  align-items-center">
                             <i class="fas fa-key d-inline-block">
                             </i>
                         </span>
+                        <span id="tip-login-password" class="text-danger"></span>
                     </div>
+
                     <div class="forget-div text-end mb-3">
                         <a class="forget-password text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#forgetModal">忘記密碼?</a>
                     </div>
@@ -96,7 +99,7 @@
     </div>
 
 
-     @*註冊*@ 
+    @*註冊*@
 
     <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered sign-up-modal-dialog">
@@ -108,33 +111,36 @@
                 <p class="description text-center mt-0">會員可享各項專屬權益:票券隨身帶著走、即時管理真方便、追蹤主辦方最新動態、掌握第一手活動資訊</p>
                 <div class="modal-body mt-0 mb-0">
                     <div class="inner">
-                        <input name="account" id="regAccount" class="input account d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="電子郵件" value="">
+                        <input name="account" id="regAccount" class="input account d-inline-flex justify-content-start align-items-center mb-2" type="email" placeholder="電子郵件" required value="">
                         <span class="icon icon d-flex justify-content-center  align-items-center">
                             <i class="fas fa-envelope d-inline-block">
                             </i>
                         </span>
+                        <span id="tip-account" class="text-danger"></span>
                     </div>
                     <div class="inner">
-                        <input name="Name" id="regName" class="input Name d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="姓名" value="">
+                        <input name="name" id="regName" class="input Name d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="姓名" required value="">
                         <span class="icon icon d-flex justify-content-center  align-items-center">
                             <i class="fas fa-user d-inline-block">
                             </i>
                         </span>
+                        <span id="tip-name" class="text-danger"></span>
                     </div>
                     <div class="inner">
-                        <input name="phone" id="regPhone" class="input phone d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="手機" value="">
+                        <input name="phone" id="regPhone" class="input phone d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="手機" required value="">
                         <span class="icon icon d-flex justify-content-center  align-items-center">
                             <i class="fas fa-phone d-inline-block">
                             </i>
                         </span>
-
+                        <span id="tip-phone" class="text-danger"></span>
                     </div>
                     <div class="inner">
-                        <input name="password" id="regPassword" class="input password d-inline-flex justify-content-start align-items-center mb-2" type="text" placeholder="密碼" value="">
+                        <input name="password" id="regPassword" class="input password d-inline-flex justify-content-start align-items-center mb-2" type="password" placeholder="密碼" required value="">
                         <span class="icon icon d-flex justify-content-center  align-items-center">
                             <i class="fas fa-key d-inline-block">
                             </i>
                         </span>
+                        <span id="tip-password" class="text-danger"></span>
                     </div>
                     <div class="agree mb-3">
                         <span>
@@ -159,6 +165,8 @@
             </div>
         </div>
     </div>
+
+
 
 
     <!-- 忘記 -->
@@ -213,11 +221,12 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/vue/vue.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
     @await RenderSectionAsync("endcss", required: false)
-    @await RenderSectionAsync("endJS", required: false)
+    @await RenderSectionAsync("endJS", required: false))
 
 
     @*註冊JS*@
@@ -225,9 +234,8 @@
         const registBtn = document.getElementById("regBtn");
 
         registBtn.onclick = function () {
-            console.log('123');
             register();
-        }
+        };
 
         function register() {
             const registerAccount = document.getElementById("regAccount");
@@ -242,6 +250,11 @@
                 password: registerPassword.value
             };
 
+            if (!request.email || !request.name || !request.phone || !request.password) {
+                alert("請填寫完畢");
+                return;
+            }
+
             fetch("/Account/Signup", {
                 headers: {
                     'Accept': 'application/json, text/plain',
@@ -255,13 +268,86 @@
                     console.log(data);
                     if (data.isSuccess) {
                         $('#signUpModal').modal('hide');
+                        alert(data.message);
                         $('#loginModal').modal('show');
 
                     } else {
                         alert(data.message);
                     }
                 })
-        }
+        };
+
+
+        let account = document.getElementById("regAccount");
+        let name = document.getElementById("regName");
+        let phone = document.getElementById("regPhone");
+        let password = document.getElementById("regPassword");
+
+
+        account.onblur = function () {
+            let answer = account.value;
+            let tip = document.getElementById("tip-account");
+
+
+            tip.innerHTML = "";
+            if (!answer) {
+                tip.innerHTML = "必填欄位";
+                return;
+            }
+
+            if (answer.search(/^\w+@@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/) == -1) {
+                tip.innerHTML = "電子郵件格式錯誤";
+                return;
+            }
+
+            if (this.IsExistAccount(answer)) {
+                tip.innerHTML = "此郵件已被註冊";
+                return;
+            }
+        };
+
+        name.onblur = function () {
+            let answer = name.value;
+            let tip = document.getElementById("tip-name");
+
+            tip.innerHTML = "";
+            if (!answer) {
+                tip.innerHTML = "必填欄位";
+                return;
+            }
+        };
+
+        phone.onblur = function () {
+            let answer = phone.value;
+            let tip = document.getElementById("tip-phone");
+
+            tip.innerHTML = "";
+            if (!answer) {
+                tip.innerHTML = "必填欄位";
+                return;
+            }
+
+            if (answer.search(/^09[0-9]{8}$/)) {
+                tip.innerHTML = "需為09xxxxxxxx格式";
+                return;
+            }
+        };
+
+        password.onblur = function () {
+            let answer = password.value;
+            let tip = document.getElementById("tip-password");
+
+            tip.innerHTML = "";
+            if (!answer) {
+                tip.innerHTML = "必填欄位";
+                return;
+            }
+
+            if (answer.search(/^(?=.{8,})(?=.*[a-z])(?=.*[0-9])/)) {
+                tip.innerHTML = "密碼需至少八字元且含英文及數字";
+                return;
+            }
+        };
     </script>
 
     @*登入JS*@
@@ -269,19 +355,26 @@
         const loginBtn = document.getElementById("loginBtn");
 
         loginBtn.onclick = function () {
-            console.log('456');
             login();
         }
 
+        const loginAccount = document.getElementById("loginAccount");
+        const loginPassword = document.getElementById("loginPassword");
+
+
         function login() {
-            const loginAccount = document.getElementById("loginAccount");
-            const loginPassword = document.getElementById("loginPassword");
             const userLogin = document.getElementById("user-Login");
 
             const request = {
                 account: loginAccount.value,
                 password: loginPassword.value
             };
+
+            if (!request.account || !request.password) {
+                alert("請填寫完畢");
+                return;
+            }
+
 
             fetch("/Account/Login", {
                 headers: {
@@ -307,7 +400,45 @@
                         alert(data.response.message);
                     }
                 })
-        }
+            
+        };
+
+        loginAccount.onblur = function () {
+            let answer = loginAccount.value;
+            let tip = document.getElementById("tip-login-account");
+
+
+            tip.innerHTML = "";
+
+            if (!answer) {
+                tip.innerHTML = "必填欄位";
+                return;
+            }
+
+            if (answer.search(/^\w+@@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/) == -1) {
+                tip.innerHTML = "電子郵件格式錯誤";
+                return;
+            }
+
+            console.log(answer, tip)
+        };
+
+
+        loginPassword.onblur = function () {
+            let answer = loginPassword.value;
+            let tip = document.getElementById("tip-login-password");
+
+            tip.innerHTML = "";
+            if (!answer) {
+                tip.innerHTML = "必填欄位";
+                return;
+            }
+
+            if (answer.search(/^(?=.{8,})(?=.*[a-z])(?=.*[0-9])/)) {
+                tip.innerHTML = "密碼需至少八字元且含英文及數字";
+                return;
+            }
+        };
     </script>
 
 

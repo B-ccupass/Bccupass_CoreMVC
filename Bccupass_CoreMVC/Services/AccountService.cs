@@ -53,7 +53,6 @@ namespace Bccupass_CoreMVC.Services
                 Name = input.Name,
                 Phone = input.Phone,
                 Password = Encryption.SHA256Encrypt(input.Password),
-                //Password = input.Password,
                 IsAdmin = false,
                 Verification = false,
             };
@@ -90,7 +89,7 @@ namespace Bccupass_CoreMVC.Services
 
             if(Encryption.SHA256Encrypt(input.Password) != currentUser.Password)
             {
-                res.Message = "密碼錯誤";
+                res.Message = "帳號或密碼錯誤";
                 return res;
             }
 

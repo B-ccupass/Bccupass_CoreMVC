@@ -7,6 +7,9 @@
 .container {
   max-width: 1080px; }
 
+button:focus, .btn-primary:focus, .btn:focus {
+  box-shadow: none; }
+
 .container {
   padding-top: 20px;
   padding-bottom: 20px;

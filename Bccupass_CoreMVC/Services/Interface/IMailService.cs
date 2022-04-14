@@ -7,6 +7,6 @@ namespace Bccupass_CoreMVC.Services.Interface
 {
     public interface IMailService
     {
-        public void SendVerifyEmail(string mailTo, int userId);//寄驗證信，參數有'寄給哪個Email'和'寄給誰'
+        public void SendForgetPasswordEmail(string mailTo);//寄忘記密碼信，參數有'寄給哪個Email'和'寄給誰'
     }
 }

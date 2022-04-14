@@ -1,15 +1,18 @@
-﻿using Bccupass_CoreMVC.Common.Enum;
+﻿using Bccupass_CoreMVC.Common.Enums;
 using Bccupass_CoreMVC.Common.Helpers;
 using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Models.ViewModel;
 using Bccupass_CoreMVC.Models.ViewModel.Activity;
+using Bccupass_CoreMVC.Models.ViewModel.Activity.Data;
 using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static Bccupass_CoreMVC.Models.ViewModel.Activity.SearchKeysViewModel;
 
 namespace Bccupass_CoreMVC.Controllers
@@ -37,25 +40,45 @@ namespace Bccupass_CoreMVC.Controllers
                 ActivePage = page,
                 ActionUrl = $"activityStateByTime={activityStateByTime}&sortOrder={sortOrder}",
             };
-
-            var allActivity = _activityService.GetAllActivityGroupByTime();
+            var allActivity = new ActivityCardGroupByTimeDto();
             var res = new ActivityIndexViewModel();
+            if (TempData["SearchResultCardList"] != null)
+            {
+                string json = (string)TempData["SearchResultCardList"];
+                var searchInput = JsonConvert.DeserializeObject<SearchKeysDataModel>(json);
+                var inputDto = new SearchKeysInputDto
+                {
+                    ThemesInput = searchInput.ThemesList,
+                    TypesInput = searchInput.TypesList,
+                    StartTimeInput = (StartTime)searchInput.StartTimeEnumValue,
+                    TicketPriceInput = (TicketPrice)searchInput.TicketPriceEnumValue,
+                };
+
+                var outputDto = _activityService.ActivityFilter(inputDto);
+                allActivity = outputDto.SearchResultCards;
+                res.searchInput = searchInput;
+                TempData.Keep();
+            }
+            else
+            {
+                allActivity = _activityService.GetAllActivityGroupByTime();
+            }
 
             // 依活動狀態(進行中、尚未開始、已結束)篩選
             switch (int.Parse(activityStateByTime))
             {
                 case (int)ActivityStateByTime.NotStart:
-                    pageObj.Total = _activityService.GetAllActivityGroupByTime().NotStart.Count();
+                    pageObj.Total = allActivity.NotStart.Count();
                     activityList = allActivity.NotStart.Skip(pageObj.StartRow).Take(pageObj.PageRows);
                     res.ActivityStateByTime = (int)ActivityStateByTime.NotStart;
                     break;
                 case (int)ActivityStateByTime.End:
-                    pageObj.Total = _activityService.GetAllActivityGroupByTime().End.Count();
+                    pageObj.Total = allActivity.End.Count();
                     activityList = allActivity.End.Skip(pageObj.StartRow).Take(pageObj.PageRows);
                     res.ActivityStateByTime = (int)ActivityStateByTime.End;
                     break;
                 default:
-                    pageObj.Total = _activityService.GetAllActivityGroupByTime().InProgress.Count();
+                    pageObj.Total = allActivity.InProgress.Count();
                     activityList = allActivity.InProgress.Skip(pageObj.StartRow).Take(pageObj.PageRows);
                     res.ActivityStateByTime = (int)ActivityStateByTime.Inprogress;
                     break;
@@ -88,44 +111,22 @@ namespace Bccupass_CoreMVC.Controllers
                 Favorite = x.Favorite
             });
 
-            // 搜尋視窗
-            var StartTimeList = new List<StartTimeData>();
-            var TicketPriceList = new List<TicketPriceData>();
-
-            foreach (var value in Enum.GetValues(typeof(StartTime)))
+            var themesList = _activityService.GetAllActivityTheme().Select(x => new ActivityIndexViewModel.ThemeData
             {
-                var data = new StartTimeData
-                {
-                    EnumValue = (int)value,
-                    EnumName = value.ToString(),
-                    Description = new GetEnumDescription().TimeDiscription((int)value)
-                };
-                StartTimeList.Add(data);
-            }
-
-            foreach (var value in Enum.GetValues(typeof(TicketPrice)))
+                Id = x.Id,
+                Name = x.Name
+            });
+            var typeList = _activityService.GetAllActivityType().Select(x => new ActivityIndexViewModel.TypeData
             {
-                var data = new TicketPriceData
-                {
-                    EnumValue = (int)value,
-                    EnumName = value.ToString(),
-                    Description = new GetEnumDescription().PriceDiscription((int)value)
-                };
-                TicketPriceList.Add(data);
-            }
-
-            var searchData = new SearchKeysViewModel
-            {
-                Themes = _activityService.GetAllActivityTheme().Select(x => new SearchKeysViewModel.ThemeData { Id = x.Id, Name = x.Name }),
-                Types = _activityService.GetAllActivityType().Select(x => new SearchKeysViewModel.TypesData { Id = x.Id, Name = x.Name }),
-                StartTime = StartTimeList,
-                TicketPrice = TicketPriceList,
-            };
+                Id = x.Id,
+                Name = x.Name
+            });
 
             res.ActivityList = activityListByTime;
             res.pageInfo = pageObj;
             res.ActivitySortOrder = int.Parse(sortOrder);
-            res.SearchKeys = searchData;
+            res.ThemeList = themesList;
+            res.TypeList = typeList;
 
             return View(res);
         }
@@ -204,5 +205,25 @@ namespace Bccupass_CoreMVC.Controllers
             };
             return View(activityDetailVM);
         }
+
+        [HttpPost]
+        public IActionResult FetchSearch([FromBody] SearchKeysDataModel request)
+        {
+            TempData["SearchResultCardList"] = JsonConvert.SerializeObject(request);
+
+            return new JsonResult(new { isSuccess = true });
+        }
+
+        //public IActionResult FetchSearchResult()
+        //{
+        //    return RedirectToAction("Index");
+        //}
+
+        public IActionResult ClearSearchOptions()
+        {
+            TempData.Remove("SearchResultCardList");
+            return new JsonResult(new { isSuccess = true });
+        }
+
     }
 }

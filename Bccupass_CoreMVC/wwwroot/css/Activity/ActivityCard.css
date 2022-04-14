@@ -1,6 +1,9 @@
 ﻿.container {
   max-width: 1080px; }
 
+button:focus, .btn-primary:focus, .btn:focus {
+  box-shadow: none; }
+
 .activity-card {
   max-width: 540px; }
   .activity-card .img-link-wrap .activity-img {

@@ -80,6 +80,14 @@
     "inputFile": "wwwroot/css/Activity/SearchWindow.scss"
   },
   {
+    "outputFile": "wwwroot/css/buyTicket/buyTicket.css",
+    "inputFile": "wwwroot/css/buyTicket/buyTicket.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/buyTicket/buyForm.css",
+    "inputFile": "wwwroot/css/buyTicket/buyForm.scss"
+  },
+  {
     "outputFile": "wwwroot/css/User/UserTicket.css",
     "inputFile": "wwwroot/css/User/UserTicket.scss"
   }

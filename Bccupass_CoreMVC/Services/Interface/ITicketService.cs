@@ -9,5 +9,6 @@ namespace Bccupass_CoreMVC.Services.Interface
 
         public int TicketCount(int orderDetailId);
         public IEnumerable<TicketPurchaseDto> GetTicketInfoAtPurchase(int activityId);
+        public TicketFormDto GetTicketFormByActivityId(int activityId);
     }
 }
