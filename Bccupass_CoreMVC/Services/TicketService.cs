@@ -89,6 +89,31 @@ namespace Bccupass_CoreMVC.Services
             return num;
         }
 
+        public TicketFormDto GetTicketFormByActivityId(int activityId)
+        {
+            var target = _context.GetAll<Activity>().First(x => x.ActivityId == activityId);
+            return new TicketFormDto()
+            {
+                Name = target.FormName,
+                Email = target.FormEmail,
+                Phone = target.FormPhone,
+                BirthDay = target.FormBirthday,
+                Address = target.FormAddress,
+                Gender = target.FormGender,
+                Age = target.FormAge,
+                //Hobby = target.FormHobby,
+                //MaritalStatus = target.FormMaritalStatus,
+                //Industry = target.FormIndustry,
+                //Department = target.FormDepartment,
+                IdNumber = target.FormIdnumber,
+                //Fax = target.FormFax,
+                //EducationLevel = target.FormEducationLevel,
+                //DiningNeeds = target.FormDiningNeeds,
+                //CompanyName = target.FormConpanyName,
+                //JobTitle = target.FormJobTitle,
+            };
+        }
+
 
         //獲取訂單相關資料
 
