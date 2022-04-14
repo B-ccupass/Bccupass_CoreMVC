@@ -55,6 +55,7 @@ namespace Bccupass_CoreMVC.Models.DTO.User
         public class OrderData
         {
             public int OrderId { get; set; }
+            public DateTime OrderTime { get; set; }
         }
 
         public class UserData

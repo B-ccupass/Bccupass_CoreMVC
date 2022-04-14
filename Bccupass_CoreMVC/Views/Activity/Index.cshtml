@@ -18,7 +18,7 @@
             {
                 EnumValue = value,
                 EnumName = Enum.GetName(typeof(StartTime), value),
-                Description = GetEnumDescription.GetDescriptionText((StartTime)value),
+                Description = Bccupass_CoreMVC.Common.Helpers.GetEnumDescription.GetDescriptionText((StartTime)value),
                 Selected = value == 0 ? true : false,
             };
             startTimeList.Add(item);
@@ -32,7 +32,7 @@
             {
                 EnumValue = value,
                 EnumName = Enum.GetName(typeof(TicketPrice), value),
-                Description = GetEnumDescription.GetDescriptionText((TicketPrice)value),
+                Description = Bccupass_CoreMVC.Common.Helpers.GetEnumDescription.GetDescriptionText((TicketPrice)value),
                 Selected = value == 0 ? true : false,
             };
             PriceList.Add(item);
@@ -65,7 +65,7 @@
             {
                 EnumValue = value,
                 EnumName = Enum.GetName(typeof(StartTime), value),
-                Description = GetEnumDescription.GetDescriptionText((StartTime)value),
+                Description = Bccupass_CoreMVC.Common.Helpers.GetEnumDescription.GetDescriptionText((StartTime)value),
                 Selected = value == Model.searchInput.StartTimeEnumValue,
             };
             startTimeList.Add(item);
@@ -79,7 +79,7 @@
             {
                 EnumValue = value,
                 EnumName = Enum.GetName(typeof(TicketPrice), value),
-                Description = GetEnumDescription.GetDescriptionText((TicketPrice)value),
+                Description = Bccupass_CoreMVC.Common.Helpers.GetEnumDescription.GetDescriptionText((TicketPrice)value),
                 Selected = value == Model.searchInput.TicketPriceEnumValue,
             };
             PriceList.Add(item);

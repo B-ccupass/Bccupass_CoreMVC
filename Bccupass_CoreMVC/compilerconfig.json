@@ -90,5 +90,9 @@
   {
     "outputFile": "wwwroot/css/CreateActivity/ActivityInfo.css",
     "inputFile": "wwwroot/css/CreateActivity/ActivityInfo.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/User/UserTicket.css",
+    "inputFile": "wwwroot/css/User/UserTicket.scss"
   }
 ]

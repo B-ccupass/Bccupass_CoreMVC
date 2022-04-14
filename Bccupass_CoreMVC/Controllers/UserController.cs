@@ -1,10 +1,12 @@
-﻿using Bccupass_CoreMVC.Models.DTO.Ticket;
+﻿using Bccupass_CoreMVC.Common.Enums;
+using Bccupass_CoreMVC.Models.DTO.Ticket;
 using Bccupass_CoreMVC.Models.ViewModel;
 using Bccupass_CoreMVC.Models.ViewModel.User;
 using Bccupass_CoreMVC.Services;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bccupass_CoreMVC.Controllers
 {
@@ -12,8 +14,10 @@ namespace Bccupass_CoreMVC.Controllers
     {
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
+        private static int totalRows;
 
-        public UserController(ITicketService ticketService, IUserService userService)
+
+        public UserController(ITicketService ticketService, IUserService userService )
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -23,43 +27,31 @@ namespace Bccupass_CoreMVC.Controllers
             return View();
         }
 
-        public IActionResult UserTicket(int userId)
+        public IActionResult UserTicket(int userId, int selcetByOrderState,int page=1)
         {
+            int activePage = page;
+            int pageRows = 4;
 
-            int activePage = 1; // 目前在第幾頁
-            int pageRows = 5; // 一頁幾筆資料
+            int Pages = 0;
 
-            userId = 1;
+
+            userId = int.Parse(User.Identity?.Name);
+            //userId = 1;
             var userTicketDto = _userService.GetOrderListOfUser(userId);
             var order = userTicketDto.Select(x => _ticketService.GetTicket(x.OrderId));
             var total = userTicketDto.Count();
 
-            // 計算頁數
-            int pages = 0;
-            if (total % pageRows == 0)
-            {
-                pages = total / pageRows;
-            }
-            else
-            {
-                pages = (total / pageRows) + 1;
-            }
-
-            int startRow = (activePage - 1) * pageRows;
-
-
-
             var orderList = order.Select(x =>
-                 new CreateTicketViewModel()
+                 new ShowTicketViewModel()
                  {
-                     Order = new CreateTicketViewModel.OrderData
+                     Order = new ShowTicketViewModel.OrderData
                      {
                          OrderId = x.Order.OrderId,
                          OrderTime=x.Order.OrderTime,
                          OrderState=x.Order.OrderState,
 
                      },
-                     TdOd = x.TdOd.Select(x => new CreateTicketViewModel.TicketDetailOrderDetail()
+                     TdOd = x.TicketInOrder.Select(x => new ShowTicketViewModel.TicketDetailOrderDetail()
                      {
                          TdOdId = x.TdOdId,
                          BuyerName = x.BuyerName,
@@ -67,7 +59,7 @@ namespace Bccupass_CoreMVC.Controllers
                          BuyerPhone = x.BuyerPhone,
                          BuyerEmail = x.BuyerEmail
                      }),
-                     TicketDetail = x.TicketDetail.Select(x => new CreateTicketViewModel.TicketDatail()
+                     TicketDetail = x.TicketDetail.Select(x => new ShowTicketViewModel.TicketDatail()
                      {
                          TicketId = x.TicketId,
                          TicketName = x.TicketName,
@@ -75,7 +67,7 @@ namespace Bccupass_CoreMVC.Controllers
                          CheckEnd = x.CheckEnd,
                          Price=x.Price,
                      }),
-                     Activity = new CreateTicketViewModel.ActivityData
+                     Activity = new ShowTicketViewModel.ActivityData
                      {
                          ActId = x.Activity.ActId,
                          ActName = x.Activity.ActName,
@@ -85,45 +77,50 @@ namespace Bccupass_CoreMVC.Controllers
                      TicketNum = _ticketService.TicketCount(x.Order.OrderId)
                  });
 
+            switch (selcetByOrderState)
+            {
+                case (int)OrderState.Paid:
+                    orderList = orderList.Where(x=>x.Order.OrderState == selcetByOrderState).ToList();
+                    break;
+                case (int)OrderState.NotPaid:
+                    orderList = orderList.Where(x => x.Order.OrderState == selcetByOrderState).ToList();
+                    break;
+                case (int)OrderState.Cancel:
+                    orderList = orderList.Where(x => x.Order.OrderState == selcetByOrderState).ToList();
+                    break;
+                case (int)OrderState.Refund:
+                    orderList = orderList.Where(x => x.Order.OrderState == selcetByOrderState).ToList();
+                    break;
+            }
+
+            if (totalRows == 0)
+            {
+                totalRows = orderList.Count();
+            }
+
+            if (totalRows % pageRows == 0)
+            {
+                Pages = totalRows / pageRows;
+            }
+            else
+            {
+                Pages = (totalRows / pageRows) + 1;
+            }
+
+            int startRow = (activePage - 1) * pageRows;
+
+            orderList= orderList.OrderBy(x => x.Order.OrderTime).Skip(startRow).Take(pageRows);
+
+
             var res = new UserTicketViewModel()
             {
                 OrderList = orderList
             };
 
+            ViewData["ActivePage"] = page;//Active分頁碼
+            ViewData["Pages"] = Pages; //總頁數
+
             return View(res);
-
-            //var createTicketVM = new CreateTicketViewModel()
-            //{
-            //    User = new UserTicketViewModel.UserData { UserId = userTicketDto.User.UserId },
-            //    Order = userTicketDto.Order.Select(x => new UserTicketViewModel.OrderData()
-            //    {
-            //        OrderId = x.OrderId,
-            //    }),
-            //    TdOd = userTicketDto.TdOd.Select(x => new UserTicketViewModel.TicketDetailOrderDetail()
-            //    {
-            //        TdOdId = x.TdOdId,
-            //        BuyerName = x.BuyerName,
-            //        BuyerCompanyName = x.BuyerCompanyName,
-            //        BuyerPhone = x.BuyerPhone,
-            //        BuyerEmail = x.BuyerEmail
-            //    }),
-            //    TicketDetail = userTicketDto.TicketDetail.Select(x => new UserTicketViewModel.TicketDatail()
-            //    {
-            //        TicketId = x.TicketId,
-            //        TicketName = x.TicketName,
-            //        Price = x.Price
-            //    }),
-            //    Activity = userTicketDto.Activity.Select(x => new UserTicketViewModel.ActivityData()
-            //    {
-            //        ActId = x.ActId,
-            //        ActName = x.ActName,
-            //        StartTime = x.StartTime,
-            //        EndTime = x.EndTime
-            //    })
-            //};
-
-            //return View(userTicketVM);
-
 
         }
 
