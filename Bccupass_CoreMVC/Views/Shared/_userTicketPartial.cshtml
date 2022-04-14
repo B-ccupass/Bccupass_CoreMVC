@@ -1,5 +1,5 @@
 ﻿@using Bccupass_CoreMVC.Models.ViewModel
-@model CreateTicketViewModel
+@model ShowTicketViewModel
 
 
 <div class="ticket-info-content-template">
@@ -13,16 +13,16 @@
                         <p class="id fs-6 my-2 text-secondary">@Model.Order.OrderId</p>
                     </div>
                     <div class="ticket-operate col-12 col-md-4 d-flex align-items-center ">
-                        <a class="get btn btn-primary border me-3  ms-auto d-flex align-items-center justify-content-center p-0 py-3" href="/Ticket/CreateTicket/@Model.Order.OrderId">快速取票</a>
+                        <a class="get btn btn-primary border me-3  ms-auto d-flex align-items-center justify-content-center p-0 py-3" href="/Ticket/ShowTicket/@Model.Order.OrderId">快速取票</a>
                         <div class="price  btn-white border  me-3  d-flex align-items-center align-content-center flex-wrap justify-content-center p-0 py-3">
                             @Model.TicketDetail.Sum(x=>x.Price)
                             <div class=" text-secondary col-12 text-center">訂單金額</div>
                         </div>
                         <div class="info  btn-white border d-flex align-items-center align-content-center flex-wrap justify-content-center py-3">
                             <div class="">
-                                <button class="info-btn accordion-button btn p-0 text-center" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                        aria-controls="panelsStayOpen-collapseOne">
+                                <button class="info-btn accordion-button btn p-0 text-center collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-@Model.Order.OrderId" aria-expanded="true"
+                                        aria-controls="panelsStayOpen-@Model.Order.OrderId">
                                     @Model.TicketNum
                                 </button>
                             </div>
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
+                <div id="panelsStayOpen-@Model.Order.OrderId" class="accordion-collapse collapse"
                      aria-labelledby="panelsStayOpen-headingOne">
                     <table class="table fs-6">
                         <thead>
@@ -54,9 +54,9 @@
                                     <td class="d-none d-md-table-cell col-md-1">@Model.Order.OrderState</td>
                                     <td class="col-3 col-md-1">
                                         <div class="ps-2">
-                                            <i class="fas fa-times"></i>
-                                            <i class="fas fa-arrow-circle-down"></i>
-                                            <i class="far fa-file-alt"></i>
+                                            <a><i class="fas fa-times"></i></a>
+                                            <a><i class="fas fa-arrow-circle-down"></i></a>
+                                            <a><i class="far fa-file-alt"></i></a>
                                         </div>
                                     </td>
                                 </tr>

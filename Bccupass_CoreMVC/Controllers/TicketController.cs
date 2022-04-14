@@ -17,16 +17,16 @@ namespace Bccupass_CoreMVC.Controllers
             return View();
         }
 
-        public IActionResult CreateTicket(int id)
+        public IActionResult ShowTicket(int id)
         {
             var createTicketDto = _ticketService.GetTicket(id);
-            var createTicketVM = new CreateTicketViewModel()
+            var createTicketVM = new ShowTicketViewModel()
             {
-                Order = new CreateTicketViewModel.OrderData
+                Order = new ShowTicketViewModel.OrderData
                 {
                     OrderId = createTicketDto.Order.OrderId
                 },
-                TdOd = createTicketDto.TdOd.Select(x => new CreateTicketViewModel.TicketDetailOrderDetail()
+                TdOd = createTicketDto.TicketInOrder.Select(x => new ShowTicketViewModel.TicketDetailOrderDetail()
                 {
                     TdOdId = x.TdOdId,
                     BuyerName = x.BuyerName,
@@ -34,19 +34,19 @@ namespace Bccupass_CoreMVC.Controllers
                     BuyerPhone = x.BuyerPhone,
                     BuyerEmail = x.BuyerEmail
                 }),
-                TicketDetail = createTicketDto.TicketDetail.Select(x => new CreateTicketViewModel.TicketDatail()
+                TicketDetail = createTicketDto.TicketDetail.Select(x => new ShowTicketViewModel.TicketDatail()
                 {
                     TicketId = x.TicketId,
                     TicketName = x.TicketName
                 }),
-                Activity = new CreateTicketViewModel.ActivityData
+                Activity = new ShowTicketViewModel.ActivityData
                 {
                     ActId = createTicketDto.Activity.ActId,
                     ActName = createTicketDto.Activity.ActName,
                     StartTime = createTicketDto.Activity.StartTime,
                     EndTime = createTicketDto.Activity.EndTime
                 },
-                Organizer = new CreateTicketViewModel.OrganizerData
+                Organizer = new ShowTicketViewModel.OrganizerData
                 {
                     OrgId = createTicketDto.Organizer.OrgId,
                     OrgName = createTicketDto.Organizer.OrgName,

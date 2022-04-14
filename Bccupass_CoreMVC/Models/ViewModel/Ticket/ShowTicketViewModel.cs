@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
-namespace Bccupass_CoreMVC.Models.DTO.Ticket
+namespace Bccupass_CoreMVC.Models.ViewModel
 {
-    public class CreateTicketDto
+    public class ShowTicketViewModel
     {
         public OrderData Order { get; set; }
         public IEnumerable<TicketDetailOrderDetail> TdOd { get; set; }
@@ -12,9 +11,7 @@ namespace Bccupass_CoreMVC.Models.DTO.Ticket
         public ActivityData Activity { get; set; }
         public OrganizerData Organizer { get; set; }
 
-        
-
-
+        public int TicketNum { get; set; }
 
         public class TicketDetailOrderDetail
         {
@@ -31,9 +28,13 @@ namespace Bccupass_CoreMVC.Models.DTO.Ticket
         {
             public int TicketId { get; set; }
             public string TicketName { get; set; }
+
             public decimal Price { get; set; }
+
+
             public DateTime CheckStart { get; set; }
             public DateTime CheckEnd { get; set; }
+
 
         }
 

@@ -6,6 +6,7 @@ using Bccupass_CoreMVC.Services;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bccupass_CoreMVC.Controllers
 {
@@ -13,8 +14,10 @@ namespace Bccupass_CoreMVC.Controllers
     {
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
+        private static int totalRows;
 
-        public UserController(ITicketService ticketService, IUserService userService)
+
+        public UserController(ITicketService ticketService, IUserService userService )
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -24,8 +27,14 @@ namespace Bccupass_CoreMVC.Controllers
             return View();
         }
 
-        public IActionResult UserTicket(int userId, int selcetByOrderState,int pageId=1)
+        public IActionResult UserTicket(int userId, int selcetByOrderState,int page=1)
         {
+            int activePage = page;
+            int pageRows = 4;
+
+            int Pages = 0;
+
+
             //userId = int.Parse(User.Identity?.Name);
             userId = 1;
             var userTicketDto = _userService.GetOrderListOfUser(userId);
@@ -33,16 +42,16 @@ namespace Bccupass_CoreMVC.Controllers
             var total = userTicketDto.Count();
 
             var orderList = order.Select(x =>
-                 new CreateTicketViewModel()
+                 new ShowTicketViewModel()
                  {
-                     Order = new CreateTicketViewModel.OrderData
+                     Order = new ShowTicketViewModel.OrderData
                      {
                          OrderId = x.Order.OrderId,
                          OrderTime=x.Order.OrderTime,
                          OrderState=x.Order.OrderState,
 
                      },
-                     TdOd = x.TdOd.Select(x => new CreateTicketViewModel.TicketDetailOrderDetail()
+                     TdOd = x.TicketInOrder.Select(x => new ShowTicketViewModel.TicketDetailOrderDetail()
                      {
                          TdOdId = x.TdOdId,
                          BuyerName = x.BuyerName,
@@ -50,7 +59,7 @@ namespace Bccupass_CoreMVC.Controllers
                          BuyerPhone = x.BuyerPhone,
                          BuyerEmail = x.BuyerEmail
                      }),
-                     TicketDetail = x.TicketDetail.Select(x => new CreateTicketViewModel.TicketDatail()
+                     TicketDetail = x.TicketDetail.Select(x => new ShowTicketViewModel.TicketDatail()
                      {
                          TicketId = x.TicketId,
                          TicketName = x.TicketName,
@@ -58,7 +67,7 @@ namespace Bccupass_CoreMVC.Controllers
                          CheckEnd = x.CheckEnd,
                          Price=x.Price,
                      }),
-                     Activity = new CreateTicketViewModel.ActivityData
+                     Activity = new ShowTicketViewModel.ActivityData
                      {
                          ActId = x.Activity.ActId,
                          ActName = x.Activity.ActName,
@@ -84,10 +93,32 @@ namespace Bccupass_CoreMVC.Controllers
                     break;
             }
 
+            if (totalRows == 0)
+            {
+                totalRows = orderList.Count();
+            }
+
+            if (totalRows % pageRows == 0)
+            {
+                Pages = totalRows / pageRows;
+            }
+            else
+            {
+                Pages = (totalRows / pageRows) + 1;
+            }
+
+            int startRow = (activePage - 1) * pageRows;
+
+            orderList= orderList.OrderBy(x => x.Order.OrderTime).Skip(startRow).Take(pageRows);
+
+
             var res = new UserTicketViewModel()
             {
                 OrderList = orderList
             };
+
+            ViewData["ActivePage"] = page;//Active分頁碼
+            ViewData["Pages"] = Pages; //總頁數
 
             return View(res);
 
