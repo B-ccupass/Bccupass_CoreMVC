@@ -35,8 +35,8 @@ namespace Bccupass_CoreMVC.Controllers
             int Pages = 0;
 
 
-            //userId = int.Parse(User.Identity?.Name);
-            userId = 1;
+            userId = int.Parse(User.Identity?.Name);
+            //userId = 1;
             var userTicketDto = _userService.GetOrderListOfUser(userId);
             var order = userTicketDto.Select(x => _ticketService.GetTicket(x.OrderId));
             var total = userTicketDto.Count();
