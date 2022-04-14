@@ -1,16 +1,16 @@
-﻿.star::after {
+.star::after {
   content: " *";
   font-size: 1rem;
   color: red;
 }
 
-#actImg[type=file]::file-selector-button {
+#actImg[type="file"]::file-selector-button {
   color: transparent;
   background-color: transparent;
   border-color: transparent;
 }
 
-#actImg[type=file] {
+#actImg[type="file"] {
   background-color: transparent;
   border-color: transparent;
   color: transparent;
@@ -39,3 +39,8 @@
   border-color: cadetblue;
   color: white;
 }
+
+#sumBtn :hover {
+  background-color: cadetblue;
+}
+/*# sourceMappingURL=ActivityInfo.css.map */

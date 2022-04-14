@@ -1,4 +1,4 @@
-﻿.Lorm-H {
+.Lorm-H {
   height: 30vh;
 }
 
@@ -18,5 +18,7 @@
 
 #checkOk:focus {
   border-color: aquamarine;
-  box-shadow: 0 0 0px 0.25rem aquamarine;
+  -webkit-box-shadow: 0 0 0px 0.25rem aquamarine;
+          box-shadow: 0 0 0px 0.25rem aquamarine;
 }
+/*# sourceMappingURL=ActivityPolicy.css.map */

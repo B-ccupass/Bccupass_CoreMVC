@@ -3,6 +3,7 @@ using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Models.DTO.CreateActivity;
 using Bccupass_CoreMVC.Models.ViewModel.Activity;
 using Bccupass_CoreMVC.Models.ViewModel.CreateActivity;
+using Bccupass_CoreMVC.Repositories;
 using Bccupass_CoreMVC.Services;
 using Bccupass_CoreMVC.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
 
 namespace Bccupass_CoreMVC.Controllers
@@ -177,62 +179,74 @@ namespace Bccupass_CoreMVC.Controllers
         public IActionResult Category(int id)
         {
             var inputDto = _activityDraftservice.GetActivityThemeCat(id);
-            var _themeList = _activityDraftservice.GetAllActivityThemeForCategory().Select(x => new CreateThemeCategoryVM.CardData()
+            var _themeList = _activityDraftservice.GetAllActivityThemeForCategory().Select(x => new ThemeAndTypeDataVM.CardData()
             {
                 Id = x.Id,
-                Title = x.Title,
-                Icon = x.Icon,
+                Name = x.Title,
+                Img = x.Icon,
             });
-            var _typeList = _activityDraftservice.GetAllActivityTypeForCategory().Select(x => new CreateThemeCategoryVM.CardData()
+            var _typeList = _activityDraftservice.GetAllActivityTypeForCategory().Select(x => new ThemeAndTypeDataVM.CardData()
             {
                 Id = x.Id,
-                Title = x.Title,
-                Icon = x.Icon,
+                Name = x.Title,
+                Img = x.Icon,
             });
-            var _DataThemeCategory = new CreateThemeCategoryVM()
-            {
-                Theme = _themeList,
-                Type = _typeList,
-            };
-            List<CreateThemeCategoryVM> _resultVM = new();
+            CreateThemeCategoryVM JsonData;
+            ThemeAndTypeDataVM ShowData;
+            PackageCatgoryVM packageCatgoryVM;
             if (inputDto.ThemeCategory == null)
             {
-                _resultVM.Add(new CreateThemeCategoryVM()
+                JsonData = new CreateThemeCategoryVM()
                 {
                     ActivityDraftId = inputDto.ActivityDraftId,
                     ActivityPrimaryThemeId = 0,
                     ActivitySecondThemeId = 0,
                     ActivityTypeId = 0,
+                };
+                ShowData = new ThemeAndTypeDataVM()
+                {
                     Theme = _themeList,
-                    Type = _typeList,
-                });
+                    Type = _typeList
+                };
+                packageCatgoryVM = new PackageCatgoryVM()
+                {
+                    JSONVM = JsonData,
+                    DataVM = ShowData
+                };
             }
             else
             {
-                var json = JsonConvert.DeserializeObject<CreateThemeCategoryVM[]>(inputDto.ThemeCategory);
-
-                _resultVM = json.ToList();
+                ShowData = new ThemeAndTypeDataVM()
+                {
+                    Theme = _themeList,
+                    Type = _typeList
+                };
+                packageCatgoryVM = new PackageCatgoryVM()
+                {
+                    JSONVM = JsonConvert.DeserializeObject<CreateThemeCategoryVM>(inputDto.ThemeCategory),
+                    DataVM = ShowData
+                };
             }
-            var result = new CreateThemeCategoryVM()
-            {
-                DataThemeCategory = _DataThemeCategory,
-                DataJSON = _resultVM,
-            };
 
             ViewData["ActivityDraftId"] = id;
-            return View(result);
+            return View(packageCatgoryVM);
         }
         [HttpPost]
-        public IActionResult Category(ThemeCategoryInputVM request)
+        public IActionResult Category([FromBody] CreateThemeCategoryVM request)
         {
-
-            return View();
+            var inputDto = new CreateThemeCategoryDto()
+            {
+                ActivityDraftId = request.ActivityDraftId,
+                ThemeCategory = JsonConvert.SerializeObject(request)
+            };
+            _activityDraftservice.EditActivityThemeCat(inputDto);
+            return RedirectToAction("Info", new { id = request.ActivityDraftId });
         }
         [HttpGet]
         public IActionResult Info(int id)
         {
             var inputDto = _activityDraftservice.GetActivityInfo(id);
-            CreateActivityInfoVM resultVM = new();
+            CreateActivityInfoVM resultVM;
             if (inputDto.ActivityInfo == null)
             {
                 resultVM = new CreateActivityInfoVM()

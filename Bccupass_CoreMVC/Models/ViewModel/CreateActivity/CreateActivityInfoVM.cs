@@ -72,10 +72,5 @@ namespace Bccupass_CoreMVC.Models.ViewModel.CreateActivity
         /// </summary>
         public string StreamingWeb { get; set; } //直播網址
 
-        
-                 
-        
-
-
     }
 }
