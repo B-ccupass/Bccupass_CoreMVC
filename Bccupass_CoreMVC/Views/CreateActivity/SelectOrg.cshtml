@@ -1,0 +1,33 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.Activity
+@model ActivityCategoryCardViewModel	
+<div class="container mt-5">
+		<div class="row my-3 justify-content-center text-center">
+			<div class="col-12 col-lg-6">
+				<h1 class="fs-3">Hello {{USER}}！請選擇一個主辦單位！</h1>
+			</div>
+		</div>
+		<div class="row my-3 justify-content-center text-center">
+			<div class="col-12 col-lg-5">
+				<div class="list-group fs-3">
+					@Model.OrganizerId
+					@Model.OrganizerName
+					<button type="button" class="border-2 border-info rounded-2 list-group-item list-group-item-action my-1">{{主辦名}}</button>
+					<button type="button" class="border-2 border-info rounded-2 list-group-item list-group-item-action my-1">{{主辦名}}</button>
+					<button type="button" class="border-2 border-info rounded-2 list-group-item list-group-item-action my-1">{{主辦名}}</button>
+					<button type="button" class="border-2 border-info rounded-2 list-group-item list-group-item-action my-1">{{主辦名}}</button>
+				</div>
+			</div>
+		</div>
+		<div class="row my-3 justify-content-center text-center">
+			<div class="col-12 col-lg-5">
+				<hr>
+			</div>
+		</div>
+		<div class="row my-3 justify-content-center text-center">
+			<div class="col-12 col-lg-5">
+				<div class="list-group fs-3">
+					<button type="button" class="border-2 border-info rounded-2 list-group-item list-group-item-action my-1">建立新主辦</button>
+				</div>
+			</div>
+		</div>
+	</div>
