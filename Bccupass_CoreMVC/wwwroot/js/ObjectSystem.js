@@ -19,7 +19,7 @@ const activityName = document.querySelector('#activityName'),
     onlineLab = document.querySelector('.onlineLab'),
     offlineLab = document.querySelector('.offlineLab');
 const submitBtn = document.querySelector('#sumBtn')
-
+let GetActivityDraftId = 1
 offline.classList.add('show')
 offline.disabled = true
 offlineLab.disabled = true
@@ -68,7 +68,7 @@ function CheckTagArray() {
 
 function GatObject() {
     return {
-        "ActivityDraftId": 1,
+        "ActivityDraftId": GetActivityDraftId,
         "ActivityName": activityName.value,
         "Image": "https://i.imgur.com/JmwfFko.png",
         "StartDate": activityStartDate.value,
@@ -102,7 +102,6 @@ online.addEventListener('click', function () {
     citySelect.required = false
     districtSelect.required = false
     Address.required = false
-    console.log(online)
 })
 
 offline.addEventListener('click', function () {
@@ -115,7 +114,6 @@ offline.addEventListener('click', function () {
     citySelect.required = true
     Address.required = true
     districtSelect.required = true
-    console.log(offline)
 })
 
 let hiddenSpan = document.querySelectorAll('#hiddenSpan')

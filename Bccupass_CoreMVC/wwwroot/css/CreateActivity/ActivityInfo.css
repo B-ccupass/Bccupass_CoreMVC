@@ -1,4 +1,4 @@
-﻿.star::after {
+.star::after {
   content: " *";
   font-size: 1rem;
   color: red; }
@@ -31,4 +31,10 @@
 
 #spanInput {
   border-color: cadetblue;
-  color: white; }
+  color: white;
+}
+
+#sumBtn :hover {
+  background-color: cadetblue;
+}
+/*# sourceMappingURL=ActivityInfo.css.map */
