@@ -2,6 +2,10 @@
   max-width: 1080px;
 }
 
+button:focus, .btn-primary:focus, .btn:focus {
+  box-shadow: none;
+}
+
 body {
   background-color: #F6F8F8;
 }

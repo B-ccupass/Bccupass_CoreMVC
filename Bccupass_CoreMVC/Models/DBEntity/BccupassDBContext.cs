@@ -19,6 +19,7 @@ namespace Bccupass_CoreMVC.Models.DBEntity
 
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<ActivityAnnouncement> ActivityAnnouncements { get; set; }
+        public virtual DbSet<ActivityDraft> ActivityDrafts { get; set; }
         public virtual DbSet<ActivityIntroImg> ActivityIntroImgs { get; set; }
         public virtual DbSet<ActivityNotification> ActivityNotifications { get; set; }
         public virtual DbSet<ActivityNotificationUser> ActivityNotificationUsers { get; set; }
@@ -38,14 +39,14 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public virtual DbSet<UserFavorite> UserFavorites { get; set; }
         public virtual DbSet<UserFollowOrganizer> UserFollowOrganizers { get; set; }
 
-        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //        {
-        //            if (!optionsBuilder.IsConfigured)
-        //            {
-        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        //                optionsBuilder.UseSqlServer("Server=tcp:bs-2021-winter-bccupass.database.windows.net,1433;Initial Catalog=BccupassDB;Persist Security Info=False;User ID=bs;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-        //            }
-        //        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=tcp:bs-2021-winter-bccupass.database.windows.net,1433;Initial Catalog=BccupassDB;Persist Security Info=False;User ID=bs;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -204,6 +205,41 @@ namespace Bccupass_CoreMVC.Models.DBEntity
                     .HasForeignKey(d => d.ActivityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_EventAnnouncement_Activity");
+            });
+
+            modelBuilder.Entity<ActivityDraft>(entity =>
+            {
+                entity.ToTable("ActivityDraft");
+
+                entity.Property(e => e.ActivityDraftId).HasComment("活動草稿Id");
+
+                entity.Property(e => e.ActivityContent).HasComment("活動內容");
+
+                entity.Property(e => e.ActivityForm).HasComment("活動報名表");
+
+                entity.Property(e => e.ActivityGuests).HasComment("活動嘉賓");
+
+                entity.Property(e => e.ActivityInfo).HasComment("活動資訊");
+
+                entity.Property(e => e.ActivityQa)
+                    .HasColumnName("ActivityQA")
+                    .HasComment("活動QA");
+
+                entity.Property(e => e.ActivityTicket).HasComment("活動票卷");
+
+                entity.Property(e => e.DraftCreateTime)
+                    .HasColumnType("datetime")
+                    .HasComment("草稿建立時間");
+
+                entity.Property(e => e.OrganizerId).HasComment("FK主辦者Id");
+
+                entity.Property(e => e.ThemeCategory).HasComment("主題與類型");
+
+                entity.HasOne(d => d.Organizer)
+                    .WithMany(p => p.ActivityDrafts)
+                    .HasForeignKey(d => d.OrganizerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ActivityDraft_Organizer");
             });
 
             modelBuilder.Entity<ActivityIntroImg>(entity =>
@@ -705,6 +741,8 @@ namespace Bccupass_CoreMVC.Models.DBEntity
 
                 entity.Property(e => e.Gender).HasComment("性別(true=男 False=女)");
 
+                entity.Property(e => e.IsAdmin).HasComment("是否為管理員");
+
                 entity.Property(e => e.Job).HasComment("1.交通 / 物流 / 倉儲						2.營造 / 建築						3.製造業\r\n4.新聞廣告媒體業\r\n5.醫療產業							6.影視娛樂產業						7.教育 / 培訓 / 研究機構\r\n8.宗教團體							9.公共事業\r\n10.批發 / 零售 / 貿易\r\n11.服務業\r\n12.財會 / 金融\r\n13.家庭管理\r\n14.軍警消 / 保全\r\n15.法務人員\r\n16.顧問產業\r\n17.資訊 / 軟體 / 系統\r\n18.職業運動從業人員\r\n19.農林漁牧業\r\n20.礦業採石業\r\n21.自由接案者\r\n22.學生");
 
                 entity.Property(e => e.Name)
@@ -714,8 +752,6 @@ namespace Bccupass_CoreMVC.Models.DBEntity
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(20)
-                    .IsFixedLength(true)
                     .HasComment("密碼");
 
                 entity.Property(e => e.Phone)
@@ -729,6 +765,8 @@ namespace Bccupass_CoreMVC.Models.DBEntity
                 entity.Property(e => e.Relationship).HasComment("感情狀態(Enum 1:單身 2. 有穩定交往對象 3.已婚)");
 
                 entity.Property(e => e.Verification).HasComment("帳號驗證");
+
+                entity.Property(e => e.IsAdmin).IsRequired().HasComment("是否為管理員");
             });
 
             modelBuilder.Entity<UserFavorite>(entity =>

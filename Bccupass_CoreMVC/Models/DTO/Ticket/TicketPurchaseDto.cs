@@ -14,5 +14,9 @@ namespace Bccupass_CoreMVC.Models.DTO.Ticket
         public DateTime CheckStartTime { get; set; }
         public DateTime CheckEndTime { get; set; }
         public string GroupName { get; set; }
+        public int BuyLeastCount { get; set; }
+        public int BuyMostCount { get; set; }
+
+        //庫存
     }
 }

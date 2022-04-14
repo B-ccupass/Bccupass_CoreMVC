@@ -1,0 +1,64 @@
+﻿@model Bccupass_CoreMVC.Models.ViewModel.CreateActivity.CreateDesViewModel
+
+@section Topcss {
+    <link rel="stylesheet" href="~/css/CreateActivity/description.css" />
+}
+<div class="container-md m-auto bg-white container-style">
+    <div class="activity m-auto p-5">
+            <form method="post" action="/CreateActivity/Description/1">  
+            <input type="hidden" asp-for="ActivityDraftId" />
+            <div class="col-12 border-bottom">
+                <div class="fw-bold mb-5 text-center">詳細介紹你的活動內容，讓參加者了解活動且提高參加意願！</div>
+
+                <div class="activity-area" >
+                    <p class="fw-bold">活動摘要<span>*</span></p>
+                    <span>不能錯過本活動的理由！這段文字將會做為Google搜尋的簡介說明，正確的描述有助於提高消費者的興趣。</span>
+                    <textarea style="resize:none;" class="w-100 activity-area" name="ActivityInfo" id="info" rows="4">@Model.ActivityInfo</textarea>
+                    <p style="float: right;">0/500</p>
+                </div>
+
+                <div class="activity-area" >
+                    <p class="fw-bold">活動簡介<span>*</span></p>
+                    <span>若你的活動為收費活動，為避免消費爭議，請於活動內容中加上主辦是否開立發票之相關說明。</span>
+                    <textarea id="editor" class="w-100 activity-area ckeditor" rows="4" style="height: 500px;" name="ActivityContent">@Model.ActivityContent</textarea>
+                
+                </div>
+
+                <div class="activity-area" >
+                    <p class="fw-bold">注意事項<span>*</span></p>
+                    <span>本段文字會顯示在電子票券上，可以在這邊提示關於入場的重要資訊。</span>
+                    <textarea style="resize:none;" class="w-100 activity-area" name="ActivityNotice" id="notice" rows="4">@Model.ActivityNotice</textarea>
+                    <p style="float: right;">0/500</p>
+                </div>
+            </div>
+                        
+            <div class="mt-3 mb-5">
+                <button id="formBtn" class="btn btn-success w-100">儲存變更</button>
+            </div>
+           </form>       
+    </div>
+            
+</div>
+
+@section endJS {
+    <!-- CKEditor -->
+    <script src="/lib/ckeditor/ckeditor.js"></script>
+
+    <script>
+        //建立文字編輯器
+
+        ClassicEditor
+		.create( document.querySelector( '#editor' ), {
+			// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+		} )
+		.then( editor => {
+			window.editor = editor;
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
+
+        
+    
+     </script>
+}

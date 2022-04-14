@@ -1,0 +1,166 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.Ticket
+@using Newtonsoft.Json
+@model FormViewModel
+
+<div id="buyer-form">
+    <div class="row bg-white">
+        <div v-if="formModel.cartData.isFreeTicket" class="container">
+            <ul class="list-unstyled d-flex cart-step py-3 m-0">
+                <li class="mx-3 active"><span>1</span>選擇票券</li> >
+                <li class="mx-3 active"><span>2</span>填寫資料</li> >
+                <li class="mx-3"><span>3</span>取得票券</li>
+            </ul>
+        </div>
+        <div v-else class="container">
+            <ul class="list-unstyled d-flex cart-step py-3 m-0">
+                <li class="mx-3 active"><span>1</span>選擇票券</li> >
+                <li class="mx-3 active"><span>2</span>填寫資料</li> >
+                <li class="mx-3"><span>3</span>選擇付款</li> >
+                <li class="mx-3"><span>4</span>前往付款</li> >
+                <li class="mx-3"><span>5</span>取得票券</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container d-flex flex-wrap p-3 m-auto">
+        <div class="row">
+            <div class="activity-info mb-3 col-12 col-lg-4 pe-2">
+                <img src="@Model.ActivityList.Image" alt="活動圖片" class="col-12">
+                <h2 class="fs-5 mt-2 mb-4">@Model.ActivityList.ActivityName</h2>
+                <p class="m-0 small">@Model.ActivityList.StartTime ~ @Model.ActivityList.EndTime</p>
+                <p class="small">@Model.ActivityList.City @Model.ActivityList.District @Model.ActivityList.Address</p>
+                <div class="must-know text-primary fs-6 pe-lg-5">
+                    <div class=" my-1 fs-6">
+                    <p class="small">購票須知：<br />請注意，您應該先完成一筆訂購後再進行下一筆購買。為保障消費者權益及杜絕非法囤票，同一使用者同時間只能進行一筆訂購，透過多開視窗同時購買將造成訂單無效，敬請理解與配合。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="ticket-group col-12 col-lg-8">
+                <p>填寫參加人資訊</p>
+                <p>報名資料將用於主辦單位安排活動，活動票券相關資訊將寄信到訂購人信箱，如需修改電郵地址請至<a>帳號管理</a></p>
+                <input v-if="ticketCount > 1" v-model="sameBuyer" type="checkbox"/><span v-if="ticketCount > 1">勾選後，所有票券均會帶入相同購票人資訊</span>
+                <div v-if="sameBuyer">
+                    <hr />
+                    <p>總共 {{ticketCount}} 張票券</p>
+                    <div class="ticket-form">
+                        <div class="mb-3" v-if="formBool.name">
+                            <label for="form-name" class="form-label">姓名</label>
+                            <input type="text" class="form-control" id="form-name" placeholder="請輸入您的姓名" required>
+                        </div>
+                        <div class="mb-3" v-if="formBool.email">
+                            <label for="form-email" class="form-label">電子郵件</label>
+                            <input type="email" class="form-control" id="form-email" placeholder="name@example.com" required>
+                        </div>
+                        <div class="mb-3" v-if="formBool.phone">
+                            <label for="form-phone" class="form-label">手機號碼</label>
+                            <input type="text" class="form-control" id="form-phone" placeholder="09xx-xxx-xxx" required>
+                        </div>
+                        <div class="mb-3" v-if="formBool.birthDay">
+                            <label for="form-birthday" class="form-label">生日</label>
+                            <input type="date" class="form-control" id="form-birthday">
+                        </div>
+                        <div class="mb-3" v-if="formBool.address">
+                            <label for="form-address" class="form-label">居住地址</label>
+                            <input type="text" class="form-control" id="form-address" placeholder="請輸入您的居住地址">
+                        </div>
+                        <div class="mb-3" v-if="formBool.gender">
+                            <label for="form-gender" class="form-label">性別</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="form-gender" id="form-gender-man">
+                                <label class="form-check-label" for="form-gender-man">男性</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="form-gender" id="form-gender-woman">
+                                <label class="form-check-label" for="form-gender-woman">女性</label>
+                            </div>
+                        </div>
+                        <div class="mb-3" v-if="formBool.age">
+                            <label for="form-age" class="form-label">年齡</label>
+                            <input type="number" class="form-control" id="form-age">
+                        </div>
+                        <div class="mb-3" v-if="formBool.idNumber">
+                            <label for="form-id-number" class="form-label">身分證字號</label>
+                            <input type="text" class="form-control" id="form-id-number" placeholder="請輸入您的身分證字號">
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
+                    <div v-for="(item, index) in cartData" :key=`ticket-${index}`>
+                        <div v-for="n in item.buyCount" :key=`ticket-${index}-${n}`>
+                            <hr />
+                            <p>{{item.ticketName}}: 票券{{n}}</p>
+                            <div class="ticket-form">
+                                <div class="mb-3" v-if="formBool.name">
+                                    <label for="form-name" class="form-label">姓名</label>
+                                    <input type="text" class="form-control" id="form-name" placeholder="請輸入您的姓名" required>
+                                </div>
+                                <div class="mb-3" v-if="formBool.email">
+                                    <label for="form-email" class="form-label">電子郵件</label>
+                                    <input type="email" class="form-control" id="form-email" placeholder="name@example.com" required>
+                                </div>
+                                <div class="mb-3" v-if="formBool.phone">
+                                    <label for="form-phone" class="form-label">手機號碼</label>
+                                    <input type="text" class="form-control" id="form-phone" placeholder="09xx-xxx-xxx" required>
+                                </div>
+                                <div class="mb-3" v-if="formBool.birthDay">
+                                    <label for="form-birthday" class="form-label">生日</label>
+                                    <input type="date" class="form-control" id="form-birthday">
+                                </div>
+                                <div class="mb-3" v-if="formBool.address">
+                                    <label for="form-address" class="form-label">居住地址</label>
+                                    <input type="text" class="form-control" id="form-address" placeholder="請輸入您的居住地址">
+                                </div>
+                                <div class="mb-3" v-if="formBool.gender">
+                                    <label for="form-gender" class="form-label">性別</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="form-gender" id="form-gender-man">
+                                        <label class="form-check-label" for="form-gender-man">男性</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="form-gender" id="form-gender-woman">
+                                        <label class="form-check-label" for="form-gender-woman">女性</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3" v-if="formBool.age">
+                                    <label for="form-age" class="form-label">年齡</label>
+                                    <input type="number" class="form-control" id="form-age" required>
+                                </div>
+                                <div class="mb-3" v-if="formBool.idNumber">
+                                    <label for="form-id-number" class="form-label">身分證字號</label>
+                                    <input type="text" class="form-control" id="form-id-number" placeholder="請輸入您的身分證字號">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="w-100 p-2 btn btn-outline-primary mt-5 submit-ticketBuy-btn" v-on:click="">下一步</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Topcss{
+    <link rel="stylesheet" href="~/css/buyTicket/buyForm.css" />
+}
+@section EndJs{
+    <script>
+        let buyerFormApp = new Vue({
+            el: '#buyer-form',
+            data: {
+                formModel: JSON.parse('@Html.Raw(Json.Serialize(Model))'),
+                formBool: JSON.parse('@Html.Raw(Json.Serialize(Model.FormBool))'),
+                cartData: (JSON.parse('@Html.Raw(Json.Serialize(Model.CartData.CartList))')).filter(x => x.buyCount > 0),
+                ticketCount: 0,
+                sameBuyer: false
+            },
+            methods:{
+                getTicketCount(){
+                   this.ticketCount = this.cartData.map(x => x.buyCount).reduce((a, b) => {return a + b})
+                }
+            },
+            created(){
+                this.getTicketCount()
+            }
+        })
+    </script>
+}

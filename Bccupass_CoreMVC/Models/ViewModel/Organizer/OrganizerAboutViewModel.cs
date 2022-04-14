@@ -10,7 +10,9 @@ namespace Bccupass_CoreMVC.Models.ViewModel.Organizer
     public class OrganizerAboutViewModel
     {
         public OrganizerData organizer { get; set; }
-        public IEnumerable<ActivityCardViewModel.ActivityCardData> ActivityList { get; set; }
+        public IEnumerable<ActivityCardViewModel.ActivityCardData> ActivityInProgressList { get; set; }
+        public IEnumerable<ActivityCardViewModel.ActivityCardData> ActivityNotStartList { get; set; }
+        public IEnumerable<ActivityCardViewModel.ActivityCardData> ActivityEndList { get; set; }
         public class OrganizerData
         {
             public int OrganizerId { get; set; }

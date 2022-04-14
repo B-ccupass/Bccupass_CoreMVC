@@ -1,0 +1,63 @@
+﻿@using Bccupass_CoreMVC.Common.Enums
+@using Bccupass_CoreMVC.Models.ViewModel.User
+@model UserTicketViewModel
+
+@{
+    int activePage = (int)ViewData["ActivePage"];
+    int pages = (int)ViewData["Pages"];
+}
+
+@section Topcss {
+<link rel="stylesheet" href="~/css/User/UserTicket.css">
+}
+
+@section TopJS{
+<script src="https://kit.fontawesome.com/7895cbbd99.js" crossorigin="anonymous"></script>
+}
+
+<div class="container">
+
+    <div class="ticket-nav col-lg-12 col-md-12 col row mx-3 my-1 py-3">
+        <h1 class="fs-4 fw-bolder ">我的票券</h1>
+        <ul class="Nav-ticket nav nav-tabs col-12 ">
+            <li class="nav-item  border border-bottom-0 " role="presentation">
+                <a asp-action="UserTicket" asp-route-selcetByOrderState="0" class="nav-link @(Model.selcetByOrderState == (int)OrderState.Paid? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="true">已報名</a>
+            </li>
+            <li class="nav-item   border border-bottom-0 " role="presentation">
+                <a asp-action="UserTicket" asp-route-selcetByOrderState="1" class="nav-link @(Model.selcetByOrderState == (int)OrderState.NotPaid? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="false">未完成</a>
+            </li>
+            <li class="nav-item text-black  border border-bottom-0" role="presentation">
+                <a asp-action="UserTicket" asp-route-selcetByOrderState="2" class="nav-link @(Model.selcetByOrderState == (int)OrderState.Cancel? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="false">已取消</a>
+            </li>
+            <li class="nav-item  border border-bottom-0" role="presentation">
+                <a asp-action="UserTicket" asp-route-selcetByOrderState="3" class="nav-link @(Model.selcetByOrderState == (int)OrderState.Refund? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="false">
+                    退票紀錄
+                </a>
+            </li>
+        </ul>
+        <div class=" ticketbox col-12 my-4 p-0">
+            @foreach (var item in @Model.OrderList)
+            {
+                @await Html.PartialAsync("_userTicketPartial", item)
+            }
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+
+                <li class="page-item @(activePage==1 ? "disabled" :"")"><a asp-action="UserTicket" asp-route-page="@(activePage-1)" class="page-link ">Previous</a></li>
+
+                @for (int i = 1; i <= pages; i++)
+                {
+                    <li class="page-item @(i==activePage ? "active" : "")"><a a asp-action="UserTicket" asp-route-page="@i" class="page-link">@i</a></li>
+
+                }
+
+                <li class="page-item  @(activePage==pages ? "disabled" :"")"><a asp-action="UserTicket" asp-route-page="@(activePage+1)" class="page-link">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+
+
+</div>
+
+

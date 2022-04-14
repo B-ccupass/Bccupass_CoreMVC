@@ -38,5 +38,57 @@
   {
     "outputFile": "wwwroot/css/Ticket/CreateTicket.css",
     "inputFile": "wwwroot/css/Ticket/CreateTicket.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Organizer/OrganizerIndex.css",
+    "inputFile": "wwwroot/css/Organizer/OrganizerIndex.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Organizer/CreateOrganizer.css",
+    "inputFile": "wwwroot/css/Organizer/CreateOrganizer.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Activity/Detail.css",
+    "inputFile": "wwwroot/css/Activity/Detail.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/home/home.css",
+    "inputFile": "wwwroot/css/Global.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/home/home.css",
+    "inputFile": "wwwroot/css/home/home.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Activity/index.css",
+    "inputFile": "wwwroot/css/Activity/index.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/layout/Login.css",
+    "inputFile": "wwwroot/css/layout/Login.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Activity/ActivityCard.css",
+    "inputFile": "wwwroot/css/Activity/ActivityCard.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Ticket/CreateTicket.css",
+    "inputFile": "wwwroot/css/Ticket/CreateTicket.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Activity/SearchWindow.css",
+    "inputFile": "wwwroot/css/Activity/SearchWindow.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/buyTicket/buyTicket.css",
+    "inputFile": "wwwroot/css/buyTicket/buyTicket.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/buyTicket/buyForm.css",
+    "inputFile": "wwwroot/css/buyTicket/buyForm.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/User/UserTicket.css",
+    "inputFile": "wwwroot/css/User/UserTicket.scss"
   }
 ]
