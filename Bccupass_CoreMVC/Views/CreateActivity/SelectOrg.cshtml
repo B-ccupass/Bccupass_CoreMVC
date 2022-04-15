@@ -33,19 +33,19 @@ document.getElementById("btn1").addEventListener("click", function () {
     try {
         fetch(`/CreateActivity/Policy/${@Model.OrganizerId}`, { method: 'GET' })
             .then(res => location.assign(res.url))
-    }
-    catch (e) {
-        console.warn(e)
+            .catch((error) => console.log(error));
+    } catch (error) {
+        console.warn(error)
     }
 })
 
 document.getElementById("new").addEventListener("click", function () {
-try {
+    try {
         fetch(`/Organizer/CreateOrganizer/${@Model.OrganizerId}`, { method: 'GET' }) //日後接UserId
             .then(res => location.assign(res.url))
-    }
-    catch (e) {
-        console.warn(e)
+            .catch((error) => console.log(error));
+    } catch (error) {
+        console.warn(error)
     }
 })
 
