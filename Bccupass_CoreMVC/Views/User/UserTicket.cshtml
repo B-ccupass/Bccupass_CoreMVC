@@ -21,16 +21,16 @@
         <h1 class="fs-4 fw-bolder ">我的票券</h1>
         <ul class="Nav-ticket nav nav-tabs col-12 ">
             <li class="nav-item  border border-bottom-0 " role="presentation">
-                <a asp-action="UserTicket" asp-route-selcetByOrderState="0" class="nav-link @(Model.selcetByOrderState == (int)OrderState.Paid? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="true">已報名</a>
+                <a asp-action="UserTicket" asp-route-selcetByOrderState="0" class="nav-link @(Model.selcetByOrderState == (int)OrderState.Paid? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="@(Model.selcetByOrderState == (int)OrderState.Paid? "true":"false")">已報名</a>
             </li>
             <li class="nav-item   border border-bottom-0 " role="presentation">
-                <a asp-action="UserTicket" asp-route-selcetByOrderState="1" class="nav-link @(Model.selcetByOrderState == (int)OrderState.NotPaid? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="false">未完成</a>
+                <a asp-action="UserTicket" asp-route-selcetByOrderState="1" class="nav-link @(Model.selcetByOrderState == (int)OrderState.NotPaid? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="@(Model.selcetByOrderState == (int)OrderState.NotPaid? "true":"false")">未完成</a>
             </li>
             <li class="nav-item text-black  border border-bottom-0" role="presentation">
-                <a asp-action="UserTicket" asp-route-selcetByOrderState="2" class="nav-link @(Model.selcetByOrderState == (int)OrderState.Cancel? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="false">已取消</a>
+                <a asp-action="UserTicket" asp-route-selcetByOrderState="2" class="nav-link @(Model.selcetByOrderState == (int)OrderState.Cancel? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="@(Model.selcetByOrderState == (int)OrderState.Cancel? "true":"false")">已取消</a>
             </li>
             <li class="nav-item  border border-bottom-0" role="presentation">
-                <a asp-action="UserTicket" asp-route-selcetByOrderState="3" class="nav-link @(Model.selcetByOrderState == (int)OrderState.Refund? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="false">
+                <a asp-action="UserTicket" asp-route-selcetByOrderState="3" class="nav-link @(Model.selcetByOrderState == (int)OrderState.Refund? "active":"")" id="orderState-tab" role="tab" aria-controls="orderState" aria-selected="@(Model.selcetByOrderState == (int)OrderState.Refund? "true":"false")">
                     退票紀錄
                 </a>
             </li>
@@ -40,21 +40,25 @@
             {
                 @await Html.PartialAsync("_userTicketPartial", item)
             }
-        </div>
-        <nav aria-label="Page navigation example">
+
+        <nav aria-label="Page navigation">
             <ul class="pagination">
 
-                <li class="page-item @(activePage==1 ? "disabled" :"")"><a asp-action="UserTicket" asp-route-page="@(activePage-1)" class="page-link ">Previous</a></li>
+                <li class="page-item @(activePage==1 ? "disabled" :"")"><a asp-action="UserTicket"  class="page-link ">Previous</a></li>
 
                 @for (int i = 1; i <= pages; i++)
                 {
-                    <li class="page-item @(i==activePage ? "active" : "")"><a a asp-action="UserTicket" asp-route-page="@i" class="page-link">@i</a></li>
+                    <li class="page-item @(i==activePage ? "active" : "")"><a asp-action="UserTicket"  asp-route-page="@i" class="page-link">@i</a></li>
 
                 }
 
                 <li class="page-item  @(activePage==pages ? "disabled" :"")"><a asp-action="UserTicket" asp-route-page="@(activePage+1)" class="page-link">Next</a></li>
             </ul>
         </nav>
+        </div>
+
+
+
     </div>
 
 

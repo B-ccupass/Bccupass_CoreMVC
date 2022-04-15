@@ -27,10 +27,11 @@ namespace Bccupass_CoreMVC.Controllers
             return View();
         }
 
-        public IActionResult UserTicket(int userId, int selcetByOrderState,int page=1)
+        [HttpGet("User/UserTicket/{selcetByOrderState}/{page}")]
+        public async Task<IActionResult> UserTicket(int userId, int selcetByOrderState,int page=1)
         {
             int activePage = page;
-            int pageRows = 4;
+            int pageRows = 3;
 
             int Pages = 0;
 
@@ -80,16 +81,16 @@ namespace Bccupass_CoreMVC.Controllers
             switch (selcetByOrderState)
             {
                 case (int)OrderState.Paid:
-                    orderList = orderList.Where(x=>x.Order.OrderState == selcetByOrderState).ToList();
+                    orderList = orderList.Where(x=>x.Order.OrderState == selcetByOrderState);
                     break;
                 case (int)OrderState.NotPaid:
-                    orderList = orderList.Where(x => x.Order.OrderState == selcetByOrderState).ToList();
+                    orderList = orderList.Where(x => x.Order.OrderState == selcetByOrderState);
                     break;
                 case (int)OrderState.Cancel:
-                    orderList = orderList.Where(x => x.Order.OrderState == selcetByOrderState).ToList();
+                    orderList = orderList.Where(x => x.Order.OrderState == selcetByOrderState);
                     break;
                 case (int)OrderState.Refund:
-                    orderList = orderList.Where(x => x.Order.OrderState == selcetByOrderState).ToList();
+                    orderList = orderList.Where(x => x.Order.OrderState == selcetByOrderState);
                     break;
             }
 
@@ -109,7 +110,7 @@ namespace Bccupass_CoreMVC.Controllers
 
             int startRow = (activePage - 1) * pageRows;
 
-            orderList= orderList.OrderBy(x => x.Order.OrderTime).Skip(startRow).Take(pageRows);
+            orderList= await Task.FromResult(orderList.OrderByDescending(x => x.Order.OrderTime).Skip(startRow).Take(pageRows));
 
 
             var res = new UserTicketViewModel()
@@ -119,6 +120,7 @@ namespace Bccupass_CoreMVC.Controllers
 
             ViewData["ActivePage"] = page;//Active分頁碼
             ViewData["Pages"] = Pages; //總頁數
+
 
             return View(res);
 

@@ -10,7 +10,7 @@
                     <div class="ticket-info col-12 col-md-8">
                         <h2 class="title fs-5 my-2">@Model.Activity.ActName</h2>
                         <p class="date fs-6 my-2">@Model.Order.OrderTime</p>
-                        <p class="id fs-6 my-2 text-secondary">@Model.Order.OrderId</p>
+                        <p class="id fs-6 my-2 text-secondary">訂單編號：@Model.Order.OrderId</p>
                     </div>
                     <div class="ticket-operate col-12 col-md-4 d-flex align-items-center ">
                         <a class="get btn btn-primary border me-3  ms-auto d-flex align-items-center justify-content-center p-0 py-3" href="/Ticket/ShowTicket/@Model.Order.OrderId">快速取票</a>
