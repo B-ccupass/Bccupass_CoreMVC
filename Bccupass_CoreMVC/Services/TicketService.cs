@@ -3,7 +3,6 @@ using Bccupass_CoreMVC.Models.DTO;
 using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services.Interface;
 using Bccupass_CoreMVC.Models.DTO.Ticket;
-using Bccupass_CoreMVC.Models.DBEntity;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +18,7 @@ namespace Bccupass_CoreMVC.Services
 
         public IEnumerable<TicketPurchaseDto> GetTicketInfoAtPurchase(int activityId)
         {
-            var target = _context.GetAll<TicketDatail>().Where(x => x.ActivityId == activityId);
+            var target = _context.GetAll<TicketDatail>().Where(x => x.ActivityId == activityId && x.IsSell == true);
 
             var result = target.Select(x => new TicketPurchaseDto() {
                 TicketId = x.TicketDatailId,
@@ -31,7 +30,9 @@ namespace Bccupass_CoreMVC.Services
                 SellEndTime = x.SellEndTime,
                 CheckStartTime = x.CheckStartTime,
                 CheckEndTime = x.CheckEndTime,
-                GroupName = x.TicketGroup
+                GroupName = x.TicketGroup,
+                BuyLeastCount = x.BuyLimitLeast,
+                BuyMostCount = x.BuyLimitMost
             });
 
             return result;
@@ -71,12 +72,12 @@ namespace Bccupass_CoreMVC.Services
         }
 
 
-        public CreateTicketDto GetTicket(int orderDetailId)
+        public ShowTicketDto GetTicket(int orderDetailId)
         {
-            return new CreateTicketDto()
+            return new ShowTicketDto()
             {
                 Order = GetOrderData(orderDetailId),
-                TdOd = GetTdOdByOrderDetailId(orderDetailId),
+                TicketInOrder = GetTicketInOrderByOrderDetailId(orderDetailId),
                 TicketDetail = GetTickeDetailByOrderDetailId(orderDetailId),
                 Activity = GetActivityDataByOrderDetailId(orderDetailId),
                 Organizer = GetOrganizerDataByOrderDetailId(orderDetailId),
@@ -86,34 +87,63 @@ namespace Bccupass_CoreMVC.Services
         public int TicketCount(int orderDetailId)
         {
             var num = _context.GetAll<TicketDetailOrderDetail>().Where(x => x.OrderDetailId == orderDetailId).Count();
-
             return num;
+        }
+
+        public TicketFormDto GetTicketFormByActivityId(int activityId)
+        {
+            var target = _context.GetAll<Activity>().First(x => x.ActivityId == activityId);
+            return new TicketFormDto()
+            {
+                Name = target.FormName,
+                Email = target.FormEmail,
+                Phone = target.FormPhone,
+                BirthDay = target.FormBirthday,
+                Address = target.FormAddress,
+                Gender = target.FormGender,
+                Age = target.FormAge,
+                //Hobby = target.FormHobby,
+                //MaritalStatus = target.FormMaritalStatus,
+                //Industry = target.FormIndustry,
+                //Department = target.FormDepartment,
+                IdNumber = target.FormIdnumber,
+                //Fax = target.FormFax,
+                //EducationLevel = target.FormEducationLevel,
+                //DiningNeeds = target.FormDiningNeeds,
+                //CompanyName = target.FormConpanyName,
+                //JobTitle = target.FormJobTitle,
+            };
         }
 
 
         //獲取訂單相關資料
 
-        private CreateTicketDto.OrderData GetOrderData(int orderDetailId)
+        private ShowTicketDto.OrderData GetOrderData(int orderDetailId)
         {
             var order = _context.GetAll<OrderDetail>().First(x => x.OrderDetailId == orderDetailId);
-            return new CreateTicketDto.OrderData()
+            return new ShowTicketDto.OrderData()
             {
                 OrderId = order.OrderDetailId,
+                OrderState =order.OrderState,
+                OrderTime = order.OrderTime,
             };
         }
 
-        private IEnumerable<CreateTicketDto.TicketDatail> GetTickeDetailByOrderDetailId(int orderDetailId)
+        private IEnumerable<ShowTicketDto.TicketDatail> GetTickeDetailByOrderDetailId(int orderDetailId)
         {
             var res = _context.GetAll<TicketDetailOrderDetail>().Where(x => x.OrderDetailId == orderDetailId).Select(x => x.TicketDetailId);
-            return _context.GetAll<TicketDatail>().Where(x => res.Any(y => y == x.TicketDatailId)).Select(x => new CreateTicketDto.TicketDatail()
+            return _context.GetAll<TicketDatail>().Where(x => res.Any(y => y == x.TicketDatailId)).Select(x => new ShowTicketDto.TicketDatail()
             {
                 TicketId = x.TicketDatailId,
-                TicketName = x.TicketName
+                TicketName = x.TicketName,
+                Price = x.Price,
+                CheckStart=x.CheckStartTime,
+                CheckEnd=x.CheckEndTime,
             });
         }
-        private IEnumerable<CreateTicketDto.TicketDetailOrderDetail> GetTdOdByOrderDetailId(int orderDetailId)
+        private IEnumerable<ShowTicketDto.TicketDetailOrderDetail> GetTicketInOrderByOrderDetailId(int orderDetailId)
         {
-            return _context.GetAll<TicketDetailOrderDetail>().Where(x => x.OrderDetailId== orderDetailId).Select(x => new CreateTicketDto.TicketDetailOrderDetail()
+            return _context.GetAll<TicketDetailOrderDetail>().Where(x => x.OrderDetailId== orderDetailId).Select(x => new ShowTicketDto.TicketDetailOrderDetail()
             {
                 TdOdId = x.TicketDetailOrderDetailId,
                 BuyerName = x.BuyerName,
@@ -125,11 +155,11 @@ namespace Bccupass_CoreMVC.Services
 
         }
 
-        private CreateTicketDto.ActivityData GetActivityDataByOrderDetailId(int orderDetailId)
+        private ShowTicketDto.ActivityData GetActivityDataByOrderDetailId(int orderDetailId)
         {
             var order = _context.GetAll<OrderDetail>().First(x => x.OrderDetailId == orderDetailId);
             var act = _context.GetAll<Activity>().First((x => x.ActivityId == order.ActivityId));
-            return new CreateTicketDto.ActivityData()
+            return new ShowTicketDto.ActivityData()
             {
                 ActId = act.ActivityId,
                 ActName = act.Name,
@@ -138,12 +168,12 @@ namespace Bccupass_CoreMVC.Services
             };
         }
 
-        private CreateTicketDto.OrganizerData GetOrganizerDataByOrderDetailId(int orderDetailId)
+        private ShowTicketDto.OrganizerData GetOrganizerDataByOrderDetailId(int orderDetailId)
         {
             var order = _context.GetAll<OrderDetail>().First(x => x.OrderDetailId == orderDetailId);
             var act = _context.GetAll<Activity>().First((x => x.ActivityId == order.ActivityId));
             var org = _context.GetAll<Organizer>().First((x => x.OrganizerId == act.OrganizerId));
-            return new CreateTicketDto.OrganizerData()
+            return new ShowTicketDto.OrganizerData()
             {
                 OrgId = org.OrganizerId,
                 OrgName = org.Name,
@@ -151,7 +181,5 @@ namespace Bccupass_CoreMVC.Services
                 OrgPhone = org.Telphone
             };
         }
-
-
     }
 }

@@ -3,6 +3,7 @@ using Bccupass_CoreMVC.Repositories;
 using Bccupass_CoreMVC.Repositories.Interface;
 using Bccupass_CoreMVC.Services;
 using Bccupass_CoreMVC.Services.Interface;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace Bccupass_CoreMVC
@@ -33,17 +36,45 @@ namespace Bccupass_CoreMVC
             services.AddTransient<IActivityRepository, ActivityRepository>();
             services.AddTransient<IOrganizerRepository, OrganizerRepository>();
             services.AddTransient<ITicketRepository, TicketRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IActivityDraftRepository, ActivityDraftRepository>();
+
 
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IOrganizerService, OrganizerService>();
             services.AddTransient<ITicketService, TicketService>();
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IMailService, MailService>();
+            services.AddTransient<IActivityDraftService, ActivityDraftService>();
+            services.AddTransient<IUserService, UserService>();
+
+            //註冊Service要用的HttpContext
+            services.AddHttpContextAccessor();
+
+            //�]�w���Ҥ覡
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
 
 
             services.AddDbContext<BccupassDBContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Bccupass"));
             });
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(120);
+            });
+
             services.AddControllersWithViews();
+
+            //�קKNet Core Razor View ����Q�۰ʽs�X https://www.gss.com.tw/blog/aspnetcore-chinese-encoding
+            services.AddSingleton<HtmlEncoder>(
+                 HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
+                                                           UnicodeRanges.CjkUnifiedIdeographs }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,7 +95,11 @@ namespace Bccupass_CoreMVC
 
             app.UseRouting();
 
+            app.UseAuthentication();//����
+
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,0 +1,55 @@
+﻿@{
+    var isLogin = User.Identity.IsAuthenticated;
+}
+
+@section Topcss {
+    <link rel="stylesheet" href="~/css/Activity/Detail.css" />
+    <link rel="stylesheet" href="~/css/layout/layout.css">
+    <link rel="stylesheet" href="~/css/layout/Login.css" />
+}
+
+
+@if (isLogin)
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+           data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="user-img">
+                @{
+                    var userImage = User.Claims.FirstOrDefault(x => x.Type == "UserImage");
+                    if (!string.IsNullOrEmpty(userImage.Value))
+                    {
+                        @*<div style="width: 100%; height: 100%">*@
+                            <img class="user-img" src="@userImage.Value" alt="使用者頭貼" />
+                        @*</div>*@
+                    }
+                    else
+                    {
+                        @*<div style="width: 100%; height: 100%">*@
+                            <img class="user-img" src="https://static.accupass.com/default/orgCover.png" alt="使用者頭貼" />
+                        @*</div>*@
+                    }
+                }
+            </div>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">個人主頁</a></li>
+            <li><a class="dropdown-item" href="/User/UserTicket/0/1">我的票券</a></li>
+            <li><a class="dropdown-item" href="#">主辦中心</a></li>
+            <li><a class="dropdown-item" href="../UserCenter/Account/account.html">個人檔案</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="/Account/Logout">登出</a></li>
+        </ul>
+    </li>
+}
+else
+{
+    <div class="button-div">
+        <button type="button" class="d-flex nav-link bg-transparent border border-transparent border-0" data-bs-toggle="modal" data-bs-target="#loginModal">登入</button>
+    </div>
+    <div class="button-div">
+        <button type="button" class="d-flex nav-link bg-transparent border border-transparent border-0" data-bs-toggle="modal" data-bs-target="#signUpModal">註冊</button>
+    </div>
+}

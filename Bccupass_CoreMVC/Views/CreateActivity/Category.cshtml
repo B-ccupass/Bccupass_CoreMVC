@@ -1,0 +1,62 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.CreateActivity
+@model PackageCatgoryVM
+@{
+    ViewData["Title"] = "活動類型與主題";
+}
+@section Topcss{
+@*<link rel="stylesheet" href="~/css/Global.scss/">*@
+<link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css">
+<link rel="stylesheet" href="~/css/CreateActivity/ActivityCategory.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+}
+<div class="container my-5 align-content-center">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6">
+            <h1 class=" text-center fs-2 my-4">選擇活動主題(最多選擇2個)</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="row row-cols-3 row-cols-lg-5 themeShow justify-content-start">
+                <span id="UserPK" class="visually-hidden">@Model.JSONVM.ActivityPrimaryThemeId</span>
+                <span id="UserSK" class="visually-hidden">@Model.JSONVM.ActivitySecondThemeId</span>
+                @foreach (var theme in Model.DataVM.Theme)
+                {
+                    <partial name="_ThemePartial" model="theme" />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6">
+            <h2 class=" text-center fs-2 my-4">選擇活動類型</h2>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="row row-cols-3 row-cols-lg-5 typeShow justify-content-start">
+                <span id="UserTP" class="visually-hidden">@Model.JSONVM.ActivityTypeId</span>
+                @foreach (var type in Model.DataVM.Type)
+                {
+                    <partial name="_TypePartial" model="type" />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6">
+            <div class="row  justify-content-center justify-content-lg-between text-center">
+                <div class="col-6">
+                    <button id="backPageBtn" type="button" class="btn btn-lg btn-primary my-3 float-lg-start">上一頁</button>
+                </div>
+                <div class="col-6">
+                    <button id="sumBtn" type="submit" class="btn btn-lg btn-primary my-3 float-lg-end">下一步</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section endJS{
+<script src="~/js/Category.js"></script>
+}

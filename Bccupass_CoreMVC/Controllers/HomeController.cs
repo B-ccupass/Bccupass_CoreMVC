@@ -2,12 +2,16 @@
 using Bccupass_CoreMVC.Models.ViewModel.Activity;
 using Bccupass_CoreMVC.Models.ViewModel.ActivityCard;
 using Bccupass_CoreMVC.Services.Interface;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Bccupass_CoreMVC.Controllers

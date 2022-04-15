@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>2a99b5fb-ab42-4bde-b112-9a4ba5b77031</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.15">
@@ -33,7 +33,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\DTO\" />
+    <Folder Include="Models\ViewModel\Account\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

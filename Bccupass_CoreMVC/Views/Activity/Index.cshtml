@@ -1,13 +1,114 @@
-﻿@using Bccupass_CoreMVC.Models.ViewModel.Activity
+﻿@using Bccupass_CoreMVC.Common.Enums
+@using Bccupass_CoreMVC.Common.Helpers
+@using Bccupass_CoreMVC.Models.ViewModel.Activity
 @model ActivityIndexViewModel
-
 @section Topcss {
     <link rel="stylesheet" href="~/css/Activity/Index.css" />
+    <link rel="stylesheet" href="~/css/Activity/SearchWindow.css" />
 }
+@{
+    var searchKeyVM = new SearchKeysViewModel();
+    if (Model.searchInput == null)
+    {
+        // 活動開始時間
+        var startTimeList = new List<SearchKeysViewModel.StartTimeData>();
+        foreach(int value  in Enum.GetValues(typeof(StartTime)))
+        {
+            var item = new SearchKeysViewModel.StartTimeData
+            {
+                EnumValue = value,
+                EnumName = Enum.GetName(typeof(StartTime), value),
+                Description = Bccupass_CoreMVC.Common.Helpers.GetEnumDescription.GetDescriptionText((StartTime)value),
+                Selected = value == 0 ? true : false,
+            };
+            startTimeList.Add(item);
+        }
+
+        // 活動票券
+        var PriceList = new List<SearchKeysViewModel.TicketPriceData>();
+        foreach(int value  in Enum.GetValues(typeof(TicketPrice)))
+        {
+            var item = new SearchKeysViewModel.TicketPriceData
+            {
+                EnumValue = value,
+                EnumName = Enum.GetName(typeof(TicketPrice), value),
+                Description = Bccupass_CoreMVC.Common.Helpers.GetEnumDescription.GetDescriptionText((TicketPrice)value),
+                Selected = value == 0 ? true : false,
+            };
+            PriceList.Add(item);
+        }
+
+
+        searchKeyVM.SearchInput = "";
+        searchKeyVM.ThemesList = Model.ThemeList.Select(x => new SearchKeysViewModel.ThemeData
+        {
+            Id = x.Id,
+            Name = x.Name,
+        });
+        searchKeyVM.SelectedThemeIds = new int[] { };
+        searchKeyVM.TypesList = Model.TypeList.Select(x => new SearchKeysViewModel.TypesData
+        {
+            Id = x.Id,
+            Name = x.Name
+        });
+        searchKeyVM.SelectedTypeIds = new int[] { };
+        searchKeyVM.StartTimeList = startTimeList;
+        searchKeyVM.TicketPriceList = PriceList;
+    }
+    else
+    {
+        // 活動開始時間
+        var startTimeList = new List<SearchKeysViewModel.StartTimeData>();
+        foreach(int value  in Enum.GetValues(typeof(StartTime)))
+        {
+            var item = new SearchKeysViewModel.StartTimeData
+            {
+                EnumValue = value,
+                EnumName = Enum.GetName(typeof(StartTime), value),
+                Description = Bccupass_CoreMVC.Common.Helpers.GetEnumDescription.GetDescriptionText((StartTime)value),
+                Selected = value == Model.searchInput.StartTimeEnumValue,
+            };
+            startTimeList.Add(item);
+        }
+
+        // 活動票券
+        var PriceList = new List<SearchKeysViewModel.TicketPriceData>();
+        foreach(int value  in Enum.GetValues(typeof(TicketPrice)))
+        {
+            var item = new SearchKeysViewModel.TicketPriceData
+            {
+                EnumValue = value,
+                EnumName = Enum.GetName(typeof(TicketPrice), value),
+                Description = Bccupass_CoreMVC.Common.Helpers.GetEnumDescription.GetDescriptionText((TicketPrice)value),
+                Selected = value == Model.searchInput.TicketPriceEnumValue,
+            };
+            PriceList.Add(item);
+        }
+
+        searchKeyVM.SearchInput = Model.searchInput.SearchInput;
+        searchKeyVM.ThemesList = Model.ThemeList.Select(x => new SearchKeysViewModel.ThemeData
+        {
+            Id = x.Id,
+            Name = x.Name,
+        });
+        searchKeyVM.SelectedThemeIds = Model.searchInput.ThemesList;
+        searchKeyVM.TypesList = Model.TypeList.Select(x => new SearchKeysViewModel.TypesData
+        {
+            Id = x.Id,
+            Name = x.Name
+        });
+        searchKeyVM.SelectedTypeIds = Model.searchInput.TypesList;
+        searchKeyVM.StartTimeList = startTimeList;
+        searchKeyVM.TicketPriceList = PriceList;
+    }
+}
+
+
 
 <div class="search-result bg-white p-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
     <div class="container">
-        <p class="m-0 d-xl-none"><span>台北</span> / <span>藝文</span> / <span>免費</span></p>
+        <p class="m-0">搜尋活動</p>
+        @*<p class="m-0 d-xl-none"><span>台北</span> / <span>藝文</span> / <span>免費</span></p>
         <ul class="m-0 p-0 d-none d-xl-block">
             <li class="d-flex">
                 <span class="category">地區</span>
@@ -16,62 +117,88 @@
                     <li class="option mx-1">新北</li>
                 </ul>
             </li>
-        </ul>
+        </ul>*@
     </div>
 </div>
 <div class="">
     <div class="search-window offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
         <div class="offcanvas-header">
-            <h5 id="offcanvasTopLabel">搜尋條件</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            ...
+            @await Html.PartialAsync("_ActivitySearchWindowPartial", @searchKeyVM)
         </div>
     </div>
     <div class="card-list-wrap">
         <div class="activity-tab my-3">
             <ul class="nav nav-tabs container">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">進行中</button>
+                    <a asp-action="Index" asp-route-activityStateByTime="0" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.Inprogress ? "active" : "")" id="inProgress-tab" role="tab" aria-controls="inProgress" aria-selected="true">進行中</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">尚未開始</button>
+                    <a asp-action="Index" asp-route-activityStateByTime="1" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.NotStart ? "active" : "")" id="notStart-tab" role="tab" aria-controls="notStart" aria-selected="false">尚未開始</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">已結束</button>
+                    <a asp-action="Index" asp-route-activityStateByTime="2" class="nav-link @(Model.ActivityStateByTime == (int)ActivityStateByTime.End ? "active" : "")" id="end-tab" role="tab" aria-controls="end" aria-selected="false">已結束</a>
                 </li>
             </ul>
             <div class="sort d-flex my-3 container">
-                <button class="sort-btn px-3 py-1 m-1 active" id="sort-by-time">依時間排序</button>
-                <button class="sort-btn px-3 py-1 m-1" id="sort-by-price">依票價排序</button>
-                <button class="sort-btn px-3 py-1 m-1" id="sort-by-like">依收藏數排序</button>
+                <a asp-action="Index" asp-route-activityStateByTime="@Model.ActivityStateByTime" asp-route-sortOrder="0" class="sort-btn px-3 py-1 m-1 text-decoration-none @(Model.ActivitySortOrder == (int)ActivitySortOrder.StartDate ? "active" : "")" id="sort-by-time">依時間排序</a>
+                <a asp-action="Index" asp-route-activityStateByTime="@Model.ActivityStateByTime" asp-route-sortOrder="1" class="sort-btn px-3 py-1 m-1 text-decoration-none @(Model.ActivitySortOrder == (int)ActivitySortOrder.Price ? "active" : "")" id="sort-by-price">依票價排序</a>
+                <a asp-action="Index" asp-route-activityStateByTime="@Model.ActivityStateByTime" asp-route-sortOrder="2" class="sort-btn px-3 py-1 m-1 text-decoration-none @(Model.ActivitySortOrder == (int)ActivitySortOrder.LikeCount ? "active" : "")" id="sort-by-like">依收藏數排序</a>
             </div>
             <div class="tab-content container" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="tab-pane fade @(Model.ActivityStateByTime == (int)ActivityStateByTime.Inprogress ? "show active" : "")" id="inProgress" role="tabpanel" aria-labelledby="inProgress-tab">
                     <div class="row">
-                        @foreach(var item in Model.ActivityList){
-                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                @await Html.PartialAsync("_activityCardPartial", item)
-                            </div>
+                        @if(@Model.pageInfo.Total == 0)
+                        {
+                            @await Html.PartialAsync("_EmptyResultPartial")
+                        }else{
+                            @foreach(var item in Model.ActivityList){
+                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                    @await Html.PartialAsync("_activityCardPartial", item)
+                                </div>
+                            }
+                            @if(@Model.pageInfo.Total > 0 && @Model.pageInfo.Total > @Model.pageInfo.PageRows)
+                            {
+                                @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
+                            }
                         }
                     </div>
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="tab-pane fade @(Model.ActivityStateByTime == (int)ActivityStateByTime.NotStart ? "show active" : "")" id="notStart" role="tabpanel" aria-labelledby="notStart-tab">
                     <div class="row">
-                        @foreach(var item in Model.ActivityList){
-                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                @await Html.PartialAsync("_activityCardPartial", item)
-                            </div>
+                        @if(@Model.pageInfo.Total == 0)
+                        {
+                            @await Html.PartialAsync("_EmptyResultPartial")
+                        }else{
+                            @foreach(var item in Model.ActivityList){
+                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                    @await Html.PartialAsync("_activityCardPartial", item)
+                                </div>
+                            }
+                            @if(@Model.pageInfo.Total > 0 && @Model.pageInfo.Total > @Model.pageInfo.PageRows)
+                            {
+                                @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
+                            }
                         }
                     </div>
                 </div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="tab-pane fade @(Model.ActivityStateByTime == (int)ActivityStateByTime.End ? "show active" : "")" id="end" role="tabpanel" aria-labelledby="end-tab">
                     <div class="row">
-                        @foreach(var item in Model.ActivityList){
-                            <div class="activity-card col-sm-12 col-md-6 col-lg-4">
-                                @await Html.PartialAsync("_activityCardPartial", item)
-                            </div>
+                        @if(@Model.pageInfo.Total == 0)
+                        {
+                            @await Html.PartialAsync("_EmptyResultPartial")
+                        }else{
+                            @foreach(var item in Model.ActivityList){
+                                <div class="activity-card col-sm-12 col-md-6 col-lg-4">
+                                    @await Html.PartialAsync("_activityCardPartial", item)
+                                </div>
+                            }
+                            @if(@Model.pageInfo.Total > 0 && @Model.pageInfo.Total > @Model.pageInfo.PageRows)
+                            {
+                                @await Html.PartialAsync("_PaginationPartial", @Model.pageInfo)
+                            }
                         }
                     </div>
                 </div>
@@ -79,22 +206,149 @@
         </div>
     </div>
 </div>
-@*<div class="pagination m-auto d-flex justify-content-center">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>*@
+
+@section EndJS {
+    <script>
+        const searchInput = document.querySelector(".search-input");
+        const submit = document.querySelector("#submit");
+        const clear = document.querySelector("#clear");
+        const optionBtns = document.querySelectorAll(".search-key");
+        const SearchClassWrap = document.querySelectorAll(".seach-class-wrap");
+        
+        let allOptionBtns = document.querySelectorAll(".all-option");
+        
+        allOptionBtns.forEach(btn => {
+            btn.onclick = function(){
+                if(btn.hasAttribute("checked")){
+                    btn.querySelector('.btn-check').removeAttribute("checked");
+                    btn.classList.remove("active");
+                }else{
+                    btn.querySelector('.btn-check').setAttribute("checked", "");
+                    btn.classList.add("active");
+                    btn.parentElement.querySelectorAll(".search-key").forEach(btn => {
+                        btn.querySelector('.btn-check').removeAttribute("checked");
+                        btn.classList.remove("active");
+                    })
+                }
+            }
+        })
+
+        optionBtns.forEach(x => x.querySelector('.btn').onclick = function(e){
+            let input = x.querySelector('.btn-check');
+            let labelBtn = x.querySelector('.btn');
+            let wrap = x.parentElement.parentElement;
+            if(wrap.classList.contains('time-wrap') || wrap.classList.contains('price-wrap')){
+                wrap.querySelectorAll('.btn-check').forEach(x => x.removeAttribute("checked"));
+                wrap.querySelectorAll(".search-key").forEach(x => x.classList.remove("active"));
+                wrap.querySelector('.all-option>.btn-check').removeAttribute("checked");
+                wrap.querySelector('.all-option').classList.remove("active")
+                console.log(e.srcElement.parentElement)
+                e.srcElement.parentElement.querySelector('.btn-check').setAttribute("checked", "");
+                e.srcElement.parentElement.classList.add("active");
+            }else{
+                if(input.hasAttribute("checked")){
+                    input.removeAttribute("checked");
+                    x.classList.remove("active");
+                }else{
+                    input.setAttribute("checked", "");
+                    x.classList.add("active");
+                }
+                checkAllOption();
+            }
+        })
+
+        function checkAllOption(){
+            SearchClassWrap.forEach(wrap => {
+                let allOption = wrap.querySelector(".all-option");
+                let otherOptions = wrap.querySelectorAll(".search-key");
+                // 任一條件選到 > 「全部」銷掉
+                if(IsOptionChecked(otherOptions)){
+                    allOption.querySelector('.btn-check').removeAttribute("checked");
+                    allOption.classList.remove("active")
+                }else{
+                    allOption.querySelector('.btn-check').setAttribute("checked", "");
+                    allOption.classList.add("active");
+                }
+                
+            })
+        }
+
+        function IsOptionChecked(optionBtns){
+            var res = false;
+            optionBtns.forEach(btn => {
+                if(btn.classList.contains('active')){
+                    res = true;
+                }
+            })
+            return res;
+        }
+
+        submit.onclick = function(){
+            let res = getSearchInput();
+            fetch("/Activity/FetchSearch", {
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                method: 'POST',
+                body: JSON.stringify(res)
+            })
+            .then(response => {
+                if(response.ok){
+                    window.location.href = "/Activity/Index"
+                }else{
+                    
+                }
+
+            })
+        }
+
+        clear.onclick = function(){
+            fetch("/Activity/ClearSearchOptions")
+            .then(response => {
+                if(response.ok){
+                    window.location.href = "/Activity/Index"
+                }else{
+                    
+                }
+
+            })
+        }
+
+        function getSearchInput(){
+            let res = {
+                SearchInput: searchInput.value,
+                ThemesList: [],
+                TypesList: [],
+                StartTimeEnumValue: 0,
+                TicketPriceEnumValue: 0,
+            }
+
+            let themeWrap = document.querySelector('.theme-wrap');
+            let typeWrap = document.querySelector('.type-wrap');
+            let timeWrap = document.querySelector('.time-wrap');
+            let priceWrap = document.querySelector('.price-wrap');
+
+            var themeKeys = themeWrap.querySelectorAll('.search-key.active');
+            if(themeKeys.length != 0){
+                themeKeys.forEach(btn => {
+                    res.ThemesList.push(btn.dataset.id);
+                })
+            }
+
+            var typeKeys = typeWrap.querySelectorAll('.search-key.active');
+            if(typeKeys.length != 0){
+                typeKeys.forEach(btn => {
+                    res.TypesList.push(btn.dataset.id);
+                })
+            }
+            
+            StartTimeEnumValue = timeWrap.querySelector('.active').dataset.id;
+            TicketPriceEnumValue = priceWrap.querySelector('.active').dataset.id;
+            alert(JSON.stringify(res));
+            return res;
+        }
+
+
+    </script>
+}  

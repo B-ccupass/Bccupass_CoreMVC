@@ -1,0 +1,51 @@
+﻿@using Bccupass_CoreMVC.Models.ViewModel.CreateActivity
+@model CreateGuestViewModel
+
+
+        
+
+<!-- Modal -->
+<div class="modal fade"id="model@(Model.ItemId)" tabindex="-1" aria-labelledby="GuestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered m-auto model-width" >
+        <div class="modal-content guest-model m-auto">
+            <div class="modal-body lh-lg pt-3 pe-3">
+                    <div class="guest-model-top m-auto">
+                        <img id="guest-img" src="https://static.accupass.com/frontend/image/eventedit/organizer/organizer_avatar_placeholder.svg" alt="">
+                        <button class="">
+                            <i class="fa fa-camera"></i>
+                        </button>
+                        <input type="file" accept="image/*" style="display: none;">
+                    </div>
+                <div class="col-12 guest-model-content">                
+                    <div>
+                        <p class="fw-bold">嘉賓姓名<span>*</span></p>
+                        <input id="guest-name@(Model.ItemId)" type="text" value="@Model.GuestName">
+                    </div>
+                
+                    <div>
+                        <p class="fw-bold">職稱<span>*</span></p>
+                        <input id="guest-job@(Model.ItemId)" type="text" value="@Model.GuestJob">
+                    </div>
+                
+                    <div>
+                        <p class="fw-bold">公司名稱<span>*</span></p>
+                        <input id="guest-company@(Model.ItemId)" type="text" value="@Model.GuestCompany">
+                    </div>
+                    <div>
+                        <p class="fw-bold">嘉賓簡介<span>*</span></p>
+                        <textarea style="resize:none;" class="w-100 " id="guest-info@(Model.ItemId)" rows="4" value="@Model.GuestInfo"></textarea>
+                    </div>
+                    <div>
+                        <p class="fw-bold">嘉賓網址<span>*</span></p>
+                        <span>可以加上嘉賓的 Facebook、Instagram、Twitter 等</span>
+                        <input id="guest-web@(Model.ItemId)" type="text" value="@Model.GuestWeb">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer p-0 flex-nowrap mt-4 btn-group" role="group" aria-label="Basic outlined example">
+                <button id="modelBtn" class="btn border-0 p-1 col-6 m-0 lh-lg bg-primary text-white" type="button" onclick="makeJson('@Model.ItemId')">修改嘉賓資訊</button>
+                <button id="modelBtn" class="btn border-0 p-1 col-6 m-0 lh-lg btn-secondary text-white" type="button" onclick="deleteGuest('@Model.ItemId')">刪除嘉賓</button>
+            </div>
+        </div>
+    </div>
+</div>
