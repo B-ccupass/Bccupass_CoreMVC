@@ -1,6 +1,7 @@
 ﻿using Bccupass_CoreMVC.Models.DBEntity;
 using Bccupass_CoreMVC.Models.DTO.Activity;
 using Bccupass_CoreMVC.Models.DTO.CreateActivity;
+using Bccupass_CoreMVC.Models.DTO.Organizer;
 using Bccupass_CoreMVC.Models.ViewModel.Activity;
 using Bccupass_CoreMVC.Models.ViewModel.CreateActivity;
 using Bccupass_CoreMVC.Repositories;
@@ -275,7 +276,7 @@ namespace Bccupass_CoreMVC.Controllers
             List<CreateTicketViewModel> resultVM = new List<CreateTicketViewModel>();
             if (inputDto.ActivityTicket == null)
             {
-                return RedirectToAction("Ticket",new { id = id });
+                return RedirectToAction("Ticket", new { id = id });
             }
             else
             {
@@ -447,5 +448,17 @@ namespace Bccupass_CoreMVC.Controllers
             ViewData["ActivityDraftId"] = id;
             return View(result);
         }
-    }
+
+
+        [HttpGet]
+        public IActionResult SelectOrg(int id)
+        {
+            var target = _organizerService.GetOrganizer(id);
+            var result = new ActivityCategoryCardViewModel()
+            {
+                OrganizerId = target.OrganizerId,
+                OrganizerName = target.Name,
+            };
+            return View(result);
+        }
 }
