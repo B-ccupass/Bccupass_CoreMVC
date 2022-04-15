@@ -17,6 +17,7 @@ namespace Bccupass_CoreMVC.Models.DBEntity
         public string TicketName { get; set; }
         public string TicketGroup { get; set; }
         public int Quantity { get; set; }
+        public int Stock { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
         public DateTime SellStartTime { get; set; }

@@ -624,7 +624,8 @@ namespace Bccupass_CoreMVC.Models.DBEntity
                     .HasColumnType("decimal(18, 0)")
                     .HasComment("價格");
 
-                entity.Property(e => e.Quantity).HasComment("數量(庫存)");
+                entity.Property(e => e.Quantity).IsRequired().HasComment("數量");
+                entity.Property(e => e.Stock).IsRequired().HasComment("庫存");
 
                 entity.Property(e => e.SellEndTime)
                     .HasColumnType("datetime")
