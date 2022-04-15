@@ -164,6 +164,21 @@ namespace Bccupass_CoreMVC.Services
             return result;
         }
 
-       
+        public DemoActivityDraftDto GetAllActivityDraft(int id)
+        {
+            var target = _activityDraft.GetAll<ActivityDraft>().Where(x => x.ActivityDraftId == id).FirstOrDefault();
+            var result = new DemoActivityDraftDto()
+            {
+                ActivityDraftId = target.ActivityDraftId,
+                ThemeCategory = target.ThemeCategory,
+                ActivityInfo = target.ActivityInfo,
+                ActivityContent = target.ActivityContent,
+                ActivityGuests = target.ActivityGuests,
+                ActivityQa = target.ActivityQa,
+                ActivityTicket = target.ActivityTicket
+            };
+
+            return result;
+        }
     }
 }
