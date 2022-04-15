@@ -43,6 +43,28 @@
         margin-left: 3px;
     }
 
+.ticket-nav .nav-link {
+    color: #333333;
+    border: none;
+}
+
+    .ticket-nav .nav-link.active {
+        color: #2C5E9E;
+        background-color: transparent;
+        border: none;
+        position: relative;
+    }
+
+        .ticket-nav .nav-link.active::after {
+            content: '';
+            position: absolute;
+            width: 80%;
+            left: 10%;
+            bottom: 1px;
+            height: 2px;
+            background-color: #2C5E9E;
+        }
+
 @media screen and (min-width: 1024px) {
     .ticket-operate .get, .ticket-operate .info, .ticket-operate .price, .ticket-operate .info-btn {
         width: 32%;

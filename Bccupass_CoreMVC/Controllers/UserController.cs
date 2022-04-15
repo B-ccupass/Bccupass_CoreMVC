@@ -27,10 +27,11 @@ namespace Bccupass_CoreMVC.Controllers
             return View();
         }
 
-        [HttpGet("User/UserTicket/{selcetByOrderState}/{page}")]
-        public async Task<IActionResult> UserTicket(int userId, int selcetByOrderState,int page=1)
+        [Route("User/UserTicket/{selcetByOrderState}/{page}")]
+        public async Task<IActionResult> UserTicket(int userId, int selcetByOrderState =0,int page=1)
         {
             int activePage = page;
+            int selectOrder= selcetByOrderState;
             int pageRows = 3;
 
             int Pages = 0;
@@ -94,6 +95,9 @@ namespace Bccupass_CoreMVC.Controllers
                     break;
             }
 
+
+            int startRow = (activePage - 1) * pageRows;
+
             if (totalRows == 0)
             {
                 totalRows = orderList.Count();
@@ -108,9 +112,8 @@ namespace Bccupass_CoreMVC.Controllers
                 Pages = (totalRows / pageRows) + 1;
             }
 
-            int startRow = (activePage - 1) * pageRows;
+            orderList = await Task.FromResult(orderList.Where(x => x.Order.OrderState == selcetByOrderState).OrderByDescending(x => x.Order.OrderTime).Skip(startRow).Take(pageRows));
 
-            orderList= await Task.FromResult(orderList.OrderByDescending(x => x.Order.OrderTime).Skip(startRow).Take(pageRows));
 
 
             var res = new UserTicketViewModel()
@@ -120,7 +123,7 @@ namespace Bccupass_CoreMVC.Controllers
 
             ViewData["ActivePage"] = page;//Active分頁碼
             ViewData["Pages"] = Pages; //總頁數
-
+            ViewData["SelectOrder"] = selcetByOrderState;
 
             return View(res);
 
